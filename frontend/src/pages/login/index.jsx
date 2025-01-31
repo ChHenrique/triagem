@@ -6,34 +6,43 @@ import './animation.css'
 export function Login() {
     const [remember, setRemember] = useState(0);
 
-    
+
 
     const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('')
+    const [senha, setSenha] = useState('');
+    const [error, setError] = useState(0);
 
     function Toggle() {
         if (remember == 1) { setRemember(0) } else if (remember == 0) { setRemember(1) };
     }
 
-    function Emailc(e) {
-        setEmail(e.target.value);
-    }
-    function Senhac(e) {
-        setSenha(e.target.value);
-    }
+    {/*Aqui o resto tu faz */ }
 
-    {/*Aqui o resto tu faz */}
+    function Validacao() {
+        if (!email.includes('@') || email.length < 5) {
+            setError(1)
 
-    function Validacao(){
-        if(email.includes('@') && email.length > 5){
-             if(senha.length > 7){
-                console.log("validado!")
-             }
+            setTimeout(() => {
+                setError(0)
+            }, 3000)
+        } else {
+            if (senha.length > 7) {
+            console.log("validado!")
+        }else{
+            setError(1)
+
+            setTimeout(() => {
+                setError(0)
+            }, 3000)
         }
-    }
+        
 
-    
- 
+    }}
+
+
+
+
+
 
     return (
         <div className={`w-screen h-screen items-center justify-start overflow-hidden`} style={{ backgroundImage: `url(${Bg}) `, backgroundSize: 'cover', backgroundPosition: '-100% 20%' }}>
@@ -76,7 +85,7 @@ export function Login() {
 
                     <p className='text-2xl text-offWhite-100'> Seja bem-vindo de volta!</p>
                     <div className='flex flex-row mt-3 font-Sora-light'>
-                        <p className='text-[14px] text-offGray-100'>Ainda não tem uma conta? </p><p className='text-[14px] font-Sora-reg underline cursor-pointer text-offWhite-100'>Cadastre-se agora!</p>
+                        <p className='text-[14px] text-offGray-100 mr-1'>Ainda não tem uma conta?  </p><p className='text-[14px] font-Sora-reg underline cursor-pointer text-offWhite-100'>Visite-nos!</p>
                     </div>
                 </div>
 
@@ -86,28 +95,33 @@ export function Login() {
                 <form method='POST' onSubmit={(e) => e.preventDefault()} className='w-full h-fit font-Sora-reg flex-col text-offWhite-100 text-xl justify-start items-center flex my-20 lg:my-10  gap-12 '>
 
                     <label className='w-full text-base h-fit rounded-[8px]' htmlFor="Email">Email
-                        <input onChange={Emailc} type="text" name='Email' className='w-full bg-input-100 h-10 rounded-[8px]' />
+                        <input onChange={(e) => setEmail(e.target.value)} type="text" name='Email' className='w-full bg-input-100 h-10 rounded-[8px]' />
                     </label>
 
                     <div className='h-fit w-full'>
 
                         <label className='w-full text-base h-fit rounded-[8px]' htmlFor="Senha">Senha
-                            <input onChange={Senhac} type="text" name='Senha' className='w-full bg-input-100 h-10 rounded-[8px]' />
+                            <input onChange={(e) => setSenha(e.target.value)} type="text" name='Senha' className='w-full bg-input-100 h-10 rounded-[8px]' />
                         </label>
 
                         <div className='w-full h-1/3 flex items-center pt-4  '>
                             <div className='w-fit h-6 flex items-center'>
+                                
                                 <label htmlFor="entrar" className='w-fit h-full text-base flex items-center'>
                                     <button onClick={Toggle} className={`border rounded-[10px] border-white h-full aspect-square cursor-pointer  mr-2 ${remember ? 'bg-white' : ' '}`} id='entrar' name='entrar'>
                                     </button>
                                     Continuar conectado</label>
+                                    
                             </div>
+
+                         
                         </div>
                     </div>
+                   
 
 
-
-                    <button type='submit' className="w-full h-12 text-xl font-bold text-white font-Outfit rounded-[16px] animate">
+                    <h1 className={`font-Outfit text-xl text-red-400 absolute -translate-y-8 ${error ? 'flex' : 'hidden'}  `}>Erro nas credenciais!</h1>
+                    <button type='submit' onClick={Validacao} className="w-full h-12 text-xl font-bold text-white font-Outfit rounded-[16px] animate">
                         Entrar
                     </button>
 
