@@ -1,12 +1,33 @@
 {
-  "name": "backend",
+  "name": "academia-api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@fastify/jwt": "^9.0.3",
+    "@prisma/client": "^6.3.0",
+    "bcryptjs": "^2.4.3",
+    "fastify": "^5.2.1",
+    "fastify-jwt": "^4.1.3",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@fastify/autoload": "^6.0.3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.12.0",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "eslint": "^9.19.0",
+    "prisma": "^6.3.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
 }
