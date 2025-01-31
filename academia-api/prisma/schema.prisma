@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Configuração do banco de dados (utilizando SQLite)
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"  
+}
+
+// Modelo Usuário (Cliente ou Personal)
+model User {
+  id        String  @id @default(uuid()) 
+  name      String 
+  email     String  @unique 
+  password  String
+  phone     String 
+  photoUrl  String? 
+  role      Role    @default(CLIENT) 
+  tips      Tip[] 
+  trainings UserTraining[] 
+  logs      TrainingLog[] 
+  createdAt DateTime @default(now()) 
+}
+
+// Modelo Treino
+model Training {
+  id          String        @id @default(uuid()) 
+  name        String 
+  description String 
+  bodyParts   String 
+  exercises   Exercise[] 
+  clients     UserTraining[] 
+  logs        TrainingLog[] 
+  createdAt   DateTime @default(now()) 
+}
+
+// Modelo para Exercício
+model Exercise {
+  id            String  @id @default(uuid()) 
+  name          String 
+  imageUrl      String? 
+  description   String 
+  repetitions   Int 
+  executions    Int 
+  restInterval  Int 
+  trainingId    String 
+  training      Training @relation(fields: [trainingId], references: [id], onDelete: Cascade) // Relação com o modelo Training
+}
+
+// Modelo para Dica ao usuário
+model Tip {
+  id        String @id @default(uuid()) 
+  message   String 
+  userId    String 
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade) // Relação com o modelo User
+  createdAt DateTime @default(now()) 
+}
+
+// Modelo para Registro de Treino Realizado (TrainingLog)
+model TrainingLog {
+  id         String   @id @default(uuid()) 
+  userId     String 
+  user       User @relation(fields: [userId], references: [id], onDelete: Cascade) // Relação com o modelo User
+  trainingId String 
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade) // Relação com o modelo Training
+  date       DateTime @default(now()) 
+}
+
+// Modelo para associação entre Usuários e Treinos 
+model UserTraining {
+  userId     String
+  trainingId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Relação com o modelo User
+  training   Training @relation(fields: [trainingId], references: [id], onDelete: Cascade) // Relação com o modelo Training
+  @@id([userId, trainingId]) 
+}
+
+// Enum para os papéis dos usuários (CLIENT ou PERSONAL)
+enum Role {
+  CLIENT
+  PERSONAL 
+}
