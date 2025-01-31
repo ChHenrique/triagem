@@ -1,0 +1,9 @@
+.animate{
+    background: linear-gradient(90deg, #FFB85C 20%, #FFDE2E 50%,#ffffff 50%,#ffffff 100%);
+    transition: all 0.5s ease-in-out;
+    background-size: 200% 100%;
+}
+.animate:hover{
+ background-position: 100% 0;
+ color:#131313;
+}

@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+
+    --font-Outfit: "Outfit", "sans-serif";
+    --font-Sora-reg: "Sora", "sans-serif";
+    --font-Sora-light: "Sora-light", "sans-serif";
+
+    --color-bg-100: #131313;
+    --color-primary-100: #FFB85C;
+    --color-primary-200: #FFDE2E;
+    --color-input-100: #262626;
+    --color-offWhite-100: #FFFBF1;
+    --color-offGray-100: rgba(255, 251, 241, 0.5);
+}
+
+@font-face {
+    font-family: "Outfit";
+    src: url("./src/assets/fonts/Outfit-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Sora";
+    src: url("./src/assets/fonts/Sora-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Sora-light";
+    src: url("./src/assets/fonts/Sora-Light.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+  }
+
+@keyframes appearLeft {
+   from{
+    transform: translate(-500px);
+    opacity: 0;
+   } 
+   to{
+    transform: translate(0px);
+    opacity: 1;
+   }
+}
+
+.Apleft{
+    animation-timing-function: ease;
+    animation-duration: 1s;
+    animation-name: appearLeft;
+    animation-iteration-count: 1;
+   
+}
+
