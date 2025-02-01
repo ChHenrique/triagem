@@ -1,4 +1,4 @@
-import fastifyJwt from 'fastify-jwt';
+import fastifyJwt from 'fastify-jwt'
 
 export const jwtConfig = {
   secret: process.env.JWT_SECRET || 'secret',
