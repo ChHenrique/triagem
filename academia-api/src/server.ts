@@ -1,6 +1,6 @@
-import Fastify from 'fastify';
-import { registerJwt } from './config/jwtConfig';  
-import { registerRoutes } from './routes/routes';  
+import Fastify from 'fastify'
+import { registerJwt } from './config/jwtConfig'
+import { registerRoutes } from './routes/routes' 
 
 const app = Fastify();
 

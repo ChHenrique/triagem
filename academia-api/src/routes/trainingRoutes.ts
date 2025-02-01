@@ -1,13 +1,13 @@
-import { FastifyInstance } from 'fastify';
-import { prisma } from '../models/prismaClient';  
-import { CreateTrainingBody } from '../models/training.model';
+import { FastifyInstance } from 'fastify'
+import { prisma } from '../models/prismaClient'
+import { CreateTrainingBody } from '../models/training.model'
 
 interface TrainingParams {
   id: string
 }
 
 export async function trainingRoutes(fastify: FastifyInstance) {
-  //Criar um novo treino
+  // Criar um novo treino
   fastify.post<{ Body: CreateTrainingBody }>('/', async (req, reply) => {
     const { name, description, bodyParts } = req.body
 
@@ -20,7 +20,9 @@ export async function trainingRoutes(fastify: FastifyInstance) {
 
   // Listar treinos
   fastify.get('/', async (req, reply) => {
-    const trainings = await prisma.training.findMany()
+    const trainings = await prisma.training.findMany({
+      include: { exercises: true } 
+    });
     return reply.send(trainings)
   });
 
@@ -30,7 +32,7 @@ export async function trainingRoutes(fastify: FastifyInstance) {
 
     const training = await prisma.training.findUnique({
       where: { id },
-      include: { exercises: true }
+      include: { exercises: true } 
     });
 
     if (!training) {
@@ -62,7 +64,6 @@ export async function trainingRoutes(fastify: FastifyInstance) {
   fastify.delete<{ Params: TrainingParams }>('/:id', async (req, reply) => {
     const { id } = req.params
     try {
- 
       const existingTraining = await prisma.training.findUnique({
         where: { id }
       });

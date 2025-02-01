@@ -1,8 +1,8 @@
-import { FastifyInstance } from "fastify";
-import { prisma } from "../models/prismaClient";
-import { CreateUserBody } from "../models/user.model";
-import { authMiddleware } from "../middlewares/authMiddleware";
-import { hashPassword, checkEmailExists, sanitizeUserUpdate } from "../utils/userUtils";
+import { FastifyInstance } from "fastify"
+import { prisma } from "../models/prismaClient"
+import { CreateUserBody } from "../models/user.model"
+import { authMiddleware } from "../middlewares/authMiddleware"
+import { hashPassword, checkEmailExists, sanitizeUserUpdate } from "../utils/userUtils"
 
 export async function userRoutes(fastify: FastifyInstance) {
   // Cadastro de usuário
@@ -26,14 +26,14 @@ export async function userRoutes(fastify: FastifyInstance) {
   });
 
   // Listagem de usuários
-  fastify.get("/users", { preHandler: authMiddleware }, async (_, reply) => {
+  fastify.get("/", { preHandler: authMiddleware }, async (_, reply) => {
     const users = await prisma.user.findMany()
     return reply.send(users)
   });
 
   // Atualização de usuário
   fastify.put<{ Params: { id: string }; Body: Partial<CreateUserBody> }>(
-    "/users/:id", // Melhor especificar o caminho completo "/users/:id"
+    "/:id", 
     { preHandler: authMiddleware },
     async (req, reply) => {
       try {
@@ -61,7 +61,7 @@ export async function userRoutes(fastify: FastifyInstance) {
   );
 
   // Exclusão de usuário
-  fastify.delete<{ Params: { id: string } }>("/users/:id", { preHandler: authMiddleware }, async (req, reply) => {
+  fastify.delete<{ Params: { id: string } }>("/:id", { preHandler: authMiddleware }, async (req, reply) => {
     try {
       const { id } = req.params
 

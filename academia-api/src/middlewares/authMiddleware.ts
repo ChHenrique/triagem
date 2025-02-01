@@ -2,8 +2,8 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 
 export async function authMiddleware(req: FastifyRequest, reply: FastifyReply) {
   try {
-    await req.jwtVerify();
+    await req.jwtVerify(); // Verifica o token JWT
   } catch (err) {
-    reply.status(401).send({ error: 'Unauthorized' });
+    return reply.status(401).send({ error: 'Unauthorized' }); // Retorna imediatamente em caso de erro
   }
 }
