@@ -9,6 +9,7 @@
     --color-bg-100: #131313;
     --color-bg-200: #303030;
     --color-bg-300:#262626;
+    --color-stroke-100:#E7DCA3;
 
     --color-primary-100: #FFB85C;
     --color-primary-200: #FFDE2E;
@@ -57,3 +58,11 @@
    
 }
 
+.glassBg{
+  background: linear-gradient(45deg ,rgb(225,211,185,0.1) 0%, rgb(251,240,220,0.1) 100%);
+  backdrop-filter: blur(2px);
+}
+
+.glassBorder{
+  border: linear-gradient;
+}
