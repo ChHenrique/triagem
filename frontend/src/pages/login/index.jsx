@@ -95,13 +95,13 @@ export function Login() {
                 <form method='POST' onSubmit={(e) => e.preventDefault()} className='w-full h-fit font-Sora-reg flex-col text-offWhite-100 text-xl justify-start items-center flex my-20 lg:my-10  gap-12 '>
 
                     <label className='w-full text-base h-fit rounded-[8px]' htmlFor="Email">Email
-                        <input onChange={(e) => setEmail(e.target.value)} type="text" name='Email' className='w-full bg-input-100 h-10 rounded-[8px]' />
+                        <input placeholder='exemplo@email.com' onChange={(e) => setEmail(e.target.value)} type="text" name='Email' className='w-full bg-input-100 h-10 rounded-[8px]' />
                     </label>
 
                     <div className='h-fit w-full'>
 
                         <label className='w-full text-base h-fit rounded-[8px]' htmlFor="Senha">Senha
-                            <input onChange={(e) => setSenha(e.target.value)} type="text" name='Senha' className='w-full bg-input-100 h-10 rounded-[8px]' />
+                            <input placeholder='Senha123$' onChange={(e) => setSenha(e.target.value)} type="text" name='Senha' className='w-full bg-input-100 h-10 rounded-[8px]' />
                         </label>
 
                         <div className='w-full h-1/3 flex items-center pt-4  '>
