@@ -106,17 +106,19 @@ export function Login() {
         </div>
 
         <form method='POST' onSubmit={(e) => e.preventDefault()} className='w-full h-fit font-Sora-reg flex-col text-offWhite-100 text-xl justify-start items-center flex my-20 lg:my-10  gap-12 '>
-          <label className='w-full text-base h-fit rounded-[8px]' htmlFor="Email">Email
+        <div className='h-fit w-full'>
+          <label className='w-full text-base h-fit rounded-[8px] ml-1' htmlFor="Email">Email
             <input placeholder='exemplo@email.com' onChange={(e) => setEmail(e.target.value)} type="text" name='Email' className=' pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
           </label>
+          </div>
 
           <div className='h-fit w-full'>
-            <label className='w-full text-base h-fit rounded-[8px]' htmlFor="Senha">Senha
+            <label className='w-full text-base h-fit rounded-[8px] ml-1' htmlFor="Senha">Senha
               <input placeholder='Senha123$' onChange={(e) => setSenha(e.target.value)} type="password" name='Senha' className=' pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
             </label>
           </div>
 
-          <h1 className={`font-Outfit text-xl text-red-400 absolute -translate-y-8 ${error ? 'flex' : 'hidden'}  `}>Erro nas credenciais!</h1>
+          <h1 className={`font-Outfit text-xl text-red-400 absolute -translate-y-8  ${error ? 'flex' : 'hidden'}  `}>Erro nas credenciais!</h1>
           <button type='submit' onClick={Validacao} className="w-full h-12 text-xl font-bold text-white font-Outfit rounded-[16px] animate" disabled={loading}>
             {loading ? 'Carregando...' : 'Entrar'}
           </button>

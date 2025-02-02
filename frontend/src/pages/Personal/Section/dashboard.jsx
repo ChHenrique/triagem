@@ -2,7 +2,7 @@ import Default from '../../../assets/defaultUser.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-export function Dashboard() {
+export function Dashboard({setPage, page}) {
     //troquei as props por usestate
   const [nome, setNome] = useState('')
   const [foto, setFoto] = useState(Default) // usestate como padrão a foto "Default"
@@ -62,7 +62,7 @@ export function Dashboard() {
           <h2 className="ml-2 my-4 text-xl text-offWhite-100">Geral</h2>
 
           <div>
-            <div className="h-12 my-2 w-full flex items-center justify-start bg-bg-300 rounded-[16px] p-6">
+            <div onClick={()=>setPage(0)} className={`h-12 my-2 w-full flex items-center justify-start rounded-[16px] p-6 ${page ? '' : 'bg-bg-300'} `}>
               <svg
                 width="28"
                 height="35"
@@ -98,7 +98,7 @@ export function Dashboard() {
 
               <h2 className="ml-6 text-xl text-offWhite-100">Alunos</h2>
             </div>
-            <div className="h-12 my-2 w-full flex items-center justify-start rounded-[16px] p-6">
+            <div onClick={()=>setPage(1)} className={`h-12 my-2 w-full flex items-center justify-start  rounded-[16px] p-6 ${page ? 'bg-bg-300' :''} `}>
               <svg
                 width="28"
                 height="35"

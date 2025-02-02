@@ -1,0 +1,19 @@
+.redbg {
+    background: linear-gradient(175deg , #E54F4F 40%, #FFBE69 100%);
+    background-size: 200% 200%; 
+    transition: background-position 0.5s ease-in-out;
+}
+
+.redbg:hover {
+    background-position: 100% 100%; 
+}
+
+.greenbg{
+    background: linear-gradient(175deg , #7cff81 40%, #FFDE2E 100%);
+    background-size: 200% 200%; 
+    transition: background-position 0.5s ease-in-out;
+}
+
+.greenbg:hover{
+    background-position: 100% 100%; 
+}

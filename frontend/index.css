@@ -66,3 +66,8 @@
 .glassBorder{
   border: linear-gradient;
 }
+
+.glassBgStrong{
+  background: linear-gradient(60deg ,rgb(88 ,83, 74,0.9) 0%, rgb(40 ,40 ,40,0.7) 100%);
+  backdrop-filter: blur(2px);
+}

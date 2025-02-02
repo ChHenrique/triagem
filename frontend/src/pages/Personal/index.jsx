@@ -5,6 +5,16 @@ import { Alunos } from './Section/alunos';
 
 export function Personal() {
   const [userName, setUserName] = useState('');
+  const [page,setPage] = useState(0);
+
+
+  function RenderContet() {
+    if (page === 0) { 
+        return <Alunos />;
+    } else {
+        return <div></div>;
+    }
+}
 
   useEffect(() => {
 
@@ -21,7 +31,7 @@ export function Personal() {
   return (
     <div className="w-screen h-screen bg-bg-200 flex-row flex overflow-hidden">
       <div className="h-screen w-[20%] min-w-64">
-        <Dashboard />
+        <Dashboard page={page} setPage={setPage} />
       </div>
       <div className="h-screen w-[80%]">
         <div className="relative w-full justify-center flex items-center h-18">
@@ -31,7 +41,7 @@ export function Personal() {
           <div className="w-1/4 h-4 blur-3xl bg-primary-100 absolute"></div>
         </div>
         <div className="w-full h-full">
-          <Alunos />
+          {RenderContet()}
         </div>
       </div>
     </div>
