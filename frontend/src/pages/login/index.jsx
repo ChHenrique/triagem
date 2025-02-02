@@ -1,30 +1,30 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import Bg from '../../assets/Imagem-Login.jpg'
-import './animation.css'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Bg from '../../assets/Imagem-Login.jpg';
+import './animation.css';
 
 export function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('')
-  const [senha, setSenha] = useState('')
-  const [error, setError] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [error, setError] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   async function Validacao() {
     if (!email.includes('@') || email.length < 5) {
-      setError(1)
+      setError(1);
       setTimeout(() => setError(0), 3000);
-      return
+      return;
     }
 
     if (senha.length < 7) {
       setError(1);
       setTimeout(() => setError(0), 3000);
-      return
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -36,26 +36,26 @@ export function Login() {
         {
           withCredentials: true, 
         }
-      )
+      );
 
-      console.log('resposta do backend:', response.data)
-      navigate('/personal')
+      console.log('resposta do backend:', response.data);
+      navigate('/personal');
     } catch (error) {
     
       if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.error || 'erro ao fazer login'
-        console.error('Erro ao fazer login:', errorMessage)
+        const errorMessage = error.response?.data?.error || 'Erro ao fazer login';
+        console.error('Erro ao fazer login:', errorMessage);
         setError(1);
-        setTimeout(() => setError(0), 3000)
+        setTimeout(() => setError(0), 3000);
       }
       
        else {
-        console.error('erro desconhecido:', error)
+        console.error('erro desconhecido:', error);
       }
     } 
 
     finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
