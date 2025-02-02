@@ -1,110 +1,220 @@
 import Default from '../../../assets/defaultUser.png'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
-export function Dashboard(foto, nome) {
+export function Dashboard() {
+    //troquei as props por usestate
+  const [nome, setNome] = useState('')
+  const [foto, setFoto] = useState(Default) // usestate como padrão a foto "Default"
 
+  //fazendo a requisição pra pegar o nome a foto do usuario
+  useEffect(() => {
+    axios
+      .get('http://localhost:3000/users/me', { withCredentials: true })
+      .then((response) => {
+        setNome(response.data.name)
+        
+        if (response.data.foto) {
+          setFoto(response.data.photo)
+        }
+      })
+      .catch((error) => {
+        console.error('erro ao buscar dados do usuário', error)
+      })
+  }, [])
 
+  return (
+    <div className="h-screen w-full flex flex-col items-start justify-between px-3 py-4 font-Outfit">
+      <div>
+        <div className="h-12 w-full flex items-center justify-start p-6 mb-32">
+          <div
+            className="h-12 aspect-square mr-2 rounded-full"
+                                // foto do usuário aqui
+            style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}
+          ></div>
 
-    return (
-        <div className="h-screen w-full flex flex-col items-star justify-between px-3 py-4 font-Outfit">
-            <div>
-            <div className="h-12 w-full flex items-center justify-start p-6 mb-32">
-                {/*O default e a foto padrao troque pela foto como parametro */}
-                <div className="h-12 aspect-square mr-2 rounded-full" style={{ backgroundImage: ` url(${Default}) `, backgroundSize: 'cover', }}>
-
-                </div>
-                <div className='h-12 flex flex-col'>
-                    <h2 className=' text-xl text-offWhite-100'>{/*nome*/}Pedro Lucas</h2>
-                    <h4 className=' text-base font-light text-offWhite-100 '>Personal</h4>
-                </div>
-            </div>
-
-            <div>
-                <div className="h-12 mb-12 w-full flex items-center justify-start bg-bg-300 rounded-[16px] p-6">
-                    {/*O default e a foto padrao troque pela foto como parametro */}
-                    <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="1" y="1.5" width="14" height="14" rx="1" stroke="white" stroke-width="2" />
-                        <rect x="20" y="1.5" width="14" height="14" rx="1" stroke="white" stroke-width="2" />
-                        <rect x="1" y="19.5" width="14" height="14" rx="1" stroke="white" stroke-width="2" />
-                        <rect x="20" y="19.5" width="14" height="14" rx="1" stroke="white" stroke-width="2" />
-                    </svg>
-
-
-                    <h2 className='  ml-6 text-xl text-offWhite-100'>DashBoard</h2>
-
-
-                </div>
-
-
-                {/*area de abas */}
-                <h2 className='  ml-2 my-4 text-xl text-offWhite-100'>Geral</h2>
-
-                <div>
-
-                    <div className="h-12 my-2 w-full flex items-center justify-start bg-bg-300 rounded-[16px] p-6">
-                        {/*O default e a foto padrao troque pela foto como parametro */}
-                        <svg width="28" height="35" viewBox="0 0 28 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="1" y="2.34204" width="22.973" height="28.1961" rx="1" stroke="white" stroke-width="2" />
-                            <path d="M26.5507 33.0569C26.676 32.938 26.791 32.8085 26.8944 32.6697C26.8156 32.8269 26.6965 32.9605 26.5507 33.0569Z" stroke="white" stroke-width="2" />
-                            <rect x="6.0542" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <rect x="21.1895" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <rect x="0.756836" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <rect x="11.3516" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <rect x="16.6484" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <path d="M21 27C21 24.8783 20.1571 22.8434 18.6569 21.3431C17.1566 19.8429 15.1217 19 13 19C10.8783 19 8.84344 19.8429 7.34315 21.3431C5.84286 22.8434 5 24.8783 5 27L13 27H21Z" fill="white" />
-                            <circle cx="13" cy="12" r="5" fill="white" />
-                        </svg>
-
-
-
-                        <h2 className='  ml-6 text-xl text-offWhite-100'>Alunos</h2>
-
-
-                    </div>
-                    <div className="h-12  my-2 w-full flex items-center justify-start rounded-[16px] p-6">
-                        {/*O default e a foto padrao troque pela foto como parametro */}
-                        <svg width="28" height="35" viewBox="0 0 28 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="1" y="2.73096" width="22.973" height="28.1961" rx="1" stroke="white" stroke-width="2" />
-                            <path d="M26.8944 33.0586C26.8156 33.2158 26.6965 33.3494 26.5507 33.4458C26.676 33.327 26.7911 33.1974 26.8944 33.0586Z" stroke="white" stroke-width="2" />
-                            <rect x="6.0542" y="0.388916" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <rect x="21.1895" y="0.388916" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <rect x="0.756836" y="0.388916" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <rect x="11.3516" y="0.388916" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <rect x="16.6484" y="0.388916" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
-                            <rect x="14.3779" y="14.4805" width="3.78378" height="11.4074" rx="1.89189" fill="white" />
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.78393 14.4805C6.82863 14.4805 6.0542 15.2549 6.0542 16.2102V24.1581C6.0542 25.1134 6.82863 25.8879 7.78393 25.8879C8.73923 25.8879 9.51366 25.1135 9.51366 24.1581V21.1347H16.4326V19.2335H9.51366V16.2102C9.51366 15.2549 8.73923 14.4805 7.78393 14.4805ZM9.51366 19.2335H7.784V21.1347H9.51366V19.2335Z" fill="white" />
-                            <rect x="3.78369" y="7.09912" width="17.4054" height="1.34205" fill="white" />
-                            <rect x="3.78369" y="9.7832" width="17.4054" height="1.34205" fill="white" />
-                        </svg>
-
-
-
-                        <h2 className='  ml-6 text-xl text-offWhite-100'>Criar Treino</h2>
-
-
-                    </div>
-
-                </div>
-                <div>
-                
-                </div>
-
-            </div></div>
-
-
-            {/*Logout Button */}
-            
-            <div className="h-12 w-full flex items-center justify-start  rounded-[16px] p-6">
-            <svg width="36" height="29" viewBox="0 0 36 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M36 0.5H24V13H20V3.45299L0 15L20 26.547V17H24V28.5H36V0.5ZM24 17H28V13H24V17Z" fill="white"/>
-</svg>
-
-
-
-                    <h2 className='  ml-6 text-xl text-offWhite-100'>Sair</h2>
-
-
-                </div>
-
+          <div className="h-12 flex flex-col">
+                                                {/* colocar o nome do usuário aqui */}
+            <h2 className="text-xl text-offWhite-100">{nome || 'Carregando...'}</h2>
+            <h4 className="text-base font-light text-offWhite-100">Personal</h4>
+          </div>
         </div>
-    )
+
+        <div>
+          <div className="h-12 mb-12 w-full flex items-center justify-start bg-bg-300 rounded-[16px] p-6">
+            <svg
+              width="35"
+              height="35"
+              viewBox="0 0 35 35"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect x="1" y="1.5" width="14" height="14" rx="1" stroke="white" stroke-width="2" />
+              <rect x="20" y="1.5" width="14" height="14" rx="1" stroke="white" stroke-width="2" />
+              <rect x="1" y="19.5" width="14" height="14" rx="1" stroke="white" stroke-width="2" />
+              <rect x="20" y="19.5" width="14" height="14" rx="1" stroke="white" stroke-width="2" />
+            </svg>
+
+            <h2 className="ml-6 text-xl text-offWhite-100">Dashboard</h2>
+          </div>
+
+          {/* Area de abas */}
+          <h2 className="ml-2 my-4 text-xl text-offWhite-100">Geral</h2>
+
+          <div>
+            <div className="h-12 my-2 w-full flex items-center justify-start bg-bg-300 rounded-[16px] p-6">
+              <svg
+                width="28"
+                height="35"
+                viewBox="0 0 28 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="1"
+                  y="2.34204"
+                  width="22.973"
+                  height="28.1961"
+                  rx="1"
+                  stroke="white"
+                  stroke-width="2"
+                />
+                <path
+                  d="M26.5507 33.0569C26.676 32.938 26.791 32.8085 26.8944 32.6697C26.8156 32.8269 26.6965 32.9605 26.5507 33.0569Z"
+                  stroke="white"
+                  stroke-width="2"
+                />
+                <rect x="6.0542" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
+                <rect x="21.1895" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
+                <rect x="0.756836" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
+                <rect x="11.3516" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
+                <rect x="16.6484" width="2.27027" height="4.02614" rx="1.13514" fill="white" />
+                <path
+                  d="M21 27C21 24.8783 20.1571 22.8434 18.6569 21.3431C17.1566 19.8429 15.1217 19 13 19C10.8783 19 8.84344 19.8429 7.34315 21.3431C5.84286 22.8434 5 24.8783 5 27L13 27H21Z"
+                  fill="white"
+                />
+                <circle cx="13" cy="12" r="5" fill="white" />
+              </svg>
+
+              <h2 className="ml-6 text-xl text-offWhite-100">Alunos</h2>
+            </div>
+            <div className="h-12 my-2 w-full flex items-center justify-start rounded-[16px] p-6">
+              <svg
+                width="28"
+                height="35"
+                viewBox="0 0 28 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="1"
+                  y="2.73096"
+                  width="22.973"
+                  height="28.1961"
+                  rx="1"
+                  stroke="white"
+                  stroke-width="2"
+                />
+                <path
+                  d="M26.8944 33.0586C26.8156 33.2158 26.6965 33.3494 26.5507 33.4458C26.676 33.327 26.7911 33.1974 26.8944 33.0586Z"
+                  stroke="white"
+                  stroke-width="2"
+                />
+                <rect
+                  x="6.0542"
+                  y="0.388916"
+                  width="2.27027"
+                  height="4.02614"
+                  rx="1.13514"
+                  fill="white"
+                />
+                <rect
+                  x="21.1895"
+                  y="0.388916"
+                  width="2.27027"
+                  height="4.02614"
+                  rx="1.13514"
+                  fill="white"
+                />
+                <rect
+                  x="0.756836"
+                  y="0.388916"
+                  width="2.27027"
+                  height="4.02614"
+                  rx="1.13514"
+                  fill="white"
+                />
+                <rect
+                  x="11.3516"
+                  y="0.388916"
+                  width="2.27027"
+                  height="4.02614"
+                  rx="1.13514"
+                  fill="white"
+                />
+                <rect
+                  x="16.6484"
+                  y="0.388916"
+                  width="2.27027"
+                  height="4.02614"
+                  rx="1.13514"
+                  fill="white"
+                />
+                <rect
+                  x="14.3779"
+                  y="14.4805"
+                  width="3.78378"
+                  height="11.4074"
+                  rx="1.89189"
+                  fill="white"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M7.78393 14.4805C6.82863 14.4805 6.0542 15.2549 6.0542 16.2102V24.1581C6.0542 25.1134 6.82863 25.8879 7.78393 25.8879C8.73923 25.8879 9.51366 25.1135 9.51366 24.1581V21.1347H16.4326V19.2335H9.51366V16.2102C9.51366 15.2549 8.73923 14.4805 7.78393 14.4805ZM9.51366 19.2335H7.784V21.1347H9.51366V19.2335Z"
+                  fill="white"
+                />
+                <rect
+                  x="3.78369"
+                  y="7.09912"
+                  width="17.4054"
+                  height="1.34205"
+                  fill="white"
+                />
+                <rect
+                  x="3.78369"
+                  y="9.7832"
+                  width="17.4054"
+                  height="1.34205"
+                  fill="white"
+                />
+              </svg>
+
+              <h2 className="ml-6 text-xl text-offWhite-100">Criar Treino</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Logout Button */}
+      <div className="h-12 w-full flex items-center justify-start rounded-[16px] p-6">
+        <svg
+          width="36"
+          height="29"
+          viewBox="0 0 36 29"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M36 0.5H24V13H20V3.45299L0 15L20 26.547V17H24V28.5H36V0.5ZM24 17H28V13H24V17Z"
+            fill="white"
+          />
+        </svg>
+
+        <h2 className="ml-6 text-xl text-offWhite-100">Sair</h2>
+      </div>
+    </div>
+  );
 }
