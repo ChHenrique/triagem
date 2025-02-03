@@ -1,7 +1,7 @@
 import { Aluno } from "../Components/Aluno"
 import { useState } from "react"
 import { EditarPerf } from "../Components/editar"
-import { TreinoCompleto } from "../Components/treinoComple"
+import { Treinos } from "../Components/treinoComple"
 
 export function Alunos(Alunos){
 
@@ -40,7 +40,7 @@ export function Alunos(Alunos){
 
               
                <EditarPerf  open={openPer} setOpenper={setOpenper} id={idAluno}></EditarPerf>
-               <TreinoCompleto setOpentreino={setOpentreino} open={openTreino}/>
+               <Treinos setOpentreino={setOpentreino} open={openTreino} id={idAluno}/>
   
 
 
