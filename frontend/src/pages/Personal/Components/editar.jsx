@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Default from '../../../assets/defaultUser.png';
 import InputMask from 'react-input-mask';
 
-export function EditarPerf({ open, setOpenper, Initemail, Initnome, Inittel, InitFoto }) {
+export function EditarPerf({ open, setOpenper, Initemail, Initnome, Inittel, InitFoto , id}) {
     const [email, setEmail] = useState(Initemail);
     const [nome, setNome] = useState(Initnome);
     const [tel, setTel] = useState(Inittel);
@@ -36,7 +36,7 @@ export function EditarPerf({ open, setOpenper, Initemail, Initnome, Inittel, Ini
             >
                 <h1>Edição Perfil</h1>
                 <div className='justify-center flex flex-col m-4'>
-                    <h1 className="text-xl text-center">Imagem do Aluno</h1>
+                    <h1 className="text-xl text-center">Imagem do Aluno {id}</h1>
                     <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
                         <label htmlFor="fotos" className="absolute  top-0 left-0 w-full h-full rounded-full cursor-pointer">
                             <input type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />

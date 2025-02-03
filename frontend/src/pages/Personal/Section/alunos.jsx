@@ -1,11 +1,26 @@
 import { Aluno } from "../Components/Aluno"
 import { useState } from "react"
 import { EditarPerf } from "../Components/editar"
+import { TreinoCompleto } from "../Components/treinoComple"
 
 export function Alunos(Alunos){
 
     const [openPer,setOpenper] = useState(0)
+    const [openTreino,setOpentreino] = useState(0)
+    const [idAluno,setAlunoid] = useState([])
 
+
+    const alunos = [{
+        id: 1,
+        nome: 'Pedro',
+        email: 'pldoido@gmail,com',
+        tel: '(88) 913420692'
+    },{
+        id: 2,
+        nome: 'Pedro sapeca',
+        email: 'plfreefrie@gmail,com',
+        tel: '(88) 913420692'
+    }]
 
     return(
 
@@ -16,9 +31,16 @@ export function Alunos(Alunos){
             </div>
             <div className="h-[calc(100%-44px)] w-full grid grid-cols-3 gap-y-12 place-content-start place-items-center overflow-y-auto p-18 scroll-smooth">
  
-               <Aluno setOpenper={setOpenper} ></Aluno>
-               <EditarPerf  open={openPer} setOpenper={setOpenper}></EditarPerf>
+                 {
+                    alunos.map((aluno)=>{
+                        return <Aluno email={aluno.email} nome={aluno.nome} key={aluno.id} tel={aluno.tel} id={aluno.id} setOpenper={setOpenper} setOpentreino={setOpentreino} setAlunoid={setAlunoid}/>
+                    })
+                 }
+ 
 
+              
+               <EditarPerf  open={openPer} setOpenper={setOpenper} id={idAluno}></EditarPerf>
+               <TreinoCompleto setOpentreino={setOpentreino} open={openTreino}/>
   
 
 
