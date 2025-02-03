@@ -2,6 +2,7 @@ import { Aluno } from "../Components/Aluno"
 import { useState } from "react"
 import { EditarPerf } from "../Components/editar"
 import { Treinos } from "../Components/treinoComple"
+import axios from "axios"
 
 export function Alunos(Alunos){
 
@@ -33,7 +34,15 @@ export function Alunos(Alunos){
  
                  {
                     alunos.map((aluno)=>{
-                        return <Aluno email={aluno.email} nome={aluno.nome} key={aluno.id} tel={aluno.tel} id={aluno.id} setOpenper={setOpenper} setOpentreino={setOpentreino} setAlunoid={setAlunoid}/>
+                        return <Aluno 
+                        email={aluno.email} 
+                        nome={aluno.nome}
+                         key={aluno.id} 
+                         tel={aluno.tel}
+                          id={aluno.id} 
+                          setOpenper={setOpenper} 
+                          setOpentreino={setOpentreino}
+                           setAlunoid={setAlunoid}/>
                     })
                  }
  
