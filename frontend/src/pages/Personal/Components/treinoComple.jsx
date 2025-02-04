@@ -1,13 +1,36 @@
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
 import Default from '../../../assets/defaultUser.png';
 import { Treino } from './Treino';
 import { Exercicio } from './Exercicio';
+import axios
+ from 'axios';
 
-
-export function Treinos({ open, setOpentreino, email, nome,tel, foto }) {
+export function Treinos({ open, setOpentreino, id }) {
 
     const [openExer,setOpenExer] = useState(0);
     const [treinoid,setTreinoid] = useState([])
+
+    const [email, setEmail] = useState('');
+    const [nome, setNome] = useState('');
+    const [tel, setTel] = useState('');
+    const [foto, setFoto] = useState('');
+
+    useEffect(() => {      
+        axios.get(`http://localhost:3000/users/${id}`, { withCredentials: true })
+            .then(response => {
+                       
+                const aluno = response.data;
+                setEmail(aluno.email);
+                setNome(aluno.name);
+                setTel(aluno.phone);
+                setFoto(aluno.photoUrl);
+              
+
+            })
+            .catch(error => {
+                console.error("erro ao buscar os alunos", error)
+            });
+    }, [id]);
  
 
     const treinos = [{
@@ -60,8 +83,8 @@ export function Treinos({ open, setOpentreino, email, nome,tel, foto }) {
                         </div>
                     </div>
                     <div className='text-white flex flex-col pt-12 px-8'>
-                        <h1 className='text-2xl'>{openExer? '{nome do treino}' :'nome'}</h1>
-                        <h1 className='text-xl font-Sora-light text-white/50'>{openExer ? '{partes do treino afetada}' :'892183987123'}</h1>
+                        <h1 className='text-2xl'>{openExer? '{nome do treino}' :nome}</h1>
+                        <h1 className='text-xl font-Sora-light text-white/50'>{openExer ? '{partes do treino afetada}' :tel}</h1>
                         {openExer ?
                          ( <h1 className='text-base font-Sora-light'>{'{descriçao do treino}'}</h1> )
                          : (<div></div>)}

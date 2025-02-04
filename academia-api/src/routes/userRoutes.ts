@@ -33,6 +33,13 @@ export async function userRoutes(fastify: FastifyInstance) {
     return reply.send(users);
   });
 
+    // Achar um um usuário em específico 
+    fastify.get<{ Params: { id: string }; Body: Partial<CreateUserBody> }>('/:id', { preHandler: authMiddleware }, async ( req, reply) => {
+      const { id } = req.params
+      const users = await prisma.user.findUnique({ where: { id } });
+      return reply.send(users);
+    });
+
   // Atualização de usuário
   fastify.put<{ Params: { id: string }; Body: Partial<CreateUserBody> }>(
     '/:id',

@@ -1,12 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Default from '../../../assets/defaultUser.png';
 import InputMask from 'react-input-mask';
+import axios from 'axios';
 
-export function EditarPerf({ open, setOpenper, Initemail, Initnome, Inittel, InitFoto , id}) {
-    const [email, setEmail] = useState(Initemail);
-    const [nome, setNome] = useState(Initnome);
-    const [tel, setTel] = useState(Inittel);
-    const [foto, setFoto] = useState(Default);
+export function EditarPerf({ open, setOpenper,id}) {
+    const [email, setEmail] = useState('');
+    const [nome, setNome] = useState('');
+    const [tel, setTel] = useState('');
+    const [foto, setFoto] = useState('');
+
+    
+    
+
+    useEffect(() => {      
+        axios.get(`http://localhost:3000/users/${id}`, { withCredentials: true })
+            .then(response => {
+                       
+                const aluno = response.data;
+                setEmail(aluno.email);
+                setNome(aluno.name);
+                setTel(aluno.phone);
+                setFoto(aluno.photoUrl);
+              
+
+            })
+            .catch(error => {
+                console.error("erro ao buscar os alunos", error)
+            });
+    }, [id]);
+
+
+    const Initnome = nome;
+    const Initemail = email;
+    const Inittel = tel;
+    const Initfoto = foto;
+
 
     function Pegaimg(e) {
         let fotoup = e.target.files[0];
@@ -17,26 +45,26 @@ export function EditarPerf({ open, setOpenper, Initemail, Initnome, Inittel, Ini
     }
 
     const SubmeterForm = (e) => {
-        e.preventDefault(); // Impede o comportamento padrão do formulário
-        // Aqui você pode adicionar a lógica para salvar as alterações, se necessário
-        console.log("Dados do formulário:", { nome, email, tel, foto });
-        setOpenper(0)
+        e.preventDefault(); 
+
     };
+
+    function PutInfo(){
+        axios.put(`http://localhost:3000/users/${id}`, { name: nome, email, phone: tel, photoUrl: foto }, { withCredentials: true })
+    }
 
     return (
         <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpenper(0)}>
             <form className="glassBgStrong px-12 rounded-2xl w-1/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
                 onSubmit={SubmeterForm} // Adiciona o evento onSubmit
                 onClick={(e) => {
-                    // Impede o fechamento do modal ao clicar na label ou no input
-                    if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT') {
-                        e.stopPropagation();
-                    }
+         
+                      e.stopPropagation();
                 }}
             >
                 <h1>Edição Perfil</h1>
                 <div className='justify-center flex flex-col m-4'>
-                    <h1 className="text-xl text-center">Imagem do Aluno {id}</h1>
+                    <h1 className="text-xl text-center">Imagem do Aluno</h1>
                     <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
                         <label htmlFor="fotos" className="absolute  top-0 left-0 w-full h-full rounded-full cursor-pointer">
                             <input type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
@@ -62,7 +90,7 @@ export function EditarPerf({ open, setOpenper, Initemail, Initnome, Inittel, Ini
                     </label>
                 </div>
 
-                <button type='submit' className={`w-full mt-12 h-12 text-xl font-bold text-white font-Outfit rounded-[16px] ${open ? 'animate': ''}`}>
+                <button onClick={PutInfo} type='submit' className={`w-full mt-12 h-12 text-xl font-bold text-white font-Outfit rounded-[16px] ${open ? 'animate': ''}`}>
                     Confirmar
                 </button>
 
