@@ -1,6 +1,25 @@
-import { Treino } from "../Components/Treino"
+import { TreinoCriacao } from "../Components/TreinoCriação"
 
 export function CriarTreinos(){
+
+
+    const treinos = [{
+        id:1,
+        nome: 'Treino de Peito',
+        partesAfeto: 'Parte esternal e superior',
+        descricao: 'Treino util e cruel'
+    },{
+        id:2,
+        nome: 'Treino de Peito',
+        partesAfeto: 'Parte esternal e superior',
+        descricao: 'Treino util e cruel'
+    },{
+        id:3,
+        nome: 'Treino de Peito',
+        partesAfeto: 'Parte esternal e superior',
+        descricao: 'Treino util e cruel'
+    }]
+
     
     return(
 
@@ -13,24 +32,17 @@ export function CriarTreinos(){
  
                  {
                     treinos.map((treino)=>{
-                        return <Treino.jsx
-                        partesAfetadas={treino.partesAfetadas} 
+                        return <TreinoCriacao
+                        partesAfeto={treino.partesAfeto} 
                         nome={treino.nome}
                          key={treino.id} 
-                         descrição={treino.descrição}
+                         descricao={treino.descricao}
                           id={treino.id} 
-                          setOpenEnv={setOpenEnv} 
-                          setOpentreino={setOpentreino}
+                          //setOpenEnv={setOpenEnv} 
+                        //  setOpentreino={setOpentreino}
 />
                     })
                  }
- 
-
-              
-               <EditarPerf  open={openPer} setOpenper={setOpenper} id={idAluno}></EditarPerf>
-               <Treinos setOpentreino={setOpentreino} open={openTreino} id={idAluno}/>
-  
-
 
 
             </div>
