@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dashboard } from './Section/dashboard';
 import { Alunos } from './Section/alunos';
+import { CriarTreinos } from './Section/criarTreinos';
 
 export function Personal() {
   const [userName, setUserName] = useState('');
@@ -12,7 +13,7 @@ export function Personal() {
     if (page === 0) { 
         return <Alunos />;
     } else {
-        return <div></div>;
+        return <CriarTreinos/>;
     }
 }
 

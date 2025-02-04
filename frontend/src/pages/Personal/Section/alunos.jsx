@@ -30,6 +30,20 @@ export function Alunos(Alunos){
     }, [alunos]);
 
 
+    /*const alunos = [{
+        id: 1,
+        nome: 'Pedro',
+        email: 'pldoido@gmail,com',
+        tel: '(88) 913420692'
+    },{
+        id: 2,
+        nome: 'Pedro sapeca',
+        email: 'plfreefrie@gmail,com',
+        tel: '(88) 913420692'
+    }]
+*/
+
+
     return(
 
            <div className="w-full h-full font-Outfit px-6">
