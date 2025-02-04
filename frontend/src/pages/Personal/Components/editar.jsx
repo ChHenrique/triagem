@@ -51,6 +51,10 @@ export function EditarPerf({ open, setOpenper,id}) {
 
     function PutInfo(){
         axios.put(`http://localhost:3000/users/${id}`, { name: nome, email, phone: tel, photoUrl: foto }, { withCredentials: true })
+
+        setTimeout(() => {
+            setOpenper(0);
+        } , 1000);
     }
 
     return (
@@ -91,7 +95,7 @@ export function EditarPerf({ open, setOpenper,id}) {
                 </div>
 
                 <button onClick={PutInfo} type='submit' className={`w-full mt-12 h-12 text-xl font-bold text-white font-Outfit rounded-[16px] ${open ? 'animate': ''}`}>
-                    Confirmar
+                    Salvar Alterações
                 </button>
 
                 <svg onClick={() => setOpenper(0)} className='cursor-pointer absolute top-4 right-4' width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

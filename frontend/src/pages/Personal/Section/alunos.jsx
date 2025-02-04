@@ -4,7 +4,7 @@ import { EditarPerf } from "../Components/editar"
 import { Treinos } from "../Components/treinoComple"
 import axios from "axios"
 
-export function Alunos(Alunos){
+export function Alunos(){
 
     const [openPer,setOpenper] = useState(0)
     const [openTreino,setOpentreino] = useState(0)
