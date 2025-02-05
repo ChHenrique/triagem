@@ -64,7 +64,7 @@ export function CriarTreinos(){
                  }
 
                    <EditaTreino setOpenEdit={setOpenEdit} open={openEdit} id={treinoid}/>
-                  <TreinosCr setOpentreino={setOpentreino} treinoid={treinoid} open={openTreino}/>
+                  <TreinosCr setOpentreino={setOpentreino} id={treinoid} open={openTreino}/>
                   <Enviar open={openEnv} setOpenEnv={setOpenEnv} treinoid={treinoid}></Enviar>
             </div>
 

@@ -4,40 +4,48 @@ import { Treino } from './Treino';
 import { Exercicio } from './Exercicio';
 import axios
  from 'axios';
+import { EditaExer } from './editarExer';
 
 export function TreinosCr({ open, setOpentreino, id }) {
 
     const [openTreino,setOpenTreino] = useState(0);
-    const [treinoid,setTreinoid] = useState([])
-
-    const [email, setEmail] = useState('');
     const [nome, setNome] = useState('');
-    const [tel, setTel] = useState('');
+    const [partesAfeto, setPartesAfeto] = useState('');
+    const [descricao, setDescricao] = useState('');
     const [foto, setFoto] = useState('');
     const [exercicios, setExercicios] = useState([]);
+    const[exerId,setExerid] = useState([])
+    const [openexer,setOpenExer] = useState(0);
+    
     
 
-    useEffect(() => {      
-        axios.get(`http://localhost:3000/users/${id}`, { withCredentials: true })
+    useEffect(() => {
+        axios.get(`http://localhost:3000/trainings/${id}`, { withCredentials: true })
             .then(response => {
-                       
-                const aluno = response.data;
-                setEmail(aluno.email);
-                setNome(aluno.name);
-                setTel(aluno.phone);
-                setFoto(aluno.photoUrl);
-              
+
+                const treino = response.data;
+
+                setFoto(treino.imageUrl);
+                setNome(treino.name);
+                setDescricao(treino.description);
+                setPartesAfeto(treino.bodyParts);
+                setExercicios(treino.exercises);
+
 
             })
             .catch(error => {
-                console.error("erro ao buscar os alunos", error)
+                console.error("erro ao buscar os treinos", error)
             });
     }, [id]);
  
 
  
     return (
+       
         <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpentreino(0)}>
+             {openexer ?(
+    <EditaExer setOpenExer={setOpenExer} open={openexer} id={exerId}></EditaExer>
+    ) :(
             <div className="glassBgStrong px-12 rounded-2xl w-2/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
 
                 onClick={(e) => {
@@ -46,18 +54,18 @@ export function TreinosCr({ open, setOpentreino, id }) {
 
                 }}
             >
-                <h1>{' nome do treino '}</h1>
+                <h1>{nome}</h1>
                 <div className='justify-start w-full h-fit flex m-4'>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className="text-xl text-center">{'Imagem do treino'}</h1>
-                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${Default})`, backgroundSize: 'cover' }}>
+                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
                         </div>
                     </div>
                     <div className='text-white flex flex-col pt-12 px-8'>
-                        <h1 className='text-2xl'>{'{nome do treino}'}</h1>
-                        <h1 className='text-xl font-Sora-light text-white/50'>{ '{partes do treino afetada}' }</h1>
+                        <h1 className='text-2xl'>{nome}</h1>
+                        <h1 className='text-xl font-Sora-light text-white/50'>{ partesAfeto }</h1>
                        
-                         <h1 className='text-base font-Sora-light'>{'{descriçao do treino}'}</h1> 
+                         <h1 className='text-base font-Sora-light'>{descricao}</h1> 
                          
                     </div>
 
@@ -65,18 +73,23 @@ export function TreinosCr({ open, setOpentreino, id }) {
                 <div className='w-full h-full  grid grid-cols-3 overflow-auto gap-y-4'>
 
                     
-                {
+                {exercicios ?
             exercicios.map((exercicio) => (
                 <Exercicio
                   key={exercicio.id}
-                  reps={exercicio.reps}
-                  nome={exercicio.nome}
-                  series={exercicio.series}
-                  descricao={exercicio.descricao}
+                  reps={exercicio.repetitions}
+                  nome={exercicio.name}
+                  series={exercicio.execution}
+                  descricao={exercicio.description}
                   id={exercicio.id}
+                  setExerid={setExerid}
+                  restTime={exercicio.restInterval}
+                  setOpenExer={setOpenExer}
                 />
-              ))
-  
+              )):
+              (
+                <h1>Nenhum exerecicio encontrado</h1>
+              )
              }
 
 
@@ -104,6 +117,9 @@ export function TreinosCr({ open, setOpentreino, id }) {
             }
 
             </div>
+
+)}
         </div>
-    );
+
+)
 }

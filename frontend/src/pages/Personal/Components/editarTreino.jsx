@@ -8,10 +8,6 @@ export function EditaTreino({ open, setOpenEdit, id }) {
     const [partesAfeto, setPartesAfeto] = useState('');
     const [descricao, setDescricao] = useState('');
     const [foto, setFoto] = useState('');
-
-    const [Initnome, setInitnome] = useState('');
-    const [InitpartesAfeto, setInitpartesAfeto] = useState('');
-    const [Initdescricao, setInitdescricao] = useState('');
   
     const [nomebtn, setNomebtn] = useState('Salvar Alterações');
 
@@ -24,10 +20,9 @@ export function EditaTreino({ open, setOpenEdit, id }) {
                 const treino = response.data;
 
                 setFoto(treino.imageUrl);
-
-                setInitnome(treino.name);
-                setInitdescricao(treino.description);
-                setInitpartesAfeto(treino.bodyParts);
+                setNome(treino.name);
+                setDescricao(treino.description);
+                setPartesAfeto(treino.bodyParts);
 
 
             })
@@ -35,6 +30,11 @@ export function EditaTreino({ open, setOpenEdit, id }) {
                 console.error("erro ao buscar os treinos", error)
             });
     }, [id]);
+
+
+    const Initnome = nome;
+    const Initdescricao = descricao;
+    const InitpartesAfeto = partesAfeto;
 
 
     function Pegaimg(e) {
@@ -58,15 +58,12 @@ export function EditaTreino({ open, setOpenEdit, id }) {
 
             setNomebtn('Salvar Alterações')
         }, 1000);
+
+        Initnome = nome;
+        Initdescricao = descricao;
+        InitpartesAfeto = partesAfeto;
+
         setNomebtn('Salvando...')
-        setInitnome(nome);
-        setInitdescricao(descricao);
-        setInitpartesAfeto(partesAfeto);
-
-
-        setNome('');
-        setDescricao('');
-        setPartesAfeto('');
 
     }
 
@@ -91,10 +88,10 @@ export function EditaTreino({ open, setOpenEdit, id }) {
 
                 <div className='w-full h-fit flex justify-center items-start flex-col'>
                     <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Nome">Nome
-                        <input value={nome} placeholder={Initnome} onChange={(e) => setNome(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                        <input placeholder={Initnome} onChange={(e) => setNome(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                     </label>
                     <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Email">PartesAfetadas
-                        <input placeholder={InitpartesAfeto} onChange={(e) => setPartesAfeto(e.target.value)} type="text" name='Email' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                        <input  placeholder={InitpartesAfeto} onChange={(e) => setPartesAfeto(e.target.value)} type="text" name='Email' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                     </label>
                     <label className='w-full break-words text-start over text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Telefone">Descrição
                         <textarea
