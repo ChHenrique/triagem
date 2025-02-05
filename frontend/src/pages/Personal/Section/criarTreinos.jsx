@@ -1,6 +1,40 @@
-import { Treino } from "../Components/Treino"
+import { TreinoCriacao } from "../Components/TreinoCriação"
+import { TreinosCr } from "../Components/treinoCompleCriacao"
+import { useState,useEffect } from "react";
+import axios from 'axios';
+import { Enviar } from "../Components/EnviarMenu";
+import { EditaTreino } from "../Components/editarTreino";
 
 export function CriarTreinos(){
+    const [treinoid,setTreinoid] = useState([])
+    const [openTreino,setOpentreino] = useState(0);
+    const [openEnv,setOpenEnv] = useState(0);
+    const [openEdit,setOpenEdit] = useState(0);
+    const [treinos,setTreinos] = useState([]);
+
+
+    //limite de carateres da descrição e 90
+    useEffect(() => {      
+        axios.get(`http://localhost:3000/trainings`, { withCredentials: true })
+            .then(response => {
+                       
+                const treinos = response.data.map(treino => ({
+                nome: treino.name,
+                descricao: treino.description,
+                partesAfeto: treino.bodyParts,
+                id: treino.id
+
+                }))
+             setTreinos(treinos);
+              
+
+            })
+            .catch(error => {
+                console.error("erro ao buscar os treinos", error)
+            });
+    }, [treinos]);
+
+
     
     return(
 
@@ -13,26 +47,25 @@ export function CriarTreinos(){
  
                  {
                     treinos.map((treino)=>{
-                        return <Treino.jsx
-                        partesAfetadas={treino.partesAfetadas} 
+                        return <TreinoCriacao
+                        
+                        partesAfeto={treino.partesAfeto} 
                         nome={treino.nome}
                          key={treino.id} 
-                         descrição={treino.descrição}
+                         descricao={treino.descricao}
                           id={treino.id} 
+                          setTreinoid={setTreinoid}
                           setOpenEnv={setOpenEnv} 
-                          setOpentreino={setOpentreino}
+                        setOpentreino={setOpentreino}
+                        setOpenEdit={setOpenEdit}
+
 />
                     })
                  }
- 
 
-              
-               <EditarPerf  open={openPer} setOpenper={setOpenper} id={idAluno}></EditarPerf>
-               <Treinos setOpentreino={setOpentreino} open={openTreino} id={idAluno}/>
-  
-
-
-
+                   <EditaTreino setOpenEdit={setOpenEdit} open={openEdit} id={treinoid}/>
+                  <TreinosCr setOpentreino={setOpentreino} id={treinoid} open={openTreino}/>
+                  <Enviar open={openEnv} setOpenEnv={setOpenEnv} treinoid={treinoid}></Enviar>
             </div>
 
            </div>

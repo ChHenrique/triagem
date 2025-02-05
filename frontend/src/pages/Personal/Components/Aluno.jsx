@@ -23,7 +23,7 @@ export function Aluno({nome,foto,email,tel , setOpenper, setOpentreino, setAluno
 
     return (
         <div className="w-72 aspect-[10/12] glassBg border-2 border-zinc-500 flex-col font-Outfit justify-center flex items-center p-4 rounded-[16px]">
-            <div className="h-1/3 aspect-square rounded-full" style={{ backgroundImage: `url(${Default})` ,backgroundSize: 'cover'}}></div>
+            <div className="h-1/3 aspect-square rounded-full" style={{ backgroundImage: `url(${foto})` ,backgroundSize: 'cover'}}></div>
             <div className='h-1/3 w-full flex flex-col  justify-center text-offWhite-100 items-center'>
                 <h2 className="text-2xl ">{nome}</h2>
                 <h2 className=" text-base font-light">{tel}</h2>
