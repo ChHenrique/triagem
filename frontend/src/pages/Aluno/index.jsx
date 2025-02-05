@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dashboard } from './Section/dashboard';
 import { CriarTreinos } from './Section/criarTreinos';
+import { Main } from './Section/calendaralho';
 
 
 export function AlunoPage() {
@@ -12,6 +13,8 @@ export function AlunoPage() {
   function RenderContet() {
     if (page === 0) { 
         return <CriarTreinos/>;
+    }else{
+      return <Main/>;
     }
 }
 

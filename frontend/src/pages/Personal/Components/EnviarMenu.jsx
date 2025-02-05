@@ -30,7 +30,7 @@ export function Enviar({open, setOpenEnv, treinoid}) {
     return (
             <div className={`w-full fixed inset-0  h-full backdrop-blur-xs  flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpenEnv(0)}>
                 
-                <div className="overflow-y-auto glassBgStrong pt-20 px-12 rounded-2xl w-1/3 min-w-[500px] grid grid-cols-1 h-full border-zinc-600/25 border-4 text-offWhite-100 place-items-center place-content-start "
+                <div className="overflow-y-auto  pt-20 px-12 rounded-2xl w-1/3 min-w-[500px] grid grid-cols-1 h-full border-zinc-600/25 border-4 text-offWhite-100 place-items-center place-content-start "
                 
                 onClick={(e) => {
          
