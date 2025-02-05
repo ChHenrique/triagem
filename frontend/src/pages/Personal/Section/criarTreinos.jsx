@@ -4,7 +4,7 @@ import { useState,useEffect } from "react";
 import axios from 'axios';
 import { Enviar } from "../Components/EnviarMenu";
 import { EditaTreino } from "../Components/editarTreino";
-//import { CriarTreino } from "../Components/CriarTreino";
+import { CriarTreino } from "../Components/CriarTreino";
 
 export function CriarTreinos(){
     const [treinoid,setTreinoid] = useState([])
@@ -76,7 +76,7 @@ export function CriarTreinos(){
                    <EditaTreino setOpenEdit={setOpenEdit} open={openEdit} id={treinoid}/>
                   <TreinosCr setOpentreino={setOpentreino} id={treinoid} open={openTreino}/>
                   <Enviar open={openEnv} setOpenEnv={setOpenEnv} treinoid={treinoid}></Enviar>
-                 {/*} <CriarTreino open={openCria} setOpenCria={setOpenCria} id={treinoid}></CriarTreino>*/}
+                  <CriarTreino open={openCria} setOpenCria={setOpenCria} id={treinoid}></CriarTreino>
             </div>
 
            </div>
