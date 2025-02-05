@@ -182,19 +182,24 @@ export function Main() {
   }
 
   return (
-    <div className="w-full h-full   max-md:bg-primary-300 rounded-2xl relative font-poppins">
+    <div className="w-full h-full flex flex-row  max-md:bg-primary-300 rounded-2xl relative font-poppins">
+      <div className="w-1/2 h-full flex justify-center items-center">
       
+
+      </div>
+      <div className="w-1/2 h-full flex justify-center relative">
       <button 
-        className="absolute m-4"
+        className="absolute m-4 h-fit w-fit left-8 top-20"
         onClick={() => { if (page !== 0) setPage(page - 1); }}
       >
-             <svg className='cursor-pointer absolute top-4 right-4' width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <svg className='cursor-pointer' width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M36 12L12 36M12 12L36 36" stroke="#ffffff" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
 
       </button>
   
       {Render()}
+      </div>
     </div>
   );
 }
