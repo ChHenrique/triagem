@@ -39,11 +39,11 @@ export function EditaExer({ open, setOpenExer, id }) {
     }, [id]);
 
 
-    const Initnome = nome;
-    const Initdescricao = descricao;
-    const Initexecutions = executions;
-    const Initreps = reps;
-    const Initrest = rest;
+    let Initnome = nome;
+    let Initdescricao = descricao;
+    let Initexecutions = executions;
+    let Initreps = reps;
+    let Initrest = rest;
 
 
 
@@ -80,7 +80,7 @@ export function EditaExer({ open, setOpenExer, id }) {
 
     return (
 
-        <form className="glassBgStrong px-12 rounded-2xl w-1/2 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
+        <form className="overflow-y-auto glassBgStrong px-12 rounded-2xl w-1/2 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
             onSubmit={SubmeterForm} // Adiciona o evento onSubmit
             onClick={(e) => {
 

@@ -52,6 +52,65 @@ export async function userRoutes(fastify: FastifyInstance) {
         }
     });
 
+     // Atualização de usuário
+     fastify.put<{ Params: { id: string } }>('/:id', { preHandler: authMiddleware }, async (req, reply) => {
+        try {
+            const { id } = req.params;
+
+            const userExists = await prisma.user.findUnique({ where: { id } });
+            if (!userExists) {
+                return reply.status(404).send({ error: 'Usuário não encontrado' });
+            }
+
+            let updatedPhotoUrl = userExists.photoUrl;
+            let updatedData: Partial<CreateUserBody> = {};
+
+            const fields = req.body ? (req.body as Record<string, string>) : undefined;
+            if (fields) {
+                if (fields.password) updatedData.password = await hashPassword(fields.password);
+                if (fields.name) updatedData.name = fields.name;
+                if (fields.email) updatedData.email = fields.email;
+                if (fields.phone) updatedData.phone = fields.phone;
+            }
+
+            if (req.isMultipart()) {
+                try {
+                    const fileInfo = await uploadPhoto(req, 'usuarios');
+                    updatedPhotoUrl = `/uploads/usuarios/${fileInfo.filename}`;
+                } catch (error) {
+                    if (error instanceof Error) {
+                        console.error('Erro no upload:', error.message);
+                        return reply.status(400).send({ error: error.message });
+                    } else {
+                        console.error('Erro desconhecido:', error);
+                        return reply.status(400).send({ error: 'Erro ao processar o upload' });
+                    }
+                }
+            }
+
+            if (!fields && updatedPhotoUrl === userExists.photoUrl) {
+                return reply.status(400).send({ error: 'Nenhum dado enviado para atualização' });
+            }
+
+            const userUpdate = await prisma.user.update({
+                where: { id },
+                data: {
+                    ...sanitizeUserUpdate(updatedData),
+                    photoUrl: updatedPhotoUrl,
+                },
+            });
+
+            return reply.status(200).send(userUpdate);
+        } catch (error) {
+            if (error instanceof Error) {
+                console.error('Erro no Prisma:', error);
+                return reply.status(400).send({ error: error.message });
+            } else {
+                console.error('Erro desconhecido:', error);
+                return reply.status(400).send({ error: 'Erro ao atualizar usuário' });
+            }
+        }
+    });
 
     fastify.post<{ Body: CreateUserBody }>('/register', async (req, reply) => {
         const { name, email, password, phone } = req.body || {}; // Dados do formulário

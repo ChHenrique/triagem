@@ -36,8 +36,8 @@ export function Alunos() {
     );
 
     return (
-        <div className="w-full h-full font-Outfit px-6">
-            <div className="w-full h-11 mt-4 flex-col flex justify-center items-end pr-6">
+        <div className="w-full h-full font-Outfit px-6 ">
+            <div className="w-full h-11 mt-4 mb-12 flex-col flex justify-center items-end pr-6">
                 <input
                     type="text"
                     placeholder="Pesquisar..."
@@ -45,7 +45,7 @@ export function Alunos() {
                     value={Pesquisa}
                     onChange={(e) => setPesquisa(e.target.value)}
                 />
-                <button className="cursor-pointer w-fit mt-4 text-white flex items-center flex-row font-Sora-reg" onClick={() => setOpenCria(1)}>
+                <button className="z-10  cursor-pointer w-fit mt-4 text-white flex items-center flex-row font-Sora-reg" onClick={() => setOpenCria(1)}>
                     Cadastrar Aluno
                     <svg width="30" className="mx-4" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="30" height="30" rx="6.16784" fill="#FFFBF1" />
@@ -54,7 +54,7 @@ export function Alunos() {
                     </svg>
                 </button>
             </div>
-            <div className="h-[calc(100%-44px)] w-full grid grid-cols-3 gap-y-12 place-content-start place-items-center overflow-y-auto p-18 scroll-smooth">
+            <div className="h-[calc(100%-150px)] w-full grid grid-cols-3 gap-y-12 place-content-start place-items-center overflow-y-auto p-18 scroll-smooth">
                 {
                     filteredAlunos.map((aluno) => (
                         <Aluno

@@ -32,9 +32,9 @@ export function EditaTreino({ open, setOpenEdit, id }) {
     }, [id]);
 
 
-    const Initnome = nome;
-    const Initdescricao = descricao;
-    const InitpartesAfeto = partesAfeto;
+    let Initnome = nome;
+    let Initdescricao = descricao;
+    let InitpartesAfeto = partesAfeto;
 
 
     function Pegaimg(e) {
@@ -69,7 +69,7 @@ export function EditaTreino({ open, setOpenEdit, id }) {
 
     return (
         <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpenEdit(0)}>
-            <form className="glassBgStrong px-12 rounded-2xl w-1/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
+            <form className="overflow-y-auto glassBgStrong px-12 rounded-2xl w-1/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
                 onSubmit={SubmeterForm} // Adiciona o evento onSubmit
                 onClick={(e) => {
 
