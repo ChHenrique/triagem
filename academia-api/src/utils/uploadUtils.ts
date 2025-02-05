@@ -12,7 +12,7 @@ export async function uploadPhoto(
             throw new Error('Requisição não contém dados multipart/form-data');
         }
 
-        const data = await req.file({ limits: { fileSize: 5 * 1024 * 1024 } });
+        const data = await req.file({ limits: { fileSize: 100 * 1024 * 1024 } });
 
         if (!data) {
             throw new Error('Nenhuma foto enviada');

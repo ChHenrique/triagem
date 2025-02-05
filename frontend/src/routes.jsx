@@ -2,6 +2,7 @@ import {createBrowserRouter, Outlet} from 'react-router-dom';
 
 import { Login } from './pages/login';
 import { Personal } from './pages/Personal';
+import { AlunoPage } from './pages/Aluno';
 
 export const routes = createBrowserRouter([{
     path: '/',
@@ -14,6 +15,10 @@ export const routes = createBrowserRouter([{
         {
             path: '/personal',
             element: <Personal/>
+        },
+        {
+            path: '/aluno',
+            element: <AlunoPage/>
         }
     ]
 }])

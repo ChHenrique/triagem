@@ -63,7 +63,7 @@ export function Dashboard({setPage, page}) {
 
           <div>
             
-            <div onClick={()=>setPage(0)} className={`h-12 my-2 w-full flex items-center justify-start  rounded-[16px] p-6 ${page ? 'bg-bg-300' :''} `}>
+            <div onClick={()=>setPage(0)} className={`h-12 my-2 w-full flex items-center justify-start  rounded-[16px] p-6 ${page ?  '': 'bg-bg-300'} `}>
               <svg
                 width="28"
                 height="35"
@@ -155,7 +155,7 @@ export function Dashboard({setPage, page}) {
                 />
               </svg>
 
-              <h2 className="ml-6 text-xl text-offWhite-100">Criar Treino</h2>
+              <h2 className="ml-6 text-xl text-offWhite-100">Visualizar Treinos</h2>
             </div>
           </div>
         </div>

@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dashboard } from './Section/dashboard';
-import { Alunos } from './Section/alunos';
 import { CriarTreinos } from './Section/criarTreinos';
 
-export function Personal() {
+
+export function AlunoPage() {
   const [userName, setUserName] = useState('');
   const [page,setPage] = useState(0);
 
 
   function RenderContet() {
     if (page === 0) { 
-        return <Alunos />;
-    } else {
         return <CriarTreinos/>;
     }
 }

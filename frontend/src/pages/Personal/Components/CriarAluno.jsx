@@ -94,7 +94,7 @@ export function CriarPerf({ open, setOpenCria, id }) {
                 Preencha todos os campos!
             </h1>
 
-            <form className="glassBgStrong px-12 rounded-2xl w-1/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
+            <form className="glassBgStrong overflow-x-hidden overflow-y-auto px-12 rounded-2xl w-1/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
                 onSubmit={SubmeterForm}
                 onClick={(e) => e.stopPropagation()}
             >
