@@ -44,28 +44,46 @@ export function CriarPerf({ open, setOpenCria, id }) {
         try {
             if (!nome || !email || !senha) return;
     
-            const formData = new FormData();
-            formData.append('name', nome);
-            formData.append('email', email);
-            formData.append('phone', tel || '');
-            formData.append('password', senha);
-            
-            // Se houver uma foto, anexa ao FormData
+            // Enviar os dados do usuário como JSON
+            const userData = {
+                name: nome,
+                email: email,
+                phone: tel || '',
+                password: senha
+            };
+    
+            const response = await axios.post('http://localhost:3000/users/register', userData, {
+                withCredentials: true,
+                headers: { 'Content-Type': 'application/json' }
+            });
+    
+            console.log('✅ Usuário criado:', response.data);
+            const userId = response.data.id;
+    
+            // Se houver foto, faz o upload imediatamente
             if (foto) {
-                console.log('📤 Fazendo upload da foto...');
-                formData.append('file', foto); // O nome 'file' deve ser o mesmo no backend
+                await uploadPhoto(userId);
             }
     
-            // Envia os dados do usuário (com ou sem foto) para a rota de criação de usuário
-            const response = await axios.post('http://localhost:3000/users/register', formData, {
+            setOpenCria(0);
+        } catch (error) {
+            console.error("Erro ao criar usuário:", error);
+        }
+    }
+    
+    async function uploadPhoto(userId) {
+        try {
+            const formData = new FormData();
+            formData.append('file', foto); // O nome 'file' deve ser o mesmo no backend
+    
+            await axios.put(`http://localhost:3000/users/${userId}`, formData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
     
-            console.log('✅ Usuário criado:', response.data);
-            setOpenCria(0);
+            console.log('📤 Foto enviada com sucesso!');
         } catch (error) {
-            console.error("Erro ao criar usuário:", error);
+            console.error("Erro ao enviar foto:", error);
         }
     }
     
