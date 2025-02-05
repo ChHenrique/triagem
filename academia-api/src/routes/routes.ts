@@ -10,9 +10,9 @@ export function registerRoutes(app: FastifyInstance) {
   app.register(authRoutes, { prefix: '/auth' });
 
   // Rota de usuários (precisa de autenticação)
-  app.register(userRoutes, { 
-    prefix: '/users', 
-    preHandler: authMiddleware 
+  app.register(userRoutes, {
+    prefix: '/users',
+    preHandler: authMiddleware
   });
 
   // Rota de exercícios (precisa de autenticação)
@@ -22,8 +22,10 @@ export function registerRoutes(app: FastifyInstance) {
   });
 
   // Rota de treinos (precisa de autenticação)
-  app.register(trainingRoutes, { 
+  app.register(trainingRoutes, {
     prefix: '/trainings',
-    preHandler: authMiddleware 
+    preHandler: authMiddleware
   });
+
+
 }

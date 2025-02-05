@@ -29,11 +29,13 @@ model Training {
   name        String 
   description String 
   bodyParts   String 
+  photoUrl    String?       // Adicionei o campo photoUrl
   exercises   Exercise[] 
   clients     UserTraining[] 
   logs        TrainingLog[] 
   createdAt   DateTime @default(now()) 
 }
+
 
 // Modelo para Exercício
 model Exercise {

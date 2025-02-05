@@ -3,6 +3,7 @@ import { prisma } from '../models/prismaClient';
 import { CreateExerciseBody } from "../models/exercises.models";
 import { z } from "zod";
 import { authMiddleware } from "../middlewares/authMiddleware"; // Importe o middleware
+import { uploadPhoto } from "../utils/uploadUtils"; // Importe a função de upload
 
 export async function exerciseRoutes(app: FastifyInstance) {
   // Aplica o authMiddleware a todas as rotas dentro deste escopo
@@ -30,10 +31,24 @@ export async function exerciseRoutes(app: FastifyInstance) {
       return reply.status(404).send({ message: "Training not found" });
     }
 
+    let photoUrl: string | undefined = undefined; // Garantindo que seja undefined
+
+    // Verifica se há um arquivo na requisição
+    if (request.isMultipart()) {
+      try {
+        const fileInfo = await uploadPhoto(request, 'exercises');
+        photoUrl = `/uploads/exercises/${fileInfo.filename}`; // Atribui a URL da foto
+      } catch (error) {
+        return reply.status(500).send({ error: 'Erro ao fazer upload da foto' });
+      }
+    }
+    
+    // Caso não haja foto, photoUrl permanece como undefined
+
     const exercise = await prisma.exercise.create({
       data: {
         name: data.name,
-        imageUrl: data.imageUrl,
+        imageUrl: photoUrl, // Adiciona a foto
         description: data.description,
         repetitions: data.repetitions,
         executions: data.executions,
@@ -86,21 +101,43 @@ export async function exerciseRoutes(app: FastifyInstance) {
     const data: Partial<CreateExerciseBody> = bodySchema.parse(request.body);
 
     try {
-      const exercise = await prisma.exercise.update({
+      const exercise = await prisma.exercise.findUnique({
+        where: { id }
+      });
+
+      if (!exercise) {
+        return reply.status(404).send({ message: "Exercise not found" });
+      }
+
+      // Definir a variável para a URL da foto
+      let photoUrl: string | undefined = exercise.imageUrl || undefined; // Mantém a URL atual caso não seja enviada uma nova foto
+
+      // Verifica se há um arquivo na requisição
+      if (request.isMultipart()) {
+        try {
+          const fileInfo = await uploadPhoto(request, 'exercises');
+          photoUrl = `/uploads/exercises/${fileInfo.filename}`; // Atualiza a URL da nova foto
+        } catch (error) {
+          return reply.status(500).send({ error: 'Erro ao fazer upload da foto' });
+        }
+      }
+
+      // Atualiza o exercício com os novos dados
+      const updatedExercise = await prisma.exercise.update({
         where: { id },
         data: {
-          ...(data.name && { name: data.name }),
-          ...(data.imageUrl && { imageUrl: data.imageUrl }),
-          ...(data.description && { description: data.description }),
-          ...(data.repetitions !== undefined && { repetitions: data.repetitions }),
-          ...(data.executions !== undefined && { executions: data.executions }),
-          ...(data.restInterval !== undefined && { restInterval: data.restInterval })
+          name: data.name ?? exercise.name,
+          imageUrl: photoUrl, // Atualiza a foto
+          description: data.description ?? exercise.description,
+          repetitions: data.repetitions ?? exercise.repetitions,
+          executions: data.executions ?? exercise.executions,
+          restInterval: data.restInterval ?? exercise.restInterval
         }
       });
 
-      return exercise;
+      return reply.send(updatedExercise);
     } catch (error) {
-      return reply.status(404).send({ message: "Exercise not found" });
+      return reply.status(404).send({ message: "Error updating exercise" });
     }
   });
 
