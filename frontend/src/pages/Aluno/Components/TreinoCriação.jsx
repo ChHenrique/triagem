@@ -3,7 +3,7 @@ import './animations.css'
 import { useState,useEffect } from 'react'
 
 
-export function TreinoCriacao({nome, descricao, partesAfeto, open, setOpentreino, id, setTreinoid, setOpenEnv,  setOpenEdit }) {
+export function TreinoCriacao({nome, descricao, partesAfeto, open, foto,setOpentreino, id, setTreinoid, setOpenEnv,  setOpenEdit }) {
 
 
 
@@ -12,7 +12,7 @@ export function TreinoCriacao({nome, descricao, partesAfeto, open, setOpentreino
 
     return (
         <div className="w-80 aspect-[10/13] glassBg border-2 border-zinc-500 flex-col font-Sora-light justify-center flex items-center p-4 rounded-[16px]">
-            <div className="h-1/2 aspect-square rounded-2xl" style={{ backgroundImage: `url(${Default})`, backgroundSize: 'cover' }}></div>
+            <div className="h-1/2 aspect-square rounded-2xl" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}></div>
             <div className='h-1/2 w-full  flex flex-col  justify-center text-offWhite-100 items-center'>
                 <h2 className="text-xl font-Sora-reg font-medium ">{nome}</h2>
                 <h2 className=" text-base text-white/50 text-center font-Sora-light mb-2">{partesAfeto}</h2>

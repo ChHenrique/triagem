@@ -6,7 +6,7 @@ import axios
  from 'axios';
 import { EditaExer } from './editarExer';
 
-export function TreinosCr({ open, setOpentreino, id }) {
+export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
 
     const [openTreino,setOpenTreino] = useState(0);
     const [nome, setNome] = useState('');

@@ -25,7 +25,7 @@ export function TreinosCr({ open, setOpentreino, id }) {
 
                 const treino = response.data;
 
-                setFoto(treino.imageUrl);
+                setFoto(treino.photoUrl);
                 setNome(treino.name);
                 setDescricao(treino.description);
                 setPartesAfeto(treino.bodyParts);
@@ -58,7 +58,7 @@ export function TreinosCr({ open, setOpentreino, id }) {
                 <div className='justify-start w-full h-fit flex m-4 relative'>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className="text-xl text-center">{'Imagem do treino'}</h1>
-                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
+                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${'http://localhost:3000'+foto})`, backgroundSize: 'cover' }}>
                         </div>
                     </div>
                     <div className='text-white flex flex-col pt-12 px-8'>

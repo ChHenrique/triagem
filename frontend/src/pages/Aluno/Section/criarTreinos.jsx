@@ -24,7 +24,8 @@ export function CriarTreinos(){
                 nome: treino.name,
                 descricao: treino.description,
                 partesAfeto: treino.bodyParts,
-                id: treino.id
+                id: treino.id,
+                photoUrl: treino.photoUrl
 
                 }))
              setTreinos(treinos);
@@ -56,6 +57,7 @@ export function CriarTreinos(){
                          key={treino.id} 
                          descricao={treino.descricao}
                           id={treino.id} 
+                          foto={'http://localhost:3000' + treino.photoUrl}
                           setTreinoid={setTreinoid}
                           setOpenEnv={setOpenEnv} 
                         setOpentreino={setOpentreino}

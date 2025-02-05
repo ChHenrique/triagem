@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { prisma } from '../models/prismaClient';
-import { CreateTrainingBody } from '../models/training.model';
+import { CreateTrainingBody } from '../models/training.model'; // Certifique-se de que isso contém o tipo correto.
 import { uploadPhoto } from '../utils/uploadUtils';
 
 interface TrainingParams {
@@ -14,7 +14,7 @@ interface UserTrainingBody {
 export async function trainingRoutes(fastify: FastifyInstance) {
   // Criar um novo treino
   fastify.post<{ Body: CreateTrainingBody }>('/', async (req, reply) => {
-    const { name, description, bodyParts } = req.body || {}; // Garantir que body não seja undefined
+    const { name, description, bodyParts } = req.body; // Não é necessário usar `|| {}` aqui, pois já garantimos que `req.body` terá a tipagem correta.
 
     let photoUrl: string | undefined = undefined;
 
@@ -108,46 +108,63 @@ export async function trainingRoutes(fastify: FastifyInstance) {
     return reply.send(training);
   });
 
-  // Atualizar um treino
-  fastify.put<{ Params: TrainingParams }>('/:id', async (req, reply) => {
+  fastify.put<{ Params: TrainingParams; Body: Partial<CreateTrainingBody> }>('/:id', async (req, reply) => {
     const { id } = req.params;
 
-    try {
-      // Verificar se o treino existe
-      const existingTraining = await prisma.training.findUnique({
+    // Verificar se o treino existe
+    const existingTraining = await prisma.training.findUnique({
         where: { id }
-      });
+    });
 
-      if (!existingTraining) {
+    if (!existingTraining) {
         return reply.status(404).send({ error: 'Treino não encontrado' });
-      }
-
-      let updatedPhotoUrl: string | undefined = existingTraining.photoUrl || undefined;
-
-      // Verifica se a requisição é multipart e se a foto foi enviada
-      if (req.isMultipart()) {
-        try {
-          const fileInfo = await uploadPhoto(req, 'trainings'); // 'trainings' é o nome da pasta para salvar as fotos
-          updatedPhotoUrl = `/uploads/trainings/${fileInfo.filename}`; // Atualiza a URL da nova foto
-        } catch (error) {
-          return reply.status(500).send({ error: 'Erro ao fazer upload da foto' });
-        }
-      }
-
-      // Atualiza apenas a foto do treino
-      const updatedTraining = await prisma.training.update({
-        where: { id },
-        data: {
-          photoUrl: updatedPhotoUrl, // Atualiza a URL da foto (se houver)
-        },
-      });
-
-      return reply.send(updatedTraining);
-    } catch (error) {
-      console.error('Erro ao atualizar treino:', error);
-      return reply.status(400).send({ error: 'Erro ao atualizar treino' });
     }
-  });
+
+    // Inicializa a URL da foto com a foto atual do treino
+    let updatedPhotoUrl = existingTraining.photoUrl;
+
+    // Prepara os dados a serem atualizados
+    let updatedData: Partial<CreateTrainingBody> = {};
+
+    // Verifica se o body contém dados para atualização
+    const fields = req.body || {};
+    if (fields.name) updatedData.name = fields.name; // Atualiza o nome se fornecido
+    if (fields.description) updatedData.description = fields.description; // Atualiza a descrição se fornecido
+    if (fields.bodyParts) updatedData.bodyParts = fields.bodyParts; // Atualiza as partes do corpo se fornecido
+
+    // Verifica se há um arquivo de foto para upload
+    if (req.isMultipart()) {
+        try {
+            const fileInfo = await uploadPhoto(req, 'trainings'); // 'trainings' é a pasta para armazenar as fotos
+            updatedPhotoUrl = `/uploads/trainings/${fileInfo.filename}`; // Atualiza a URL da foto
+        } catch (error) {
+            return reply.status(500).send({ error: 'Erro ao fazer upload da foto' });
+        }
+    }
+
+    // Se não houver dados a serem atualizados (nem campos nem foto), retorna erro
+    if (!Object.keys(fields).length && updatedPhotoUrl === existingTraining.photoUrl) {
+        return reply.status(400).send({ error: 'Nenhum dado enviado para atualização' });
+    }
+
+    try {
+        // Atualiza o treino no banco de dados com os dados fornecidos
+        const updatedTraining = await prisma.training.update({
+            where: { id },
+            data: {
+                ...updatedData, // Dados atualizados (se houver)
+                photoUrl: updatedPhotoUrl, // Atualiza a foto (se houver)
+            },
+        });
+
+        return reply.send(updatedTraining);
+    } catch (error) {
+        console.error('Erro ao atualizar treino:', error);
+        return reply.status(400).send({ error: 'Erro ao atualizar treino' });
+    }
+});
+
+  
 
   // Excluir um treino
   fastify.delete<{ Params: TrainingParams }>('/:id', async (req, reply) => {

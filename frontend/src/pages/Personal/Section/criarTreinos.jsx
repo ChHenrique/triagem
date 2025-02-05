@@ -7,12 +7,13 @@ import { EditaTreino } from "../Components/editarTreino";
 import { CriarTreino } from "../Components/CriarTreino";
 
 export function CriarTreinos(){
-    const [treinoid,setTreinoid] = useState([])
+    const [treinoid,setTreinoid] = useState(null)
     const [openTreino,setOpentreino] = useState(0);
     const [openEnv,setOpenEnv] = useState(0);
     const [openEdit,setOpenEdit] = useState(0);
     const [treinos,setTreinos] = useState([]);
     const [openCria,setOpenCria] = useState(0);
+    const [openexCria,setexOpenCria] = useState(0);
 
 
     //limite de carateres da descrição e 90
@@ -24,6 +25,7 @@ export function CriarTreinos(){
                 nome: treino.name,
                 descricao: treino.description,
                 partesAfeto: treino.bodyParts,
+                photoUrl: treino.photoUrl,
                 id: treino.id
 
                 }))
@@ -57,6 +59,7 @@ export function CriarTreinos(){
  
                  {
                     treinos.map((treino)=>{
+                        console.log(treino.photoUrl)
                         return <TreinoCriacao
                         
                         partesAfeto={treino.partesAfeto} 
@@ -64,6 +67,7 @@ export function CriarTreinos(){
                          key={treino.id} 
                          descricao={treino.descricao}
                           id={treino.id} 
+                          foto={'http://localhost:3000'+treino.photoUrl}
                           setTreinoid={setTreinoid}
                           setOpenEnv={setOpenEnv} 
                         setOpentreino={setOpentreino}
@@ -74,7 +78,7 @@ export function CriarTreinos(){
                  }
 
                    <EditaTreino setOpenEdit={setOpenEdit} open={openEdit} id={treinoid}/>
-                  <TreinosCr setOpentreino={setOpentreino} id={treinoid} open={openTreino}/>
+                  <TreinosCr setOpentreino={setOpentreino} id={treinoid} open={openTreino} setOpenCria={setexOpenCria}/>
                   <Enviar open={openEnv} setOpenEnv={setOpenEnv} treinoid={treinoid}></Enviar>
                   <CriarTreino open={openCria} setOpenCria={setOpenCria} id={treinoid}></CriarTreino>
             </div>
