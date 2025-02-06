@@ -5,18 +5,18 @@ import axios from 'axios'
 export function Dashboard({setPage, page}) {
     //troquei as props por usestate
   const [nome, setNome] = useState('')
-  const [foto, setFoto] = useState(Default) // usestate como padrão a foto "Default"
+  const [foto, setFoto] = useState('') // usestate como padrão a foto "Default"
 
   //fazendo a requisição pra pegar o nome a foto do usuario
   useEffect(() => {
     axios
       .get('http://localhost:3000/users/me', { withCredentials: true })
       .then((response) => {
-        setNome(response.data.name)
-        
-        if (response.data.foto) {
-          setFoto(response.data.photo)
-        }
+
+         const user = response.data
+        setNome(user.name)
+          setFoto(user.photoUrl)
+       
       })
       .catch((error) => {
         console.error('erro ao buscar dados do usuário', error)
@@ -30,7 +30,7 @@ export function Dashboard({setPage, page}) {
           <div
             className="h-12 aspect-square mr-2 rounded-full"
                                 // foto do usuário aqui
-            style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}
+            style={{ backgroundImage: `url(${'http://localhost:3000'+foto})`, backgroundSize: 'cover' }}
           ></div>
 
           <div className="h-12 flex flex-col">

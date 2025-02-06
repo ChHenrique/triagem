@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Default from '../../../assets/defaultUser.png'
 
 import DatePicker from 'react-datepicker';
 import { registerLocale } from "react-datepicker";
@@ -58,7 +59,7 @@ export function Main() {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const[minDate,setMinDate] = useState(new Date());
 
@@ -106,7 +107,7 @@ export function Main() {
 
 
   function Render() {
-    if (page === 1) {
+    if (page === 0) {
       return (
         <div className="w-full h-full flex justify-center items-center font-Sora-light flex-col pb-[40%] max-md:pb-[60%] text-white">
           <h1 className="font-satoshi-Regular text-xl font-semibold text-white/70 pb-6 text-center">Defina o treino realizado em alguma data</h1>
@@ -119,7 +120,7 @@ export function Main() {
               className="items-center ml-8 flex w-full rounded-xl text-center py-2 max-md:bg-white p-1 font-poppins text-xl border-primary-700 border-2 text-primary-700 outline-1 outline-offWhite-100"
               selected={startDate}
               onChange={(date) => {setStartDate(date)
-                setPage(2);
+                setPage(1);
               }}
             />
 
@@ -128,7 +129,7 @@ export function Main() {
 </div></div>
         
       );
-    } else if(page === 2){
+    } else if(page === 1){
       return (
         <div className="w-full h-full flex justify-center items-center flex-col font-Sora-reg">
           <h1 className="font-satoshi-Regular text-xl font-semibold text-primary-700 pb-2 text-center text-white">Qual treino você realizou esse dia?</h1>
@@ -182,14 +183,24 @@ export function Main() {
   }
 
   return (
-    <div className="w-full h-full flex flex-row  max-md:bg-primary-300 rounded-2xl relative font-poppins">
-      <div className="w-1/2 h-full flex justify-center items-center">
-      
+    <div className="w-full h-full flex flex-row  max-md:bg-primary-300 rounded-2xl relative font-Outfit">
+      <div className="w-1/4 h-full bg-bg-300 rounded-t-2xl p-4 justify-center ">
+      <input type="text" placeholder="Pesquisar..." className="w-full mb-6 min-w-64 glassBg h-fit p-2 rounded-xl border-2 text-white placeholder-zinc-300  border-neutral-500 "/>
 
+
+          <div className="w-full h-20 flex justify-start items-center bg-bg-200 rounded-2xl p-2">
+
+          <div className="h-18 aspect-square rounded-full " style={{ backgroundImage: `url(${Default})`, backgroundSize: 'cover' }}></div>
+          <div className="h-18 w-full flex flex-col text-left justify-center items-start  text-offWhite-100 pl-4">
+              <h2 className="text-2xl text-left ">{'nome do treino'}</h2>
+              <h2 className=" text-base font-light text-left ">{'partes Afetadas'}</h2>
+            </div>
+            </div>    
+ 
       </div>
-      <div className="w-1/2 h-full flex justify-center relative">
+      <div className="w-3/4 h-full flex justify-center relative">
       <button 
-        className="absolute m-4 h-fit w-fit left-8 top-20"
+        className={`absolute m-4 h-fit w-fit left-8 top-20 ${page ? '':'hidden'} `} 
         onClick={() => { if (page !== 0) setPage(page - 1); }}
       >
              <svg className='cursor-pointer' width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

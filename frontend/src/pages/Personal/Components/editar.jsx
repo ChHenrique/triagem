@@ -42,11 +42,19 @@ export function EditarPerf({ open, setOpenper,id}) {
     function Pegaimg(e) {
         let fotoup = e.target.files[0];
         if (fotoup) {
-            let imgurl = URL.createObjectURL(fotoup);
-            setFoto(fotoup);
+            let trimmedName = fotoup.name.replace(/\s+/g, ''); // Remove todos os espaços do nome do arquivo
+            let file = new File([fotoup], trimmedName, { type: fotoup.type }); // Cria um novo arquivo com nome corrigido
+    
+            let imgurl = URL.createObjectURL(file);
+            console.log("URL da Imagem:", imgurl);
+            console.log("Foto:", file);
+            console.log("Nome da Imagem:", file.name); // Agora o nome estará sem espaços
+    
+            setFoto(file);
             setFrontFoto(imgurl);
         }
     }
+    
 
     const SubmeterForm = (e) => {
         e.preventDefault(); 
@@ -68,6 +76,8 @@ export function EditarPerf({ open, setOpenper,id}) {
                 });
     
                 photoUrlAtualizada = uploadResponse.data.url; // Supondo que a API retorna a URL da imagem
+                photoUrlAtualizada = photoUrlAtualizada.trim(' ')
+
             }
     
             // Agora, faz a requisição para atualizar os outros dados
