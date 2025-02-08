@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import Default from '../../../assets/defaultUser.png';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
-
+import '../../../Styles/animations.css'
 export function EditarPerf({ open, setOpenper, id, setAlunos }) {
     const [email, setEmail] = useState('');
     const [nome, setNome] = useState('');

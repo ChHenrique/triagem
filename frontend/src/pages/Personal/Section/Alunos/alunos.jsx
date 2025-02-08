@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import { Aluno } from "../Components/Aluno";
-import { EditarPerf } from "../Components/editar";
-import { Treinos } from "../Components/treinoComple";
-import { CriarPerf } from "../Components/CriarAluno";
+import { Aluno } from "./Components/Aluno";
+import { EditarPerf } from "./Components/editar";
+import {CriarPerf} from "./Components/CriarAluno";
+import { Treinos } from "./Components/treinoComple";
 import axios from "axios";
+
 
 export function Alunos() {
     const [openPer, setOpenper] = useState(0);

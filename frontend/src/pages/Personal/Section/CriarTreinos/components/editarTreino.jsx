@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Default from '../../../assets/defaultUser.png';
+import Default from '../../../../../assets/defaultUser.png';
 
 export function EditaTreino({ open, setOpenEdit, id }) {
     const [nome, setNome] = useState('');

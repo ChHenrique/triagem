@@ -1,12 +1,11 @@
 import { useEffect,useState } from 'react';
-import Default from '../../../assets/defaultUser.png';
-import { Treino } from './Treino';
+
 import { Exercicio } from './Exercicio';
 import axios
  from 'axios';
+import { EditaExer } from './editarExer';
 
-
-export function TreinosCr({ open, setOpentreino, id }) {
+export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
 
     const [openTreino,setOpenTreino] = useState(0);
     const [nome, setNome] = useState('');
@@ -25,7 +24,7 @@ export function TreinosCr({ open, setOpentreino, id }) {
 
                 const treino = response.data;
 
-                setFoto(treino.photoUrl);
+                setFoto(treino.imageUrl);
                 setNome(treino.name);
                 setDescricao(treino.description);
                 setPartesAfeto(treino.bodyParts);
@@ -58,7 +57,7 @@ export function TreinosCr({ open, setOpentreino, id }) {
                 <div className='justify-start w-full h-fit flex m-4 relative'>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className="text-xl text-center">{'Imagem do treino'}</h1>
-                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${'http://localhost:3000'+foto})`, backgroundSize: 'cover' }}>
+                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
                         </div>
                     </div>
                     <div className='text-white flex flex-col pt-12 px-8'>
@@ -68,7 +67,14 @@ export function TreinosCr({ open, setOpentreino, id }) {
                          <h1 className='text-base font-Sora-light'>{descricao}</h1> 
                          
                     </div>
-                    
+                    <button className="z-10 bottom-4 right-3 h-fit absolute cursor-pointer w-fit mt-4 text-white flex items-center flex-row font-Sora-reg" onClick={() => setOpenCria(1)}>
+                    Cadastrar Exercicio
+                    <svg width="30" className="mx-4" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="30" height="30" rx="6.16784" fill="#FFFBF1" />
+                        <rect x="14.248" y="5.50049" width="2" height="19" fill="#131313" />
+                        <rect x="5.75195" y="16.001" width="2" height="19" transform="rotate(-90 5.75195 16.001)" fill="#131313" />
+                    </svg>
+                </button>
 
                 </div>
                 <div className='w-full h-full  grid grid-cols-3 overflow-auto gap-y-4'>

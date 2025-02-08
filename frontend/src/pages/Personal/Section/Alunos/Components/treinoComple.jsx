@@ -1,10 +1,9 @@
 import { useEffect,useState } from 'react';
-import Default from '../../../assets/defaultUser.png';
 import { Treino } from './Treino';
-import { Exercicio } from './Exercicio';
+import { Exercicio } from '../../CriarTreinos/components/Exercicio';
 import axios
  from 'axios';
-
+ import '../../../Styles/animations.css'
 export function Treinos({ open, setOpentreino, id }) {
 
     const [openExer,setOpenExer] = useState(0);
@@ -67,7 +66,7 @@ export function Treinos({ open, setOpentreino, id }) {
 
     return (
         <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpentreino(0)}>
-            <div className="overflow-y-auto glassBgStrong px-12 rounded-2xl w-2/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
+            <div className="overflow-y-auto overflow-x-hidden glassBgStrong px-12 rounded-2xl w-2/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
 
                 onClick={(e) => {
 
@@ -79,7 +78,7 @@ export function Treinos({ open, setOpentreino, id }) {
                 <div className='justify-start w-full h-fit flex m-4'>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className="text-xl text-center">{openExer ?'Imagem do treino' : 'Imagem do Aluno'}</h1>
-                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto || Default})`, backgroundSize: 'cover' }}>
+                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
                         </div>
                     </div>
                     <div className='text-white flex flex-col pt-12 px-8'>

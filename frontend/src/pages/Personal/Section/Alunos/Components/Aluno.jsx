@@ -1,8 +1,6 @@
-import Default from '../../../assets/defaultUser.png'
-import './animations.css'
 import { useState } from 'react'
-import { Alunos } from '../Section/alunos'
 import axios from 'axios'
+import '../../../Styles/animations.css'
 
 export function Aluno({nome,foto,email,tel , setOpenper, setOpentreino, setAlunoid, id, setAlunos, alunos}) {
 

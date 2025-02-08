@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Default from '../../../assets/defaultUser.png';
 
 import axios from 'axios';
 

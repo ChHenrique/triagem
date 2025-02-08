@@ -1,5 +1,3 @@
-import Default from '../../../assets/defaultUser.png'
-import './animations.css'
 import { useState,useEffect } from 'react'
 
 
