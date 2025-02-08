@@ -1,11 +1,23 @@
 import Default from '../../../assets/defaultUser.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+
 
 export function Dashboard({setPage, page}) {
     //troquei as props por usestate
   const [nome, setNome] = useState('')
   const [foto, setFoto] = useState(Default) // usestate como padrão a foto "Default"
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:3000/auth/logout', {}, { withCredentials: true });
+      navigate('/login');
+    } catch (error) {
+      console.error('Erro ao tentar fazer logout', error);
+    }
+  };
 
   //fazendo a requisição pra pegar o nome a foto do usuario
   useEffect(() => {
@@ -196,7 +208,7 @@ export function Dashboard({setPage, page}) {
       </div>
 
       {/* Logout Button */}
-      <div className="h-12 w-full flex items-center justify-start rounded-[16px] p-6">
+      <button onClick={handleLogout} className="cursor-pointer h-12 w-full flex items-center justify-start rounded-[16px] p-6">
         <svg
           width="36"
           height="29"
@@ -213,7 +225,7 @@ export function Dashboard({setPage, page}) {
         </svg>
 
         <h2 className="ml-6 text-xl text-offWhite-100">Sair</h2>
-      </div>
+      </button>
     </div>
   );
 }

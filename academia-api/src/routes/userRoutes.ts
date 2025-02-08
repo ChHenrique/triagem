@@ -13,12 +13,25 @@ export async function userRoutes(fastify: FastifyInstance) {
     // Listagem de todos os usuários
     fastify.get('/', { preHandler: authMiddleware }, async (req, reply) => {
         try {
-            const users = await prisma.user.findMany();
-
+            const users = await prisma.user.findMany({
+                include: {
+                    tips: true, // Incluir as dicas do usuário
+                    trainings: {
+                        include: {
+                            training: {
+                                include: {
+                                    exercises: true // Incluir os exercícios do treino
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+    
             if (!users || users.length === 0) {
                 return reply.status(404).send({ error: 'Nenhum usuário encontrado' });
             }
-
+    
             return reply.send(users);
         } catch (error) {
             if (error instanceof Error) {
@@ -30,27 +43,45 @@ export async function userRoutes(fastify: FastifyInstance) {
             }
         }
     });
+1    
+    
 
-    fastify.get<{ Params: { id: string } }>('/:id', { preHandler: authMiddleware }, async (req, reply) => {
-        try {
-            const { id } = req.params;
+fastify.get<{ Params: { id: string } }>('/:id', { preHandler: authMiddleware }, async (req, reply) => {
+    try {
+        const { id } = req.params;
 
-            const user = await prisma.user.findUnique({ where: { id } });
-            if (!user) {
-                return reply.status(404).send({ error: 'Usuário não encontrado' });
+        const user = await prisma.user.findUnique({
+            where: { id },
+            include: {
+                tips: true, // Incluir as dicas do usuário
+                trainings: {
+                    include: {
+                        training: {
+                            include: {
+                                exercises: true // Incluir os exercícios do treino
+                            }
+                        }
+                    }
+                }
             }
+        });
 
-            return reply.send(user);
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Erro ao listar usuários:', error);
-                return reply.status(500).send({ error: error.message });
-            } else {
-                console.error('Erro desconhecido:', error);
-                return reply.status(500).send({ error: 'Erro interno ao listar usuários' });
-            }
+        if (!user) {
+            return reply.status(404).send({ error: 'Usuário não encontrado' });
         }
-    });
+
+        return reply.send(user);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error('Erro ao listar usuário:', error);
+            return reply.status(500).send({ error: error.message });
+        } else {
+            console.error('Erro desconhecido:', error);
+            return reply.status(500).send({ error: 'Erro interno ao listar usuário' });
+        }
+    }
+});
+
 
      // Atualização de usuário
      fastify.put<{ Params: { id: string } }>('/:id', { preHandler: authMiddleware }, async (req, reply) => {

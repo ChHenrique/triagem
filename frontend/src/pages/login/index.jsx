@@ -1,30 +1,32 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import Bg from '../../assets/Imagem-Login.jpg'
-import './animation.css'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Bg from '../../assets/Imagem-Login.jpg';
+import './animation.css';
 
 export function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('')
-  const [senha, setSenha] = useState('')
-  const [error, setError] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [error, setError] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   async function Validacao() {
+    // Validação do email
     if (!email.includes('@') || email.length < 5) {
-      setError(1)
+      setError(1);
       setTimeout(() => setError(0), 3000);
-      return
+      return;
     }
 
+    // Validação da senha
     if (senha.length < 7) {
       setError(1);
       setTimeout(() => setError(0), 3000);
-      return
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -36,26 +38,39 @@ export function Login() {
         {
           withCredentials: true,
         }
-      )
+      );
 
-      console.log('resposta do backend:', response.data)
-      navigate('/personal')
-    } catch (error) {
+      console.log('resposta do backend:', response.data);
 
-      if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data?.error || 'erro ao fazer login'
-        console.error('Erro ao fazer login:', errorMessage)
+      // Agora fazemos uma requisição para a rota "/users/me" para pegar os dados do usuário
+      const userResponse = await axios.get('http://localhost:3000/users/me', {
+        withCredentials: true,
+      });
+
+      const userData = userResponse.data;
+
+      // Verifica o cargo do usuário e redireciona para a página correta
+      if (userData.role === 'PERSONAL') {
+        navigate('/personal');
+      } else if (userData.role === 'CLIENT') {
+        navigate('/aluno');
+      } else {
+        console.error('Cargo do usuário não reconhecido');
         setError(1);
-        setTimeout(() => setError(0), 3000)
+        setTimeout(() => setError(0), 3000);
       }
 
-      else {
-        console.error('erro desconhecido:', error)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.error || 'erro ao fazer login';
+        console.error('Erro ao fazer login:', errorMessage);
+        setError(1);
+        setTimeout(() => setError(0), 3000);
+      } else {
+        console.error('erro desconhecido:', error);
       }
-    }
-
-    finally {
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   }
 

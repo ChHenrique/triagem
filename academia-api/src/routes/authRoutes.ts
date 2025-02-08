@@ -33,4 +33,16 @@ export async function authRoutes(fastify: FastifyInstance) {
 
     return reply.send({ message: 'Login bem-sucedido' });
   });
+
+  // Rota de logout
+  fastify.post('/logout', async (req: FastifyRequest, reply: FastifyReply) => {
+    // Limpa o cookie de autenticação
+    reply.clearCookie('token', {
+      path: '/',
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+    });
+
+    return reply.send({ message: 'Logout bem-sucedido' });
+  });
 }

@@ -3,7 +3,7 @@ import Default from '../../../assets/defaultUser.png';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
 
-export function CriarPerf({ open, setOpenCria, id }) {
+export function CriarPerf({ open, setOpenCria, id, setAlunos }) {
     const [email, setEmail] = useState('');
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
@@ -42,48 +42,61 @@ export function CriarPerf({ open, setOpenCria, id }) {
 
     async function createUser() {
         try {
-            if (!nome || !email || !senha) return;
+            if (!nome || !email || !senha) return
     
-            // Enviar os dados do usuário como JSON
+            
             const userData = {
                 name: nome,
                 email: email,
                 phone: tel || '',
                 password: senha
-            };
+            }
     
             const response = await axios.post('http://localhost:3000/users/register', userData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'application/json' }
-            });
+            })
     
-            console.log('✅ Usuário criado:', response.data);
-            const userId = response.data.id;
+            console.log('Usuário criado:', response.data)
+            const userId = response.data.id
     
-            // Se houver foto, faz o upload imediatamente
+            // Atualiza o estado adicionando o novo usuário
+            setAlunos(prevAlunos => [
+                ...prevAlunos, 
+                { 
+                    id: userId, 
+                    nome, 
+                    email, 
+                    tel, 
+                    photoUrl: foto ? URL.createObjectURL(foto) : 'url sem nada'
+                }
+            ])
+    
+            // Se houver foto, faz o upload da imagem
             if (foto) {
-                await uploadPhoto(userId);
+                await uploadPhoto(userId)
             }
     
-            setOpenCria(0);
+            setOpenCria(0)
         } catch (error) {
-            console.error("Erro ao criar usuário:", error);
+            console.error("Erro ao criar usuário:", error)
         }
     }
     
+    
     async function uploadPhoto(userId) {
         try {
-            const formData = new FormData();
-            formData.append('file', foto); // O nome 'file' deve ser o mesmo no backend
+            const formData = new FormData()
+            formData.append('file', foto)
     
             await axios.put(`http://localhost:3000/users/${userId}`, formData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' }
-            });
+            })
     
-            console.log('📤 Foto enviada com sucesso!');
+            console.log('📤 Foto enviada com sucesso!')
         } catch (error) {
-            console.error("Erro ao enviar foto:", error);
+            console.error("Erro ao enviar foto:", error)
         }
     }
     

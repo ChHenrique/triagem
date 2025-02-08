@@ -23,7 +23,7 @@ export function Treinos({ open, setOpentreino, id }) {
                 setEmail(aluno.email);
                 setNome(aluno.name);
                 setTel(aluno.phone);
-                setFoto(aluno.photoUrl);
+                setFoto('http://localhost:3000'+ aluno.photoUrl);
               
 
             })
@@ -79,7 +79,7 @@ export function Treinos({ open, setOpentreino, id }) {
                 <div className='justify-start w-full h-fit flex m-4'>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className="text-xl text-center">{openExer ?'Imagem do treino' : 'Imagem do Aluno'}</h1>
-                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${Default})`, backgroundSize: 'cover' }}>
+                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto || Default})`, backgroundSize: 'cover' }}>
                         </div>
                     </div>
                     <div className='text-white flex flex-col pt-12 px-8'>
