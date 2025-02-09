@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dashboard } from './Section/dashboard';
-import { CriarTreinos } from './Section/criarTreinos';
-import { Main } from './Section/calendaralho';
+import { CriarTreinos } from './Section/treinos/criarTreinos';
+import { Main } from './Section/calendario/calendaralho';
 
 
 export function AlunoPage() {

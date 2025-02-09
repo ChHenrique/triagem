@@ -1,5 +1,4 @@
-import Default from '../../../assets/defaultUser.png'
-import './animations.css'
+import Default from '../../../../../assets/defaultUser.png'
 import { useState } from 'react'
 
 

@@ -1,7 +1,6 @@
-import Default from '../../../assets/defaultUser.png'
-import './animations.css'
+import Default from '../../../../../assets/defaultUser.png';
 import { useState } from 'react'
-
+import '../../../Styles/animations.css'
 
 export function Treino({nome,descricao,partesAfeto, open , setOpenExer, id ,setTreinoid, setTreinos, treinos}) {
 

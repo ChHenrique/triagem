@@ -1,15 +1,14 @@
 import React, { useState,useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import Default from '../../../assets/defaultUser.png'
+import Default from '../../../../assets/defaultUser.png'
 
 import DatePicker from 'react-datepicker';
 import { registerLocale } from "react-datepicker";
 import ptBR from 'date-fns/locale/pt-BR'; // Importa a localidade brasileira
 import axios from 'axios';
-import { TreinoCalen } from "../Components/treinoCalen";
+import { TreinoCalen } from "./components/TreinoCalen";
 
 
-import './index.css';
+import '../Styles/index.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { set } from "date-fns";
 

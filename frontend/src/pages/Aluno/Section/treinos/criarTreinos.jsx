@@ -1,8 +1,8 @@
-import { TreinoCriacao } from "../Components/TreinoCriação"
-import { TreinosCr } from "../Components/treinoCompleCriacao"
+import { TreinoCriacao } from "./components/TreinoCriação"
+import { TreinosCr } from "./components/treinoCompleCriacao"
 import { useState,useEffect } from "react";
 import axios from 'axios';
-import { Enviar } from "../Components/EnviarMenu";
+import { Enviar } from "./components/EnviarMenu";
 
 //import { CriarTreino } from "../Components/CriarTreino";
 

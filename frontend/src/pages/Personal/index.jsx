@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dashboard } from './Section/dashboard';
-import { Alunos } from './Section/alunos';
-import { CriarTreinos } from './Section/criarTreinos';
+import { Alunos } from './Section/Alunos/alunos';
+import { CriarTreinos } from './Section/CriarTreinos/criarTreinos';
 
 export function Personal() {
   const [userName, setUserName] = useState('');
