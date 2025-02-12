@@ -5,6 +5,7 @@
     --font-Outfit: "Outfit", "sans-serif";
     --font-Sora-reg: "Sora", "sans-serif";
     --font-Sora-light: "Sora-light", "sans-serif";
+    --font-Sora-black: "Sora-black", "sans-serif";
 
     --color-bg-100: #131313;
     --color-bg-200: #303030;
@@ -39,6 +40,14 @@
     font-display: swap;
   }
 
+  
+  @font-face {
+    font-family: "Sora-black";
+    src: url("./src/assets/fonts/Sora-ExtraBold.ttf") format("truetype");
+    font-style: normal;
+    font-display: swap;
+  }
+
 @keyframes appearLeft {
    from{
     transform: translate(-500px);
@@ -48,6 +57,31 @@
     transform: translate(0px);
     opacity: 1;
    }
+}
+
+
+@keyframes appearDown {
+  from{
+   transform: translate(0px , 300px);
+   opacity: 0;
+  } 
+  to{
+   transform: translate(0px);
+   opacity: 1;
+  }
+}
+
+@keyframes flutua{
+  0%{
+    transform: translateY(0px);
+  }
+  50%{
+    transform: translateY(-5px);
+  }
+  100%{
+    transform: translateY(0px);
+  }
+
 }
 
 @keyframes appearRight {
@@ -77,12 +111,28 @@
    
 }
 
+.ApDown{
+  animation-timing-function: ease;
+  animation-duration: 3s;
+  animation-name: appearDown;
+  animation-iteration-count: 1;
+ 
+}
+
 .ApRight{
   animation-timing-function: ease;
   animation-duration: 4s;
   animation-name: appearRight;
   animation-iteration-count: 1;
  
+}
+
+.Flutua{
+  animation-timing-function: ease;
+  animation-duration: 6s;
+  animation-name: flutua;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 
