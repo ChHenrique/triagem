@@ -113,7 +113,7 @@
 
 .ApDown{
   animation-timing-function: ease;
-  animation-duration: 3s;
+  animation-duration: 2s;
   animation-name: appearDown;
   animation-iteration-count: 1;
  
@@ -158,4 +158,8 @@
 
 .error{
   background: linear-gradient(180deg, rgb(255, 219, 219) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.cardGs{
+  will-change: transform, opacity;
 }

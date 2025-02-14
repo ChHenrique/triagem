@@ -1,11 +1,15 @@
 import { Hero } from "./sections/Hero";
+import { Why } from "./sections/Why";
+import { Avaliacoes } from "./sections/Avalicoes";
+
 import { useNavigate } from "react-router-dom";
+
 
 export function Lanpage() {
   const navigate = useNavigate();
 
   return (
-    <div className=" h-screen w-screen bg-bg-100 m-0 overflow-x-hidden">
+    <div className=" h-fit w-screen bg-bg-100 m-0 overflow-x-hidden">
       {/*Header */}
       <div className="w-full h-14 flex items-center justify-between px-16 font-Outfit mt-2">
         <svg
@@ -122,6 +126,15 @@ export function Lanpage() {
 
       <div className="w-full h-[75vh] flex mt-12 items-start pt-12 justify-center">
         <Hero></Hero>
+        
+      </div>
+      <div className="w-full h-[70vh] flex mt-12 items-start pt-12 justify-center">
+        <Why></Why>
+        
+      </div>
+      <div className="w-full h-[40vh] flex mt-12 items-start pt-12 justify-center">
+        <Avaliacoes></Avaliacoes>
+        
       </div>
     </div>
   );
