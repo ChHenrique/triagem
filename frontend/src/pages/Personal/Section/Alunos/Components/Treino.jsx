@@ -2,30 +2,16 @@ import Default from '../../../../../assets/defaultUser.png';
 import { useState } from 'react'
 import '../../../Styles/animations.css'
 
-export function Treino({nome,descricao,partesAfeto, open , setOpenExer, id ,setTreinoid, setTreinos, treinos}) {
+export function Treino({nome,descricao,partesAfeto, open , setOpenExer, id ,alunoid,setTreinoid, setTreinos, foto,treinos}) {
 
     
 
     const [exclude, setExclude] = useState(0)
-
-    async function deleteTreino() {
-        try {
-            await axios.delete(`http://localhost:3000/trainings/${id}`, {}, { withCredentials: true });
-
-            // Atualiza a lista removendo o treino excluído
-            setTreinos(treinos.filter(treino => treino.id !== id));
-
-            console.log('✅ Treino excluído com sucesso!');
-        } catch (error) {
-            console.error("Erro ao excluir treino:", error);
-        }
-    }
-
     
 
     return (
         <div className="w-80 aspect-[10/12] glassBg border-2 border-zinc-500 flex-col font-Sora-light justify-center flex items-center p-4 rounded-[16px]">
-            <div className="h-1/3 aspect-square rounded-2xl" style={{ backgroundImage: `url(${Default})` ,backgroundSize: 'cover'}}></div>
+            <div className="h-1/3 aspect-square rounded-2xl" style={{ backgroundImage: `url(${foto})` ,backgroundSize: 'cover'}}></div>
             <div className='h-1/3 w-full flex flex-col  justify-center text-offWhite-100 items-center'>
                 <h2 className="text-xl ">{nome}</h2>
                 <h2 className=" text-lg ">{partesAfeto}</h2>

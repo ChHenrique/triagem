@@ -13,7 +13,9 @@ export function Treinos({ open, setOpentreino, id }) {
     const [nome, setNome] = useState('');
     const [tel, setTel] = useState('');
     const [foto, setFoto] = useState('');
-
+    const [treinos, setTreinos] = useState([])
+    
+ 
     useEffect(() => {      
         axios.get(`http://localhost:3000/users/${id}`, { withCredentials: true })
             .then(response => {
@@ -23,6 +25,8 @@ export function Treinos({ open, setOpentreino, id }) {
                 setNome(aluno.name);
                 setTel(aluno.phone);
                 setFoto('http://localhost:3000'+ aluno.photoUrl);
+                setTreinos(aluno.trainings)
+                
               
 
             })
@@ -30,9 +34,11 @@ export function Treinos({ open, setOpentreino, id }) {
                 console.error("erro ao buscar os alunos", error)
             });
     }, [id]);
+
+    console.log(treinos)
  
 
-    const treinos = [{
+ /*   const treinos = [{
         id:1,
         nome: 'Treino de Peito',
         partesAfeto: 'Parte esternal e superior',
@@ -62,7 +68,7 @@ export function Treinos({ open, setOpentreino, id }) {
         series: 2,
         descricao: 'com um braço em cada lado do crossover e puxa ambos ao centro com o apoio acima dos ombros'
     }]
-
+*/
 
     return (
         <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpentreino(0)}>
@@ -106,12 +112,14 @@ export function Treinos({ open, setOpentreino, id }) {
               ))
             : treinos.map((treino) => (
                 <Treino
-                  key={treino.id}
-                  partesAfeto={treino.partesAfeto}
+                alunoid={id}
+                foto={"htt" + treino.training.photoUrl}
+                  key={treino.trainingId}
+                  partesAfeto={treino.training.bodyParts}
                   setTreinoid={setTreinoid}
-                  nome={treino.nome}
+                  nome={treino.training.name}
                   open={openExer}
-                  descricao={treino.descricao}
+                  descricao={treino.description}
                   setOpenExer={setOpenExer}
                   id={treino.id}
                 />
