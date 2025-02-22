@@ -83,7 +83,7 @@ export function Alunos() {
                         setAlunoid={setAlunoid}
                     />
                 ))}
-                <EditarPerf open={openPer} setOpenper={setOpenper} id={idAluno} setAlunos={setAlunos} />
+                <EditarPerf open={openPer} setOpenper={setOpenper} alunos={Alunos} id={idAluno} setAlunos={setAlunos} />
                 <Treinos setOpentreino={setOpentreino} open={openTreino} id={idAluno} />
                 <CriarPerf open={openCria} setOpenCria={setOpenCria} setAlunos={setAlunos} />
             </div>
