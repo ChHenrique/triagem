@@ -24,7 +24,7 @@ export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
 
                 const treino = response.data;
 
-                setFoto(treino.imageUrl);
+                setFoto("http://localhost:3000" + treino.photoUrl);
                 setNome(treino.name);
                 setDescricao(treino.description);
                 setPartesAfeto(treino.bodyParts);

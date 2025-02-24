@@ -59,7 +59,7 @@ export function CriarTreinos(){
  
                  {
                     treinos.map((treino)=>{
-                        console.log(treino.photoUrl)
+                        
                         return <TreinoCriacao
                         
                         partesAfeto={treino.partesAfeto} 

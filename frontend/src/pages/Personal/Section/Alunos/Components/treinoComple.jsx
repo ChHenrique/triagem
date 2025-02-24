@@ -38,6 +38,7 @@ export function Treinos({ open, setOpentreino, id }) {
                 console.error("erro ao buscar os alunos", error)
             });
     }, [id]);
+    
 
 
 
@@ -87,6 +88,8 @@ export function Treinos({ open, setOpentreino, id }) {
                         ))
                         : treinos.map((treino) => (
                             <Treino
+                            treinos={treinos}
+                            setTreinos={setTreinos}
                                 alunoid={id}
                                 foto={"http://localhost:3000" + treino.training.photoUrl}
                                 key={treino.trainingId}

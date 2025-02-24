@@ -13,6 +13,8 @@ export function Treino({nome,descricao,partesAfeto,open,setOpenExer,id,alunoid,s
         data: { userId: alunoid },
       });
 
+      setTreinos(prevTreinos => prevTreinos.filter(treino => treino.trainingId !== treinoid))
+
       setExclude(0)
 
 
