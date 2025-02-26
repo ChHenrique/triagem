@@ -54,15 +54,15 @@ export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
                 }}
             >
                 <h1>{nome}</h1>
-                <div className='justify-start w-full h-fit flex m-4 relative'>
+                <div className='justify-start w-full h-fit flex m-4 relative glassBg px-4'>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className="text-xl text-center">{'Imagem do treino'}</h1>
                         <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
                         </div>
                     </div>
                     <div className='text-white flex flex-col pt-12 px-8'>
-                        <h1 className='text-2xl'>{nome}</h1>
-                        <h1 className='text-xl font-Sora-light text-white/50'>{ partesAfeto }</h1>
+                        <h1 className='text-2xl mb-1'>{nome}</h1>
+                        <h1 className='text-lg font-Sora-light text-white/50 mb-4'>{ partesAfeto }</h1>
                        
                          <h1 className='text-base font-Sora-light'>{descricao}</h1> 
                          

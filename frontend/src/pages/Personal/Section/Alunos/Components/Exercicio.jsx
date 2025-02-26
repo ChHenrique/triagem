@@ -2,7 +2,7 @@ import Default from '../../../../../assets/defaultUser.png';
 import { useState } from 'react'
 
 
-export function Exercicio({nome,descricao,reps,series, id, restTime,setOpenExer,setExerid, exercicioFoto}) {
+export function Exercicio({nome,descricao,reps,series,  restTime, exercicioFoto}) {
 
     
 
@@ -17,15 +17,11 @@ export function Exercicio({nome,descricao,reps,series, id, restTime,setOpenExer,
                 <h2 className=" text-base text-center">{restTime} segundos de descanso</h2>
                 <h2 className="text-base text-center">{descricao}</h2>
             </div>
-            <div className={`grid grid-cols-1  w-full h-1/3  p-2 place-content-center place-items-center gap-4 ${exclude ? 'hidden' : ''} `}>
+            <div className={`grid grid-cols-1  w-full h-1/4  p-2 place-content-center place-items-center gap-4 ${exclude ? 'hidden' : ''} `}>
  
-            <button className='w-full h-10 bg-offWhite-100 text-bg-100 rounded-sm font-semibold text-lg cursor-pointer hover:bg-amber-100 duration-300 ease-in-out' onClick={()=>{
-                    setOpenExer(1)
-                    setExerid(id)  
 
-                } }>Editar Treino</button>
 
-                <button className='w-full h-12 redbg text-offWhite-100 rounded-sm font-semibold text-lg cursor-pointer  duration-300 ease-in-out ' 
+                <button className='w-full h-10 redbg text-offWhite-100 rounded-sm font-semibold text-lg cursor-pointer  duration-300 ease-in-out ' 
                 onClick={()=>{setExclude(1)}}
                 >Excluir
                 </button>

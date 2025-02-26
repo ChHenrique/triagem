@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Treino } from './Treino';
-import { Exercicio } from '../../CriarTreinos/components/Exercicio';
+import { Exercicio } from './Exercicio';
 import axios
     from 'axios';
 import '../../../Styles/animations.css'
@@ -60,7 +60,7 @@ export function Treinos({ open, setOpentreino, id }) {
                 <div className='justify-start w-full h-fit flex m-4'>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className="text-xl text-center">{openExer ? 'Imagem do treino' : 'Imagem do Aluno'}</h1>
-                        <div className="relative w-48 aspect-square rounded-full mt-4"
+                        <div className="relative bg-offWhite-100 w-44 aspect-square rounded-2xl mt-4"
                             style={{ backgroundImage: `url(${openExer ? "http://localhost:3000" + treinoSelecionado?.photoUrl : foto})`, backgroundSize: 'cover' }}>
                         </div>
                     </div>
@@ -71,7 +71,7 @@ export function Treinos({ open, setOpentreino, id }) {
                     </div>
                 </div>
 
-                <div className='w-full h-full  grid grid-cols-3 overflow-auto gap-y-4'>
+                <div className='w-full h-full mt-12 grid grid-cols-3  overflow-auto gap-y-4'>
 
 
                     {openExer

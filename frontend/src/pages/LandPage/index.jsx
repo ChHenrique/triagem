@@ -9,7 +9,7 @@ export function Lanpage() {
   const navigate = useNavigate();
 
   return (
-    <div className=" h-fit w-screen bg-bg-100 m-0 overflow-x-hidden">
+    <div className=" h-fit w-full bg-bg-100 m-0 overflow-x-hidden">
       {/*Header */}
       <div className="w-full h-14 flex items-center justify-between px-16 font-Outfit mt-2">
         <svg

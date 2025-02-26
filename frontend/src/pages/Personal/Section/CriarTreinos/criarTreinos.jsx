@@ -55,7 +55,7 @@ export function CriarTreinos(){
                     </svg>
                 </button>
             </div>
-            <div className="h-[calc(100%-44px)] w-full grid grid-cols-3 gap-y-12 place-content-start place-items-center overflow-y-auto p-18 scroll-smooth">
+            <div className="h-[calc(100%-44px)] justify-start items-start w-full grid grid-cols-3 gap-y-12 place-content-start place-items-center overflow-y-auto p-18 scroll-smooth">
  
                  {
                     treinos.map((treino)=>{
