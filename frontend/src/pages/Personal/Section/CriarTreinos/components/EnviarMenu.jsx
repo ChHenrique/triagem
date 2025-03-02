@@ -22,7 +22,7 @@ export function Enviar({open, setOpenEnv, treinoid}) {
             .catch(error => {
                 console.error("erro ao buscar os alunos", error)
             });
-    }, [alunos]);
+    }, []);
 
     //função que associa o treino ao aluno
     

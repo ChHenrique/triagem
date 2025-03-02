@@ -51,7 +51,7 @@ export async function exerciseRoutes(app: FastifyInstance) {
     const exercise = await prisma.exercise.create({
       data: {
         name: data.name,
-        imageUrl: photoUrl, // Adiciona a foto
+        imageUrl: photoUrl,
         description: data.description,
         repetitions: data.repetitions,
         executions: data.executions,
