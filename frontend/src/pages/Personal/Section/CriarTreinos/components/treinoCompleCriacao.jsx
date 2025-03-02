@@ -85,6 +85,7 @@ export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
                 <Exercicio
                   key={exercicio.id}
                   reps={exercicio.repetitions}
+                  exercicioFoto={"http://localhost:3000" + exercicio.imageUrl}
                   nome={exercicio.name}
                   series={exercicio.execution}
                   descricao={exercicio.description}

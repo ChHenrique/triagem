@@ -83,7 +83,7 @@ export function Treinos({ open, setOpentreino, id }) {
                                 series={exercicio.executions}
                                 descricao={exercicio.description}
                                 id={exercicio.id}
-                                exercicioFoto={exercicio.imageUrl}
+                                exercicioFoto={"http://localhost:3000" + exercicio.imageUrl}
                             />
                         ))
                         : treinos.map((treino) => (

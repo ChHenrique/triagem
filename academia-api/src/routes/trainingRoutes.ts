@@ -14,7 +14,7 @@ interface UserTrainingBody {
 export async function trainingRoutes(fastify: FastifyInstance) {
   // Criar um novo treino
   fastify.post<{ Body: CreateTrainingBody }>('/', async (req, reply) => {
-    const { name, description, bodyParts } = req.body; // Não é necessário usar `|| {}` aqui, pois já garantimos que `req.body` terá a tipagem correta.
+    const { name, description, bodyParts } = req.body; 
 
     let photoUrl: string | undefined = undefined;
 
