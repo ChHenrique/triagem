@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { prisma } from '../models/prismaClient';
 import { CreateExerciseBody } from "../models/exercises.models";
 import { z } from "zod";
@@ -9,6 +9,9 @@ export async function exerciseRoutes(app: FastifyInstance) {
   // Aplica o authMiddleware a todas as rotas dentro deste escopo
   app.addHook('preHandler', authMiddleware);
 
+  interface Params {
+    id: string;
+  }
   // Criar um exercício vinculado a um treino
   app.post("/", async (request, reply) => {
     const schema = z.object({
@@ -48,7 +51,7 @@ export async function exerciseRoutes(app: FastifyInstance) {
     const exercise = await prisma.exercise.create({
       data: {
         name: data.name,
-        imageUrl: photoUrl, // Adiciona a foto
+        imageUrl: photoUrl,
         description: data.description,
         repetitions: data.repetitions,
         executions: data.executions,
@@ -81,65 +84,68 @@ export async function exerciseRoutes(app: FastifyInstance) {
     return exercise;
   });
 
-  // Atualizar um exercício
-  app.put("/:id", async (request, reply) => {
-    const paramsSchema = z.object({
-      id: z.string()
-    });
+// Atualizar um exercício
+app.put<{ Params: Params; Body: Partial<CreateExerciseBody> }>(
+  "/:id",
+  async (request, reply) => {
 
-    const { id } = paramsSchema.parse(request.params);
+  const { id } = request.params; // Agora TypeScript sabe que id é uma string
 
-    const bodySchema = z.object({
-      name: z.string().optional(),
-      imageUrl: z.string().optional(),
-      description: z.string().optional(),
-      repetitions: z.number().int().positive().optional(),
-      executions: z.number().int().positive().optional(),
-      restInterval: z.number().int().positive().optional()
-    });
-
-    const data: Partial<CreateExerciseBody> = bodySchema.parse(request.body);
-
-    try {
-      const exercise = await prisma.exercise.findUnique({
-        where: { id }
-      });
-
-      if (!exercise) {
-        return reply.status(404).send({ message: "Exercise not found" });
-      }
-
-      // Definir a variável para a URL da foto
-      let photoUrl: string | undefined = exercise.imageUrl || undefined; // Mantém a URL atual caso não seja enviada uma nova foto
-
-      // Verifica se há um arquivo na requisição
-      if (request.isMultipart()) {
-        try {
-          const fileInfo = await uploadPhoto(request, 'exercises');
-          photoUrl = `/uploads/exercises/${fileInfo.filename}`; // Atualiza a URL da nova foto
-        } catch (error) {
-          return reply.status(500).send({ error: 'Erro ao fazer upload da foto' });
-        }
-      }
-
-      // Atualiza o exercício com os novos dados
-      const updatedExercise = await prisma.exercise.update({
-        where: { id },
-        data: {
-          name: data.name ?? exercise.name,
-          imageUrl: photoUrl, // Atualiza a foto
-          description: data.description ?? exercise.description,
-          repetitions: data.repetitions ?? exercise.repetitions,
-          executions: data.executions ?? exercise.executions,
-          restInterval: data.restInterval ?? exercise.restInterval
-        }
-      });
-
-      return reply.send(updatedExercise);
-    } catch (error) {
-      return reply.status(404).send({ message: "Error updating exercise" });
-    }
+  // Verificar se o exercício existe
+  const existingExercise = await prisma.exercise.findUnique({
+    where: { id }
   });
+
+  if (!existingExercise) {
+    return reply.status(404).send({ error: 'Exercício não encontrado' });
+  }
+
+  // Inicializa a URL da foto com a foto atual do exercício
+  let updatedPhotoUrl = existingExercise.imageUrl;
+
+  // Prepara os dados a serem atualizados
+  let updatedData: Partial<CreateExerciseBody> = {};
+
+  // Tipando corretamente o corpo da requisição
+  const fields = request.body || {}; // Aqui estamos dizendo ao TypeScript que o corpo é do tipo CreateExerciseBody
+  if (fields.name) updatedData.name = fields.name; // Atualiza o nome se fornecido
+  if (fields.description) updatedData.description = fields.description; // Atualiza a descrição se fornecido
+  if (fields.repetitions) updatedData.repetitions = fields.repetitions; // Atualiza repetições se fornecido
+  if (fields.executions) updatedData.executions = fields.executions; // Atualiza execuções se fornecido
+  if (fields.restInterval) updatedData.restInterval = fields.restInterval; // Atualiza intervalo se fornecido
+
+  // Verifica se há um arquivo de foto para upload
+  if (request.isMultipart()) {
+    try {
+      const fileInfo = await uploadPhoto(request, 'exercises'); // 'exercises' é a pasta para armazenar as fotos
+      updatedPhotoUrl = `/uploads/exercises/${fileInfo.filename}`; // Atualiza a URL da foto
+    } catch (error) {
+      return reply.status(500).send({ error: 'Erro ao fazer upload da foto' });
+    }
+  }
+
+  // Se não houver dados a serem atualizados (nem campos nem foto), retorna erro
+  if (!Object.keys(fields).length && updatedPhotoUrl === existingExercise.imageUrl) {
+    return reply.status(400).send({ error: 'Nenhum dado enviado para atualização' });
+  }
+
+  try {
+    // Atualiza o exercício no banco de dados com os dados fornecidos
+    const updatedExercise = await prisma.exercise.update({
+      where: { id },
+      data: {
+        ...updatedData, // Dados atualizados (se houver)
+        imageUrl: updatedPhotoUrl, // Atualiza a foto (se houver)
+      },
+    });
+
+    return reply.send(updatedExercise);
+  } catch (error) {
+    console.error('Erro ao atualizar exercício:', error);
+    return reply.status(400).send({ error: 'Erro ao atualizar exercício' });
+  }
+});
+  
 
   // Deletar um exercício
   app.delete("/:id", async (request, reply) => {

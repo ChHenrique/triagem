@@ -1,5 +1,5 @@
 import { useEffect,useState } from 'react';
-
+import PhotoDefault from '../../../../../assets/defaultUser.png';
 import { Exercicio } from './Exercicio';
 import axios
  from 'axios';
@@ -24,7 +24,7 @@ export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
 
                 const treino = response.data;
 
-                setFoto(treino.imageUrl);
+                setFoto("http://localhost:3000" + treino.photoUrl);
                 setNome(treino.name);
                 setDescricao(treino.description);
                 setPartesAfeto(treino.bodyParts);
@@ -43,7 +43,7 @@ export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
        
         <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpentreino(0)}>
              {openexer ?(
-    <EditaExer setOpenExer={setOpenExer} open={openexer} id={exerId}></EditaExer>
+    <EditaExer setOpenExer={setOpenExer} open={openexer} id={exerId} setExercicios={setExercicios}></EditaExer>
     ) :(
             <div className="overflow-y-auto overflow-x-hidden glassBgStrong px-12 rounded-2xl w-2/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
 
@@ -54,15 +54,15 @@ export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
                 }}
             >
                 <h1>{nome}</h1>
-                <div className='justify-start w-full h-fit flex m-4 relative'>
+                <div className='justify-start w-full h-fit flex m-4 relative glassBg px-4'>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className="text-xl text-center">{'Imagem do treino'}</h1>
                         <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
                         </div>
                     </div>
                     <div className='text-white flex flex-col pt-12 px-8'>
-                        <h1 className='text-2xl'>{nome}</h1>
-                        <h1 className='text-xl font-Sora-light text-white/50'>{ partesAfeto }</h1>
+                        <h1 className='text-2xl mb-1'>{nome}</h1>
+                        <h1 className='text-lg font-Sora-light text-white/50 mb-4'>{ partesAfeto }</h1>
                        
                          <h1 className='text-base font-Sora-light'>{descricao}</h1> 
                          
@@ -85,13 +85,15 @@ export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
                 <Exercicio
                   key={exercicio.id}
                   reps={exercicio.repetitions}
+                  exercicioFoto={exercicio.imageUrl ? "http://localhost:3000" + exercicio.imageUrl : PhotoDefault}
                   nome={exercicio.name}
-                  series={exercicio.execution}
+                  series={exercicio.executions}
                   descricao={exercicio.description}
                   id={exercicio.id}
                   setExerid={setExerid}
                   restTime={exercicio.restInterval}
                   setOpenExer={setOpenExer}
+                  setExercicios={setExercicios}
                 />
               )):
               (

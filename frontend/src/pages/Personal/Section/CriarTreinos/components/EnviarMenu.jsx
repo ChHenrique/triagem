@@ -15,14 +15,34 @@ export function Enviar({open, setOpenEnv, treinoid}) {
                     nome: user.name,
                     email: user.email,
                     tel: user.phone,
-                    photoUrl: user.photoUrl
+                    photoUrl: "http://localhost:3000" + user.photoUrl
                 }));
                    setAlunos(alunos)
             })
             .catch(error => {
                 console.error("erro ao buscar os alunos", error)
             });
-    }, [alunos]);
+    }, []);
+
+    //função que associa o treino ao aluno
+    
+    const associarTreino = async (userId) => {
+        try {
+          await axios.post(
+            `http://localhost:3000/trainings/${treinoid}/associate`,
+            { userId },
+            { withCredentials: true }
+          );
+
+          alert("treino associado")
+
+        } catch (error) {
+          console.error("erro ao associar treino:", error)
+          
+          alert("treino já associado");
+        }
+      };
+        
 
     
 
@@ -48,7 +68,7 @@ export function Enviar({open, setOpenEnv, treinoid}) {
                             <h1 className="text-2xl">{aluno.nome}</h1>
                             <h1 className="text-base font-Sora-light">{aluno.email}</h1>
                         </div>
-                        <button  type='submit' className={`w-2/3 mr-4 h-12 text-xl font-bold text-white font-Outfit rounded-[16px] ${open ? 'animate': ''}`}>
+                        <button onClick={() => associarTreino(aluno.id)}  type='submit' className={`w-2/3 mr-4 h-12 text-xl font-bold text-white font-Outfit rounded-[16px] ${open ? 'animate': ''}`}>
                          Enviar
                         </button>
                            

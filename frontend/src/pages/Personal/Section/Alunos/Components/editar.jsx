@@ -33,7 +33,7 @@ export function EditarPerf({ open, setOpenper, id, setAlunos }) {
         let fotoup = e.target.files[0];
         if (fotoup) {
             let trimmedName = fotoup.name.replace(/\s+/g, ''); // Remove todos os espaços do nome do arquivo
-            let file = new File([fotoup], trimmedName, { type: fotoup.type });
+            let file = new File([fotoup], Date.now(), { type: fotoup.type });
 
             let imgurl = URL.createObjectURL(file);
             setFoto(file);

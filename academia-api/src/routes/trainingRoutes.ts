@@ -14,7 +14,7 @@ interface UserTrainingBody {
 export async function trainingRoutes(fastify: FastifyInstance) {
   // Criar um novo treino
   fastify.post<{ Body: CreateTrainingBody }>('/', async (req, reply) => {
-    const { name, description, bodyParts } = req.body; // Não é necessário usar `|| {}` aqui, pois já garantimos que `req.body` terá a tipagem correta.
+    const { name, description, bodyParts } = req.body; 
 
     let photoUrl: string | undefined = undefined;
 
@@ -83,6 +83,62 @@ export async function trainingRoutes(fastify: FastifyInstance) {
       return reply.status(500).send({ error: 'Erro ao associar treino ao usuário' });
     }
   });
+
+  // Desassociar um treino de um usuário
+fastify.delete<{ Params: TrainingParams; Body: UserTrainingBody }>('/:id/dissociate', async (req, reply) => {
+  const { id } = req.params; // ID do treino que queremos desassociar
+  const { userId } = req.body; // ID do usuário a ser desassociado
+
+  try {
+    // Verifica se o treino existe
+    const trainingExists = await prisma.training.findUnique({
+      where: { id },
+    });
+
+    if (!trainingExists) {
+      return reply.status(404).send({ error: 'Treino não encontrado' });
+    }
+
+    // Verifica se o usuário existe
+    const userExists = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!userExists) {
+      return reply.status(404).send({ error: 'Usuário não encontrado' });
+    }
+
+    // Verifica se a associação entre o usuário e o treino existe
+    const userTrainingExists = await prisma.userTraining.findUnique({
+      where: {
+        userId_trainingId: {
+          userId: userId,
+          trainingId: id,
+        },
+      },
+    });
+
+    if (!userTrainingExists) {
+      return reply.status(404).send({ error: 'Associação não encontrada' });
+    }
+
+    // Exclui a associação entre o usuário e o treino
+    await prisma.userTraining.delete({
+      where: {
+        userId_trainingId: {
+          userId: userId,
+          trainingId: id,
+        },
+      },
+    });
+
+    return reply.send({ message: 'Treino desassociado com sucesso do usuário' });
+  } catch (error) {
+    console.error(error);
+    return reply.status(500).send({ error: 'Erro ao desassociar treino do usuário' });
+  }
+});
+
 
   // Listar treinos
   fastify.get('/', async (req, reply) => {
