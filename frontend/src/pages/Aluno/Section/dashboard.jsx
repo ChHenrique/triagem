@@ -39,7 +39,7 @@ export function Dashboard({setPage, page}) {
       <div>
         <div className="h-12 w-full flex items-center justify-start p-6 mb-32">
           <div
-            className="h-12 aspect-square mr-2 rounded-full"
+            className="h-12 aspect-square mr-2 rounded-full bg-offWhite-100"
                                 // foto do usuário aqui
             style={{ backgroundImage: `url(${'http://localhost:3000'+foto})`, backgroundSize: 'cover' }}
           ></div>

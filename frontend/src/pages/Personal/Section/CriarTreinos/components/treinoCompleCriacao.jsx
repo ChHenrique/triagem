@@ -1,91 +1,121 @@
-import { useEffect,useState } from 'react';
-import PhotoDefault from '../../../../../assets/defaultUser.png';
-import { Exercicio } from './Exercicio';
-import axios
- from 'axios';
-import { EditaExer } from './editarExer';
+import { useEffect, useState } from "react";
+import PhotoDefault from "../../../../../assets/defaultUser.png";
+import { Exercicio } from "./Exercicio";
+import axios from "axios";
+import { EditaExer } from "./editarExer";
 
-export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
+export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
+  const [openTreino, setOpenTreino] = useState(0);
+  const [nome, setNome] = useState("");
+  const [partesAfeto, setPartesAfeto] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [foto, setFoto] = useState("");
+  const [exercicios, setExercicios] = useState([]);
+  const [exerId, setExerid] = useState([]);
+  const [openexer, setOpenExer] = useState(0);
 
-    const [openTreino,setOpenTreino] = useState(0);
-    const [nome, setNome] = useState('');
-    const [partesAfeto, setPartesAfeto] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [foto, setFoto] = useState('');
-    const [exercicios, setExercicios] = useState([]);
-    const[exerId,setExerid] = useState([])
-    const [openexer,setOpenExer] = useState(0);
-    
-    
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/trainings/${id}`, { withCredentials: true })
+      .then((response) => {
+        const treino = response.data;
 
-    useEffect(() => {
-        axios.get(`http://localhost:3000/trainings/${id}`, { withCredentials: true })
-            .then(response => {
+        setFoto("http://localhost:3000" + treino.photoUrl);
+        setNome(treino.name);
+        setDescricao(treino.description);
+        setPartesAfeto(treino.bodyParts);
+        setExercicios(treino.exercises);
+      })
+      .catch((error) => {
+        console.error("erro ao buscar os treinos", error);
+      });
+  }, [id]);
 
-                const treino = response.data;
+  return (
+    <div
+      className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${
+        open ? "" : "invisible"
+      }`}
+      onClick={() => setOpentreino(0)}
+    >
+      {openexer ? (
+        <EditaExer
+          setOpenExer={setOpenExer}
+          open={openexer}
+          id={exerId}
+          setExercicios={setExercicios}
+        ></EditaExer>
+      ) : (
+        <div
+          className="overflow-y-auto overflow-x-hidden glassBgStrong px-12 rounded-2xl w-2/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          {/*Area das INformaóes */}
+          <div className="justify-start w-full h-fit flex m-4 relative px-4 gap-4">
 
-                setFoto("http://localhost:3000" + treino.photoUrl);
-                setNome(treino.name);
-                setDescricao(treino.description);
-                setPartesAfeto(treino.bodyParts);
-                setExercicios(treino.exercises);
+            {/*Area da foto nome e etc */}
 
-
-            })
-            .catch(error => {
-                console.error("erro ao buscar os treinos", error)
-            });
-    }, [id]);
- 
-
- 
-    return (
-       
-        <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpentreino(0)}>
-             {openexer ?(
-    <EditaExer setOpenExer={setOpenExer} open={openexer} id={exerId} setExercicios={setExercicios}></EditaExer>
-    ) :(
-            <div className="overflow-y-auto overflow-x-hidden glassBgStrong px-12 rounded-2xl w-2/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
-
-                onClick={(e) => {
-
-                    e.stopPropagation();
-
+            <div className="w-2/3 h-full p-4 flex-row justify-start items-center glassBg border-zinc-300/30 border-3 rounded-2xl flex">
+              <div
+                className="relative w-40 aspect-square rounded-full "
+                style={{
+                  backgroundImage: `url(${foto})`,
+                  backgroundSize: "cover",
                 }}
-            >
-                <h1>{nome}</h1>
-                <div className='justify-start w-full h-fit flex m-4 relative glassBg px-4'>
-                    <div className='flex flex-col justify-center items-center'>
-                        <h1 className="text-xl text-center">{'Imagem do treino'}</h1>
-                        <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
-                        </div>
-                    </div>
-                    <div className='text-white flex flex-col pt-12 px-8'>
-                        <h1 className='text-2xl mb-1'>{nome}</h1>
-                        <h1 className='text-lg font-Sora-light text-white/50 mb-4'>{ partesAfeto }</h1>
-                       
-                         <h1 className='text-base font-Sora-light'>{descricao}</h1> 
-                         
-                    </div>
-                    <button className="z-10 bottom-4 right-3 h-fit absolute cursor-pointer w-fit mt-4 text-white flex items-center flex-row font-Sora-reg" onClick={() => setOpenCria(1)}>
-                    Cadastrar Exercicio
-                    <svg width="30" className="mx-4" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="30" height="30" rx="6.16784" fill="#FFFBF1" />
-                        <rect x="14.248" y="5.50049" width="2" height="19" fill="#131313" />
-                        <rect x="5.75195" y="16.001" width="2" height="19" transform="rotate(-90 5.75195 16.001)" fill="#131313" />
-                    </svg>
-                </button>
+              ></div>
 
-                </div>
-                <div className='w-full h-full  grid grid-cols-3 overflow-auto gap-y-4'>
+              <div className="text-white h-full flex justify-start flex-col pt-4 px-8">
+                <h1 className="text-2xl font-Sora-reg ">{nome}</h1>
+                <h1 className="text-lg font-Sora-light text-white/50 mb-2">
+                  {partesAfeto}
+                </h1>
 
-                    
-                {exercicios ?
-            exercicios.map((exercicio) => (
+                <h1 className="text-base font-Sora-light">{descricao}</h1>
+              </div>
+            </div>
+
+            {/*Area do botao e info extra */}
+
+            <div className="w-1/3 h-full flex-col flex justify-between items-center">
+
+             <div className="w-full h-[60%] glassBg border-3 flex justify-start flex-col items-center border-zinc-300/30 rounded-2xl">
+                <h1 className="text-white text-xl">Alunos com o treino associado</h1>
+                {/*isso e um exmplo tem que colocar o valor real */}
+                <h1  className="text-white text-3xl mt-4 font-Sora-black">
+                         5
+                </h1>
+             
+             </div>
+
+
+              <button
+                className="cursor-pointer w-full  text-bg-100 duration-300 hover:bg-amber-50 font-bold flex items-center bg-white  border-zinc-300/30 border-3 h-[30%] rounded-2xl justify-center text-xl flex-row font-Sora-reg"
+                onClick={() => setOpenCria(1)}
+              >
+                Cadastrar Exercicio
+
+                <svg className="ml-2" width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="14" width="4" height="32" rx="2" fill="#131313"/>
+<rect y="18" width="4" height="32" rx="2" transform="rotate(-90 0 18)" fill="#131313"/>
+</svg>
+
+              </button>
+            </div>
+          </div>
+               <h1 className="w-full text-xl py-4 pl-4">Treinos</h1>          
+            <div className="w-full h-full  grid grid-cols-3 overflow-auto gap-y-4">
+            {exercicios ? (
+              exercicios.map((exercicio) => (
                 <Exercicio
                   key={exercicio.id}
                   reps={exercicio.repetitions}
-                  exercicioFoto={exercicio.imageUrl ? "http://localhost:3000" + exercicio.imageUrl : PhotoDefault}
+                  exercicioFoto={
+                    exercicio.imageUrl
+                      ? "http://localhost:3000" + exercicio.imageUrl
+                      : PhotoDefault
+                  }
                   nome={exercicio.name}
                   series={exercicio.executions}
                   descricao={exercicio.description}
@@ -95,40 +125,51 @@ export function TreinosCr({ open, setOpentreino, id,setOpenCria }) {
                   setOpenExer={setOpenExer}
                   setExercicios={setExercicios}
                 />
-              )):
-              (
-                <h1>Nenhum exerecicio encontrado</h1>
-              )
-             }
+              ))
+            ) : (
+              <h1>Nenhum exerecicio encontrado</h1>
+            )}
+          </div>
 
-
-
-
-
-                </div>
-
-
-
-              {
-
-              openTreino ?(
-  
-                <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=> setOpenTreino(0)} className='cursor-pointer absolute top-4 right-4'>
-<path d="M38 24H10M10 24L24 38M10 24L24 10" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-):
-                (
-                    <svg onClick={() => setOpentreino(0)} className='cursor-pointer absolute top-4 right-4' width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M36 12L12 36M12 12L36 36" stroke="#ffffff" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    
-                )
-            }
-
-            </div>
-
-)}
+          {openTreino ? (
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              onClick={() => setOpenTreino(0)}
+              className="cursor-pointer absolute top-4 right-4"
+            >
+              <path
+                d="M38 24H10M10 24L24 38M10 24L24 10"
+                stroke="#ffffff"
+                stroke-width="8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          ) : (
+            <svg
+              onClick={() => setOpentreino(0)}
+              className="cursor-pointer absolute top-4 right-4"
+              width="36"
+              height="36"
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M36 12L12 36M12 12L36 36"
+                stroke="#ffffff"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
         </div>
-
-)
+      )}
+    </div>
+  );
 }

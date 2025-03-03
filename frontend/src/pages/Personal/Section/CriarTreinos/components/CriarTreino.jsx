@@ -109,7 +109,7 @@ export function CriarTreino({ open, setOpenCria, id }) {
 
                 <div className='justify-center flex flex-col m-4'>
                     <h1 className="text-xl text-center">Imagem do Treino</h1>
-                    <div onClick={abrirInput} className="relative w-48 h-48 rounded-full mt-4 bg-cover bg-center" style={{ backgroundImage: `url(${frontFoto})` }}>
+                    <div onClick={abrirInput} className="relative  bg-offWhite-100 w-48 h-48 rounded-full mt-4 bg-cover bg-center" style={{ backgroundImage: `url(${frontFoto})` }}>
                         <input ref={fileInputRef} type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
                     </div>
                 </div>

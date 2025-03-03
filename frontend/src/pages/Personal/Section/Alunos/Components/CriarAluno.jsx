@@ -126,7 +126,7 @@ export function CriarPerf({ open, setOpenCria, id, setAlunos }) {
 
                 <div className='justify-center flex flex-col m-4'>
                     <h1 className="text-xl text-center">Imagem do Aluno</h1>
-                    <div onClick={abrirInput} className="relative w-48 h-48 rounded-full mt-4 bg-cover bg-center" style={{ backgroundImage: `url(${frontFoto})` }}>
+                    <div onClick={abrirInput} className="relative w-48 h-48 rounded-full  bg-offWhite-100 mt-4 bg-cover bg-center" style={{ backgroundImage: `url(${frontFoto})` }}>
                         <input ref={fileInputRef} required type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
                     </div>
                 </div>

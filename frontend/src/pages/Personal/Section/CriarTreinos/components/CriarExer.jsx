@@ -106,7 +106,7 @@ export function CriarExer({ open, setOpenCria, id }) {
             <div className='flex w-full m-4'>
                 <div>
                     <h1 className="text-xl text-center">Imagem do Treino </h1>
-                    <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
+                    <div className="relative w-48  bg-offWhite-100 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
                         <label htmlFor="fotos" className="absolute  top-0 left-0 w-full h-full rounded-full cursor-pointer">
                             <input type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
                         </label>

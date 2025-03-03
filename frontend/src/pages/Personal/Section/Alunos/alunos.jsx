@@ -47,24 +47,30 @@ export function Alunos() {
     return (
         <div className="w-full h-full font-Outfit px-6">
             <div className="w-full h-11 mt-4 mb-12 flex-col flex justify-center items-end pr-6">
+                <div className="h-11 w-full justify-end flex flex-row items-center">
                 <input
                     type="text"
                     placeholder="Pesquisar..."
-                    className="w-1/3 min-w-64 glassBg h-full p-2 rounded-xl border-2 text-white placeholder-zinc-300 border-neutral-500"
+                    className="w-1/3 max-2xl:w-1/2  min-w-64 glassBg h-full p-2 py-5 text-lg outline-1 outline-white/30 placeholder-white/50 rounded-xl border-3 text-white  border-neutral-500"
                     value={pesquisa}
                     onChange={handleSearchChange}
                 />
-                <button className="z-10 cursor-pointer w-fit mt-4 text-white flex items-center flex-row font-Sora-reg" onClick={() => setOpenCria(1)}>
+                <svg className="h-7 text-white/70 aspect-square absolute right-16" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                 <path d="M28 28L22.2 22.2M25.3333 14.6667C25.3333 20.5577 20.5577 25.3333 14.6667 25.3333C8.77563 25.3333 4 20.5577 4 14.6667C4 8.77563 8.77563 4 14.6667 4C20.5577 4 25.3333 8.77563 25.3333 14.6667Z" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+
+                </div>
+                <button className=" cursor-pointer w-fit mt-4 text-white flex items-center flex-row font-Sora-reg" onClick={() => setOpenCria(1)}>
                     Cadastrar Aluno
-                    <svg width="30" className="mx-4" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="30" height="30" rx="6.16784" fill="#FFFBF1" />
-                        <rect x="14.248" y="5.50049" width="2" height="19" fill="#131313" />
-                        <rect x="5.75195" y="16.001" width="2" height="19" transform="rotate(-90 5.75195 16.001)" fill="#131313" />
-                    </svg>
+                    <svg className="w-7 ml-2 aspect-square" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="10" width="4" height="25" rx="2" fill="white"/>
+                       <rect y="15" width="4" height="24" rx="2" transform="rotate(-90 0 15)" fill="white"/>
+                  </svg>
+
                 </button>
             </div>
 
-            <div className="h-[calc(100%-150px)] justify-start items-start pb-20 w-full grid grid-cols-3 gap-y-12 place-content-start place-items-center overflow-y-auto p-18 scroll-smooth">
+            <div className="h-[calc(100%-170px)] max-2xl:grid-cols-2 max-lg:grid-cols-1 justify-start mt-12 items-start pb-20 w-full grid grid-cols-3 gap-y-12 place-content-start place-items-start overflow-y-auto pr-8 p-18 scroll-smooth">
                 {filteredAlunos.map((aluno) => (
                     <Aluno
                         key={aluno.id}

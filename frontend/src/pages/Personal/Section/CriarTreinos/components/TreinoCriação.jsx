@@ -21,8 +21,8 @@ export function TreinoCriacao({nome,descricao,foto,partesAfeto,open,setOpentrein
         className="h-1/3 aspect-square rounded-2xl"
         style={{ backgroundImage: `url(${foto})`, backgroundSize: "cover" }}
       ></div>
-      <div className="h-1/2 w-full flex flex-col justify-center text-offWhite-100 items-center">
-        <h2 className="text-lg font-Sora-black font-medium">{nome}</h2>
+      <div className="h-1/2 w-full flex flex-col justify-start pt-4 text-offWhite-100 items-center">
+        <h2 className="text-xl font-Sora-reg  font-medium">{nome}</h2>
         <h2 className="text-base text-white/50 text-center font-Sora-light mb-2">
           {partesAfeto}
         </h2>

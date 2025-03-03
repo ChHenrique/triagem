@@ -95,8 +95,8 @@ export function EditarPerf({ open, setOpenper, id, setAlunos }) {
                 <h1>Edição Perfil</h1>
                 <div className="justify-center flex flex-col m-4">
                     <h1 className="text-xl text-center">Imagem do Aluno</h1>
-                    <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${frontFoto})`, backgroundSize: 'cover' }}>
-                        <label htmlFor="fotos" className="absolute top-0 left-0 w-full h-full rounded-full cursor-pointer">
+                    <div className="relative w-48 bg-offWhite-100 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${frontFoto})`, backgroundSize: 'cover' }}>
+                        <label htmlFor="fotos" className="absolute top-0  left-0 w-full h-full rounded-full cursor-pointer">
                             <input type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
                         </label>
                     </div>
