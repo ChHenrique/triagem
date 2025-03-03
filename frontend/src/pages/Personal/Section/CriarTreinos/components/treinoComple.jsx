@@ -91,7 +91,7 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
 
 
               <button
-                className="cursor-pointer w-full  text-bg-100 duration-300 hover:bg-amber-50 font-bold flex items-center bg-white  border-zinc-300/30 border-3 h-[30%] rounded-2xl justify-center text-xl flex-row font-Sora-reg"
+                className={` ${open ? "" : "hidden"}   cursor-pointer w-full  text-bg-100 duration-300 hover:bg-amber-50 font-bold flex items-center bg-white  border-zinc-300/30 border-3 h-[30%] rounded-2xl justify-center text-xl flex-row font-Sora-reg`}
                 onClick={() => setOpenCria(1)}
               >
                 Cadastrar Exercicio
@@ -104,7 +104,7 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
               </button>
             </div>
           </div>
-               <h1 className="w-full text-xl py-4 pl-4">Treinos</h1>          
+               <h1 className="w-full text-xl py-4 pl-4">Exercicios</h1>          
             <div className="w-full h-full  grid grid-cols-3 overflow-auto gap-y-4">
             {exercicios ? (
               exercicios.map((exercicio) => (

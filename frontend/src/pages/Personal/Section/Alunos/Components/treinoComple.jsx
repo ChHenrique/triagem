@@ -36,7 +36,9 @@ export function Treinos({ open, setOpentreino, id }) {
       className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${
         open ? "" : "invisible"
       }`}
-      onClick={() => setOpentreino(0)}
+      onClick={() => { setOpentreino(0)
+        setOpenExer(0)
+}}
     >
       <div
         className="overflow-y-auto overflow-x-hidden glassBgStrong px-12 rounded-2xl w-2/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
@@ -98,7 +100,7 @@ export function Treinos({ open, setOpentreino, id }) {
             </div>
           </div>
         </div>
-
+          <h1 className="w-full text-xl text-white">{openExer ? "Exercicios" : "Treinos"}</h1>
         <div className="w-full h-full mt-12 grid grid-cols-3  overflow-auto gap-y-4">
           {openExer
             ? exercicios.map((exercicio) => (
@@ -154,7 +156,10 @@ export function Treinos({ open, setOpentreino, id }) {
           </svg>
         ) : (
           <svg
-            onClick={() => setOpentreino(0)}
+            onClick={() =>{ setOpentreino(0)
+                                     setOpenExer(0)
+            }
+            }
             className="cursor-pointer absolute top-4 right-4"
             width="36"
             height="36"
