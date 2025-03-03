@@ -43,6 +43,7 @@ export function EditarPerf({ open, setOpenper, id, setAlunos }) {
 
     const SubmeterForm = (e) => {
         e.preventDefault();
+        e.target.reset();
     };
 
     async function PutInfo() {

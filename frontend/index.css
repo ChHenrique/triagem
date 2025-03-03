@@ -152,7 +152,7 @@
 }
 
 .glassBgStrong{
-  background: linear-gradient(60deg ,rgb(88 ,83, 74,0.9) 0%, rgb(40 ,40 ,40,0.7) 100%);
+  background: linear-gradient(60deg ,rgba(59, 57, 52, 0.9) 0%, rgba(78, 77, 74, 0.8) 100%);
   backdrop-filter: blur(2px);
 }
 

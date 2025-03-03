@@ -31,12 +31,20 @@ export function CriarTreino({ open, setOpenCria, id }) {
         e.preventDefault();
         if (bodyParts.length > 0 && nomeTreino.length > 0 && descriptionTreino.length > 0  && foto !== null) {
             await createTraining();
+
+            e.target.reset();
+            setFoto(Default);
+            setFrontFoto(Default);
+            setnomeTreino('');
+            setdescriptionTreino('');
+            setbodyParts('');
         } else {
             setError(1);
             setTimeout(() => {
                 setError(0);
             }, 4000);
         }
+       
     };
 
     async function createTraining() {

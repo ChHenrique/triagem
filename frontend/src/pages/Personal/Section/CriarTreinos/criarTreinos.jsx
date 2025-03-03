@@ -36,7 +36,7 @@ export function CriarTreinos() {
             .catch(error => {
                 console.error("Erro ao buscar os treinos", error);
             });
-    }, []); // Executa apenas uma vez na montagem
+    }, [treinos]); // Executa apenas uma vez na montagem
 
     // Função para filtrar os treinos com base no termo de pesquisa
     useEffect(() => {
@@ -76,7 +76,7 @@ export function CriarTreinos() {
                     </svg>
                 </button>
             </div>
-            <div className="h-[calc(100%-44px)] justify-start items-start w-full grid grid-cols-3 gap-y-12 place-content-start place-items-center overflow-y-auto p-18 scroll-smooth">
+            <div className="h-[calc(100%-44px)] pb-32 justify-start items-start w-full grid grid-cols-3 gap-y-12 place-content-start place-items-center overflow-y-auto p-18 scroll-smooth">
                 {filteredTreinos.map((treino) => {
                     return (
                         <TreinoCriacao

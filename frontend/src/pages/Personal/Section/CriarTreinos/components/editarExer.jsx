@@ -80,6 +80,8 @@ export function EditaExer({ open, setOpenExer, id, setExercicios }) {
             .catch((error) => {
                 console.error("Erro ao atualizar exercício", error);
             });
+
+            e.target.reset();
     }
 
     useEffect(() => {

@@ -38,6 +38,7 @@ export function CriarExer({ open, setOpenCria, id }) {
                 setError(0);
             }, 4000);
         }
+        e.target.reset();
     };
 
     async function createUser() {

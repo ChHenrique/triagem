@@ -37,6 +37,7 @@ export function EditaTreino({ open, setOpenEdit, id }) {
 
     const PutInfo = async (e) => {
         e.preventDefault();
+      
         
         // Atualizando o texto do botão imediatamente
         setNomebtn('Salvando...');
@@ -89,6 +90,7 @@ export function EditaTreino({ open, setOpenEdit, id }) {
             // Tratar erro caso o PUT falhe
             setNomebtn('Erro ao salvar');
         }
+        e.target.reset();
     };
     
 

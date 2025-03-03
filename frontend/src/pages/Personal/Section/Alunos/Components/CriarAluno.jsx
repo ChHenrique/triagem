@@ -33,12 +33,22 @@ export function CriarPerf({ open, setOpenCria, id, setAlunos }) {
         e.preventDefault();
         if (email.length > 8 && email.includes('@') && nome.length > 2 && tel.length > 14 && foto !== null) {
             await createUser();
+
+            e.target.reset();
+
+            setEmail('');
+            setNome('');
+            setTel('');
+            setFoto(Default);
+            setFrontFoto(Default);
+            setSenha('');
         } else {
             setError(1);
             setTimeout(() => {
                 setError(0);
             }, 4000);
         }
+        
     };
 
     async function createUser() {
@@ -117,25 +127,25 @@ export function CriarPerf({ open, setOpenCria, id, setAlunos }) {
                 <div className='justify-center flex flex-col m-4'>
                     <h1 className="text-xl text-center">Imagem do Aluno</h1>
                     <div onClick={abrirInput} className="relative w-48 h-48 rounded-full mt-4 bg-cover bg-center" style={{ backgroundImage: `url(${frontFoto})` }}>
-                        <input ref={fileInputRef} type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
+                        <input ref={fileInputRef} required type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
                     </div>
                 </div>
 
                 <div className='w-full flex flex-col'>
                     <label className='text-base ml-1 mt-2' htmlFor="Nome">Nome
-                        <input placeholder="EX: Pedro Lucas" onChange={(e) => setNome(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                        <input required placeholder="EX: Pedro Lucas" onChange={(e) => setNome(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                     </label>
 
                     <label className='text-base ml-1 mt-2' htmlFor="Email">Email
-                        <input placeholder="EX: pedro@gmail.com" onChange={(e) => setEmail(e.target.value)} type="text" name='Email' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                        <input required placeholder="EX: pedro@gmail.com" onChange={(e) => setEmail(e.target.value)} type="text" name='Email' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                     </label>
 
                     <label className='text-base ml-1 mt-2' htmlFor="Telefone">Telefone
-                        <InputMask mask="(99) 99999-9999" placeholder="EX: (88) 99999-9999" onChange={(e) => setTel(e.target.value)} className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                        <InputMask value={tel} mask="(99) 99999-9999" placeholder="EX: (88) 99999-9999" onChange={(e) => setTel(e.target.value)} className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                     </label>
 
                     <label className='text-base ml-1 mt-2' htmlFor="Senha">Senha
-                        <input placeholder="Digite sua senha" onChange={(e) => setSenha(e.target.value)} type="password" name='Senha' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                        <input required placeholder="Digite sua senha" onChange={(e) => setSenha(e.target.value)} type="password" name='Senha' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                     </label>
                 </div>
 
