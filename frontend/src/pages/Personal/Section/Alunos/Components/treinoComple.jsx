@@ -14,6 +14,8 @@ export function Treinos({ open, setOpentreino, id }) {
   const [tel, setTel] = useState("");
   const [foto, setFoto] = useState("");
   const [treinos, setTreinos] = useState([]);
+  const [trainingcount, setTrainingcount] = useState(0)
+  const [mediatreinoSemana, setMediatreinosemana ] = useState(0)
 
   useEffect(() => {
     axios
@@ -25,11 +27,24 @@ export function Treinos({ open, setOpentreino, id }) {
         setTel(aluno.phone);
         setFoto("http://localhost:3000" + aluno.photoUrl);
         setTreinos(aluno.trainings);
+        setTrainingcount(aluno.trainingCount);
       })
       .catch((error) => {
-        console.error("erro ao buscar os alunos", error);
+        console.error("Erro ao buscar os alunos", error);
       });
+  
+    // Buscar média de treinos na semana
+    axios
+      .get(`http://localhost:3000/trainings/training-log/average/${id}`, { withCredentials: true })
+      .then((response) => {
+        setMediatreinosemana(response.data.average);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar média de treinos", error);
+      });
+  
   }, [id]);
+  
 
   return (
     <div
@@ -86,7 +101,7 @@ export function Treinos({ open, setOpentreino, id }) {
               </h1>
 
               <h1 className=" w-full justify-center flex   mt-4 text-4xl font-Sora-black">
-                5
+                {mediatreinoSemana}
               </h1>
             </div>
             <div className="glassBgstrong p-2 w-[45%] h-full border-3 border-zinc-300/30 rounded-2xl">
@@ -95,7 +110,7 @@ export function Treinos({ open, setOpentreino, id }) {
               </h1>
 
               <h1 className=" w-full justify-center flex   mt-4 text-4xl font-Sora-black">
-                5
+                {trainingcount}
               </h1>
             </div>
           </div>

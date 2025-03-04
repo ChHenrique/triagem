@@ -15,12 +15,12 @@ export async function userRoutes(fastify: FastifyInstance) {
         try {
             const users = await prisma.user.findMany({
                 include: {
-                    tips: true, // Incluir as dicas do usuário
+                    tips: true,
                     trainings: {
                         include: {
                             training: {
                                 include: {
-                                    exercises: true // Incluir os exercícios do treino
+                                    exercises: true
                                 }
                             }
                         }
@@ -32,55 +32,57 @@ export async function userRoutes(fastify: FastifyInstance) {
                 return reply.status(404).send({ error: 'Nenhum usuário encontrado' });
             }
     
-            return reply.send(users);
+            // Adicionando a contagem de treinos no retorno
+            const usersWithTrainingCount = users.map(user => ({
+                ...user,
+                trainingCount: user.trainings.length
+            }));
+    
+            return reply.send(usersWithTrainingCount);
         } catch (error) {
-            if (error instanceof Error) {
-                console.error('Erro ao listar usuários:', error);
-                return reply.status(500).send({ error: error.message });
-            } else {
-                console.error('Erro desconhecido:', error);
-                return reply.status(500).send({ error: 'Erro interno ao listar usuários' });
-            }
+            console.error('Erro ao listar usuários:', error);
+            return reply.status(500).send({ error: error instanceof Error ? error.message : 'Erro interno ao listar usuários' });
         }
     });
-1    
+    
+  
     
 
-fastify.get<{ Params: { id: string } }>('/:id', { preHandler: authMiddleware }, async (req, reply) => {
-    try {
-        const { id } = req.params;
-
-        const user = await prisma.user.findUnique({
-            where: { id },
-            include: {
-                tips: true, // Incluir as dicas do usuário
-                trainings: {
-                    include: {
-                        training: {
-                            include: {
-                                exercises: true // Incluir os exercícios do treino
+    fastify.get<{ Params: { id: string } }>('/:id', { preHandler: authMiddleware }, async (req, reply) => {
+        try {
+            const { id } = req.params;
+    
+            const user = await prisma.user.findUnique({
+                where: { id },
+                include: {
+                    tips: true,
+                    trainings: {
+                        include: {
+                            training: {
+                                include: {
+                                    exercises: true
+                                }
                             }
                         }
                     }
                 }
+            });
+    
+            if (!user) {
+                return reply.status(404).send({ error: 'Usuário não encontrado' });
             }
-        });
-
-        if (!user) {
-            return reply.status(404).send({ error: 'Usuário não encontrado' });
-        }
-
-        return reply.send(user);
-    } catch (error) {
-        if (error instanceof Error) {
+    
+            // Adicionando a contagem de treinos no retorno
+            return reply.send({
+                ...user,
+                trainingCount: user.trainings.length
+            });
+        } catch (error) {
             console.error('Erro ao listar usuário:', error);
-            return reply.status(500).send({ error: error.message });
-        } else {
-            console.error('Erro desconhecido:', error);
-            return reply.status(500).send({ error: 'Erro interno ao listar usuário' });
+            return reply.status(500).send({ error: error instanceof Error ? error.message : 'Erro interno ao listar usuário' });
         }
-    }
-});
+    });
+    
 
 
      // Atualização de usuário

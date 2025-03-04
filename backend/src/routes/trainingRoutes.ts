@@ -261,4 +261,107 @@ fastify.delete<{ Params: TrainingParams; Body: UserTrainingBody }>('/:id/dissoci
       return reply.status(400).send({ error: 'Erro ao excluir treino' });
     }
   });
+
+  fastify.post<{ Body: { userId: string; trainingId: string; date?: string } }>(
+    '/training-log',
+
+    async (req, reply) => {
+      try {
+        const { userId, trainingId, date } = req.body;
+  
+        // Verifica se o usuário e o treino existem
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        const training = await prisma.training.findUnique({ where: { id: trainingId } });
+  
+        if (!user || !training) {
+          return reply.status(404).send({ error: 'Usuário ou treino não encontrado' });
+        }
+  
+        // Cria o registro do treino realizado com a data personalizada ou a data atual
+        const log = await prisma.trainingLog.create({
+          data: {
+            userId,
+            trainingId,
+            date: date ? new Date(date) : new Date(), // Se não passar data, usa a atual
+          },
+        });
+  
+        return reply.send(log);
+      } catch (error) {
+        console.error('Erro ao registrar treino:', error);
+        return reply.status(500).send({ error: 'Erro ao registrar treino realizado' });
+      }
+    }
+  );
+
+  fastify.get<{ Params: { userId: string } }>('/training-log/:userId', async (req, reply) => {
+    try {
+      const { userId } = req.params;
+  
+      const logs = await prisma.trainingLog.findMany({
+        where: { userId },
+        include: {
+          training: true, // Inclui os detalhes do treino
+        },
+        orderBy: { date: 'desc' }, // Ordena do mais recente para o mais antigo
+      });
+  
+      if (logs.length === 0) {
+        return reply.status(404).send({ error: 'Nenhum treino encontrado para este usuário' });
+      }
+  
+      return reply.send(logs);
+    } catch (error) {
+      console.error('Erro ao buscar treinos realizados:', error);
+      return reply.status(500).send({ error: 'Erro ao buscar treinos realizados' });
+    }
+  });
+
+  // obter o numero de treinos por semana
+  function getWeekNumber(date: Date): number {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  }
+  
+  
+  fastify.get<{ Params: { userId: string } }>('/training-log/average/:userId', async (req, reply) => {
+    try {
+      const { userId } = req.params;
+  
+      // Calcula a data de 4 semanas atrás
+      const fourWeeksAgo = new Date();
+      fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
+  
+      // Busca os treinos realizados nas últimas 4 semanas
+      const logs = await prisma.trainingLog.findMany({
+        where: {
+          userId,
+          date: {
+            gte: fourWeeksAgo, // Filtra treinos realizados a partir de 4 semanas atrás
+          },
+        },
+      });
+  
+      // Agrupa os treinos por semana
+      const weeksMap = new Map<number, number>(); // { Semana -> Quantidade de treinos }
+      
+      logs.forEach((log) => {
+        const weekNumber = getWeekNumber(new Date(log.date)); // Calcula a semana do treino
+        weeksMap.set(weekNumber, (weeksMap.get(weekNumber) || 0) + 1);
+      });
+  
+      // Calcula a média
+      const totalWeeks = weeksMap.size || 1; // Evita divisão por zero
+      const average = logs.length / totalWeeks;
+  
+      return reply.send({ average });
+    } catch (error) {
+      console.error('Erro ao calcular a média de treinos por semana:', error);
+      return reply.status(500).send({ error: 'Erro ao calcular a média' });
+    }
+  });
+  
+  
+  
 }
