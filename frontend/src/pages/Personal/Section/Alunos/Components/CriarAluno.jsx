@@ -113,7 +113,7 @@ export function CriarPerf({ open, setOpenCria, id, setAlunos }) {
     
 
     return (
-        <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpenCria(0)}>
+        <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center duration-500 py-12 ${open ? 'popModal' : 'dropModal invisible'}`} onClick={() => setOpenCria(0)}>
             <h1 className={`flex flex-row items-center right-10 absolute bottom-20 duration-300 glassBgError border-2 font-Sora-light border-white/30 text-xl text-offWhite-100 p-3 rounded-2xl bg-white ${error ? 'ApRight' : 'hidden'}`}>
                 Preencha todos os campos!
             </h1>

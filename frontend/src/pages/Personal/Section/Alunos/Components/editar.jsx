@@ -87,7 +87,7 @@ export function EditarPerf({ open, setOpenper, id, setAlunos }) {
     }
 
     return (
-        <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpenper(0)}>
+        <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center duration-500 transition-all py-12 ${open ? 'popModal' : 'dropModal invisible'}`} onClick={() => setOpenper(0)}>
             <form className="overflow-y-auto glassBgStrong px-12 rounded-2xl w-1/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
                 onSubmit={SubmeterForm} // Adiciona o evento onSubmit
                 onClick={(e) => e.stopPropagation()}

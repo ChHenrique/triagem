@@ -48,8 +48,8 @@ export function Treinos({ open, setOpentreino, id }) {
 
   return (
     <div
-      className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${
-        open ? "" : "invisible"
+      className={`w-full fixed inset-0 duration-500 h-full backdrop-blur-xs flex justify-center items-center py-12 ${
+        open ? 'popModal' : 'dropModal invisible'
       }`}
       onClick={() => { setOpentreino(0)
         setOpenExer(0)

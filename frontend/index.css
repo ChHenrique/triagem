@@ -103,6 +103,67 @@
   }
 }
 
+@keyframes popSection{
+   0%{
+    transform: translate(20px , 0px );
+   }
+    100%{
+      transform: translate(0px , 0px );
+    }
+
+
+}
+@keyframes popModal{
+   0%{
+    transform: translate(0px , 80px );
+    opacity: 0;
+   }
+    100%{
+      transform: translate(0px , 0px );
+      opacity: 1;
+    }
+
+
+}
+@keyframes dropModal{
+  0%{
+   transform: translate(0px , 0px );
+   opacity: 1;
+  }
+   100%{
+     transform: translate(0px , 80px );
+     opacity: 0;
+   }
+
+
+
+}
+.dropModal{
+  animation-timing-function: ease;
+  animation-duration: 0.5s;
+  animation-name: dropModal;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+}
+
+.popModal{
+  animation-timing-function: ease;
+  animation-duration: 0.5s;
+  animation-name: popModal;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+}
+
+
+
+.popAnim{
+  animation-timing-function: ease;
+  animation-duration: 0.5s;
+  animation-name: popSection;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+}
+
 .Apleft{
     animation-timing-function: ease;
     animation-duration: 1s;

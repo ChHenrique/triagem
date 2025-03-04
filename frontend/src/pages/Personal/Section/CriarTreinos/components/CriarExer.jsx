@@ -122,7 +122,7 @@ export function CriarExer({ open, setOpenCria, id, setExercicios }) {
 
 
     return (
-        <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpenCria(0)}>
+        <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 duration-500 ${open ? 'popModal' : 'dropModal invisible'}`} onClick={() => setOpenCria(0)}>
             <h1 className={`flex flex-row items-center right-10 absolute bottom-20 duration-300 glassBgError border-2 font-Sora-light border-white/30 text-xl text-offWhite-100 p-3 rounded-2xl bg-white ${error ? 'ApRight' : 'hidden'}`}>
                 Preencha todos os campos!
             </h1>
@@ -205,7 +205,7 @@ export function CriarExer({ open, setOpenCria, id, setExercicios }) {
                     Criar Exercicio
                 </button>
 
-                <svg onClick={() => setOpenExer(0)} className='cursor-pointer absolute top-4 right-4' width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg onClick={() => setOpenCria(0)} className='cursor-pointer absolute top-4 right-4' width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M36 12L12 36M12 12L36 36" stroke="#ffffff" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </form>

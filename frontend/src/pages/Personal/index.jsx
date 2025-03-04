@@ -30,7 +30,7 @@ export function Personal() {
   }, []);
 
   return (
-    <div className="w-screen h-screen bg-bg-200 flex-row flex overflow-hidden">
+    <div className="w-screen h-screen bg-bg-200 flex-row flex overflow-hidden relative">
       <div className="h-screen w-[20%] min-w-64">
         <Dashboard page={page} setPage={setPage} />
       </div>
