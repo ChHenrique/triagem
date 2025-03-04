@@ -1,13 +1,16 @@
 import { useState, useRef } from 'react';
-import Default from '../../../assets/defaultUser.png';
-import InputMask from 'react-input-mask';
+import Default from '../../../../../assets/defaultUser.png';
 import axios from 'axios';
 
 export function CriarExer({ open, setOpenCria, id }) {
-    const [email, setEmail] = useState('');
     const [nome, setNome] = useState('');
-    const [senha, setSenha] = useState('');
-    const [tel, setTel] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [rep, setRep] = useState('');
+    const [serie, setSerie] = useState('');
+    const [rest, setRest] = useState('');
+    
+
+
     const [foto, setFoto] = useState(null);
     const [frontFoto, setFrontFoto] = useState(Default);
     const [error, setError] = useState(0);
@@ -23,8 +26,9 @@ export function CriarExer({ open, setOpenCria, id }) {
         let fotoup = e.target.files[0];
         if (fotoup) {
             let imgurl = URL.createObjectURL(fotoup);
-            setFrontFoto(imgurl); // Atualiza a pré-visualização
-            setFoto(fotoup); // Armazena o arquivo real para upload
+            setFrontFoto(imgurl); 
+            setFoto(fotoup);
+            console.log(ìmgurl)
         }
     }
 
@@ -95,7 +99,7 @@ export function CriarExer({ open, setOpenCria, id }) {
                 Preencha todos os campos!
             </h1>
 
-            <form className="overflow-y-auto glassBgStrong px-12 rounded-2xl w-1/2 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
+            <form className="overflow-y-auto glassBgStrong px-12 rounded-2xl w-2/3 overflow-x-hidden min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
             onSubmit={SubmeterForm} // Adiciona o evento onSubmit
             onClick={(e) => {
 
@@ -106,32 +110,30 @@ export function CriarExer({ open, setOpenCria, id }) {
             <div className='flex w-full m-4'>
                 <div>
                     <h1 className="text-xl text-center">Imagem do Treino </h1>
-                    <div className="relative w-48  bg-offWhite-100 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
-                        <label htmlFor="fotos" className="absolute  top-0 left-0 w-full h-full rounded-full cursor-pointer">
-                            <input type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
-                        </label>
+                    <div onClick={abrirInput} className="relative  bg-offWhite-100 w-48 h-48 rounded-full mt-4 bg-cover bg-center" style={{ backgroundImage: `url(${frontFoto})` }}>
+                        <input ref={fileInputRef} type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
                     </div>
                 </div>
                 <div className='text-white flex w-full flex-col pt-12 pl-8'>
                     <div className='w-full h-fit flex justify-center items-start flex-col'>
                         <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Nome">Nome
-                            <input placeholder={Initnome} onChange={(e) => setNome(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                            <input placeholder="Ex: Supino Reto" onChange={(e) => setNome(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                         </label>
 
                         <div className='text-white flex w-full flex-row justify-between pt-2 '>
                         <div className='text-white flex w-[30%] flex-col '>
                                 <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Nome">Repetições
-                                    <input placeholder={Initreps} onChange={(e) => setNome(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                                    <input placeholder="Ex: 12" onChange={(e) => setRep(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                                 </label>
                             </div>
                             <div className='text-white flex w-[30%] flex-col '>
                                 <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Nome">Series
-                                    <input placeholder={Initexecutions} onChange={(e) => setNome(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                                    <input placeholder="Ex: 3"  onChange={(e) => setSerie(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                                 </label>
                             </div>
                             <div className='text-white flex w-[30%] flex-col '>
                                 <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Nome">Intervalo(segundos)
-                                    <input placeholder={Initrest} onChange={(e) => setNome(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                                    <input placeholder="Ex: 90" onChange={(e) => setRest(e.target.value)} type="text" name='Nome' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                                 </label>
                             </div>
 
@@ -145,15 +147,15 @@ export function CriarExer({ open, setOpenCria, id }) {
             <label className='w-full break-words text-start over text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Telefone">Descrição
                 <textarea
 
-                    placeholder={Initdescricao}
+                    placeholder="Ex: Aumenta o peitoral e o tríceps" 
                     onChange={(e) => setDescricao(e.target.value)}
                     className='my-2 pl-2 w-full bg-input-100 h-32 rounded-[8px] resize-none'
                     style={{ textAlign: 'left', verticalAlign: 'top' }}
                 />
             </label>
 
-            <button onClick={PutInfo} type='submit' className={`w-full mb-12 mt-auto h-12 text-xl font-bold text-white font-Outfit rounded-[16px] ${open ? 'animate' : ''}`}>
-                {nomebtn}
+            <button  type='submit' className={`w-full mb-12 mt-auto h-12 text-xl font-bold text-white font-Outfit rounded-[16px] ${open ? 'animate' : ''}`}>
+                Criar Exercicio
             </button>
 
             <svg onClick={() => setOpenExer(0)} className='cursor-pointer absolute top-4 right-4' width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">

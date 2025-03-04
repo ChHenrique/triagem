@@ -50,7 +50,7 @@ export function Enviar({open, setOpenEnv, treinoid}) {
     return (
             <div className={`w-full fixed inset-0  h-full backdrop-blur-xs  flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpenEnv(0)}>
                 
-                <div className="overflow-y-auto  pt-20 px-12 rounded-2xl w-1/3 min-w-[500px] grid grid-cols-1 h-full border-zinc-600/25 border-4 text-offWhite-100 place-items-center place-content-start "
+                <div className="overflow-y-auto glassBgStrong  pt-20 px-12 rounded-2xl w-1/3 min-w-[500px] grid grid-cols-1 h-full border-zinc-600/25 border-4 text-offWhite-100 place-items-center place-content-start "
                 
                 onClick={(e) => {
          
@@ -62,7 +62,7 @@ export function Enviar({open, setOpenEnv, treinoid}) {
                     {  alunos.map((aluno)=>(
                     <div className='justify-start items-center rounded-2xl flex my-2 py-2 w-full h-20 bg-bg-300'>
                       
-                        <div className="relative w-18  aspect-square rounded-full mx-6" style={{ backgroundImage: `url(${aluno.photoUrl})`, backgroundSize: 'cover' }}>
+                        <div className="relative w-32  aspect-square rounded-full mx-3" style={{ backgroundImage: `url(${aluno.photoUrl})`, backgroundSize: 'cover' }}>
                         </div>
                         <div className="font-Outfit w-full text-offWhite-100 flex flex-col items-start justify-center">
                             <h1 className="text-2xl">{aluno.nome}</h1>

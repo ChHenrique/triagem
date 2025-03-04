@@ -3,16 +3,23 @@ import PhotoDefault from "../../../../../assets/defaultUser.png";
 import { Exercicio } from "./Exercicio";
 import axios from "axios";
 import { EditaExer } from "./editarExer";
+import { CriarExer } from "./CriarExer";
+
 
 export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
   const [openTreino, setOpenTreino] = useState(0);
+
   const [nome, setNome] = useState("");
   const [partesAfeto, setPartesAfeto] = useState("");
   const [descricao, setDescricao] = useState("");
   const [foto, setFoto] = useState("");
+
   const [exercicios, setExercicios] = useState([]);
   const [exerId, setExerid] = useState([]);
   const [openexer, setOpenExer] = useState(0);
+
+  const [openCriaExer, setOpenCriaExer] = useState(0);
+
 
   useEffect(() => {
     axios
@@ -92,7 +99,7 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
 
               <button
                 className={` ${open ? "" : "hidden"}   cursor-pointer w-full  text-bg-100 duration-300 hover:bg-amber-50 font-bold flex items-center bg-white  border-zinc-300/30 border-3 h-[30%] rounded-2xl justify-center text-xl flex-row font-Sora-reg`}
-                onClick={() => setOpenCria(1)}
+                onClick={() => setOpenCriaExer(1)}
               >
                 Cadastrar Exercicio
 
@@ -170,6 +177,7 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
           )}
         </div>
       )}
+     <CriarExer open={openCriaExer} setOpenCria={setOpenCriaExer} id={id}></CriarExer>
     </div>
   );
 }
