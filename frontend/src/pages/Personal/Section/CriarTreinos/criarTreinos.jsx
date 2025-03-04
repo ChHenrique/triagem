@@ -22,30 +22,35 @@ export function CriarTreinos() {
     useEffect(() => {
         axios.get(`http://localhost:3000/trainings`, { withCredentials: true })
             .then(response => {
+                console.log(response.data);  // Verifique a estrutura dos dados aqui
                 const treinos = response.data.map(treino => ({
-                    nome: treino.name,
-                    descricao: treino.description,
+                    nome: treino.name, 
+                    descricao: treino.description, 
                     partesAfeto: treino.bodyParts,
                     photoUrl: treino.photoUrl,
                     id: treino.id
                 }));
-
+    
                 setTreinos(treinos);
                 setFilteredTreinos(treinos); // Inicializa os treinos filtrados
+                console.log(treinos)
             })
             .catch(error => {
                 console.error("Erro ao buscar os treinos", error);
             });
-    }, [treinos]); // Executa apenas uma vez na montagem
+    }, []); // Executa apenas uma vez na montagem
+     // Executa apenas uma vez na montagem
 
     // Função para filtrar os treinos com base no termo de pesquisa
     useEffect(() => {
-        const filtered = treinos.filter(treino =>
-            treino.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            treino.descricao.toLowerCase().includes(searchTerm.toLowerCase())
+        const filtered = treinos.filter((treino) => 
+          (treino.nome && treino.nome.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          (treino.descricao && treino.descricao.toLowerCase().includes(searchTerm.toLowerCase()))
         );
         setFilteredTreinos(filtered);
-    }, [searchTerm, treinos]); // Filtra sempre que o searchTerm ou os treinos mudam
+      }, [searchTerm, treinos]);  // Filtro deve depender de `searchTerm` e `treinos`
+      
+    
 
     return (
         <div className="w-full h-full font-Outfit px-6">
@@ -89,6 +94,7 @@ export function CriarTreinos() {
                             setOpenEnv={setOpenEnv}
                             setOpentreino={setOpentreino}
                             setOpenEdit={setOpenEdit}
+                            setTreinos={setTreinos}
                         />
                     );
                 })}
@@ -107,7 +113,7 @@ export function CriarTreinos() {
                     setOpenCria={setexOpenCria}
                 />
                 <Enviar open={openEnv} setOpenEnv={setOpenEnv} treinoid={treinoid}></Enviar>
-                <CriarTreino open={openCria} setOpenCria={setOpenCria} id={treinoid}></CriarTreino>
+                <CriarTreino open={openCria} setOpenCria={setOpenCria} setTreinos={setTreinos}id={treinoid}></CriarTreino>
             </div>
         </div>
     );

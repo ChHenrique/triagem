@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Default from '../../../../../assets/defaultUser.png';
 
-export function EditaTreino({ open, setOpenEdit, id }) {
+export function EditaTreino({ open, setOpenEdit, id, setTreinos }) {
     const [nome, setNome] = useState('');
     const [partesAfeto, setPartesAfeto] = useState('');
     const [descricao, setDescricao] = useState('');
@@ -19,7 +19,7 @@ export function EditaTreino({ open, setOpenEdit, id }) {
                 setNome(treino.name);
                 setDescricao(treino.description);
                 setPartesAfeto(treino.bodyParts);
-                setFrontFoto('http://localhost:3000'+treino.photoUrl);
+                setFrontFoto('http://localhost:3000' + treino.photoUrl);
             })
             .catch(error => {
                 console.error("Erro ao buscar os dados do treino:", error);
@@ -37,8 +37,7 @@ export function EditaTreino({ open, setOpenEdit, id }) {
 
     const PutInfo = async (e) => {
         e.preventDefault();
-      
-        
+    
         // Atualizando o texto do botão imediatamente
         setNomebtn('Salvando...');
     
@@ -48,7 +47,12 @@ export function EditaTreino({ open, setOpenEdit, id }) {
             // Se uma nova foto foi selecionada, faz o upload primeiro
             if (foto instanceof File) {
                 const formData = new FormData();
-                formData.append('file', foto);
+                
+                // Tratando o nome do arquivo: substituindo espaços por %20
+                const fileName = foto.name.replace(/\s+/g, 'a');  
+                const fileWithNewName = new File([foto], fileName, { type: foto.type });
+                
+                formData.append('file', fileWithNewName);
     
                 const uploadResponse = await axios.put(
                     `http://localhost:3000/trainings/${id}`,
@@ -60,7 +64,7 @@ export function EditaTreino({ open, setOpenEdit, id }) {
                 );
     
                 // Atualiza a URL da foto retornada da resposta da API
-                updatedFotoUrl = uploadResponse.data.url;
+                updatedFotoUrl = uploadResponse.data.photoUrl;
             }
     
             // Agora, faz a requisição para atualizar os outros dados do treino
@@ -71,6 +75,12 @@ export function EditaTreino({ open, setOpenEdit, id }) {
                 photoUrl: updatedFotoUrl, // A URL da foto pode ser a original ou a nova
             };
     
+            const formatedData = {
+                nome: updatedTraining.name,
+                descricao: updatedTraining.description,
+                partesAfeto: updatedTraining.bodyParts,
+            };
+    
             // Requisição para atualizar o treino no backend
             const response = await axios.put(
                 `http://localhost:3000/trainings/${id}`,
@@ -79,6 +89,13 @@ export function EditaTreino({ open, setOpenEdit, id }) {
             );
     
             if (response.status === 200) {
+                // Atualizando a lista de treinos localmente
+                setTreinos((prevTreinos) =>
+                    prevTreinos.map((treino) =>
+                        treino.id === id ? { ...treino, ...formatedData, photoUrl: updatedFotoUrl } : treino
+                    )
+                );
+    
                 // Sucesso, feche o modal e retorne ao estado inicial
                 setOpenEdit(0);
                 setNomebtn('Salvar Alterações');  // Voltar ao texto inicial
@@ -90,9 +107,11 @@ export function EditaTreino({ open, setOpenEdit, id }) {
             // Tratar erro caso o PUT falhe
             setNomebtn('Erro ao salvar');
         }
+    
         e.target.reset();
     };
     
+
 
     return (
         <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpenEdit(0)}>

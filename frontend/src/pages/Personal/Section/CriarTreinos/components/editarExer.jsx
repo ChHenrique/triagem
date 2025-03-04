@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Exercicio } from './Exercicio';
 import PhotoDefault from '../../../../../assets/defaultUser.png';
 import axios from 'axios';
-import "../../../Styles/removeArrows.css"
+import "../../../Styles/removeArrows.css";
 
 export function EditaExer({ open, setOpenExer, id, setExercicios }) {
     const [nome, setNome] = useState('');
@@ -11,14 +11,12 @@ export function EditaExer({ open, setOpenExer, id, setExercicios }) {
     const [executions, setExecutions] = useState(0);
     const [reps, setReps] = useState(0);
     const [rest, setRest] = useState(0);
-
     const [nomebtn, setNomebtn] = useState('Salvar Alterações');
 
     useEffect(() => {
         axios.get(`http://localhost:3000/exercises/${id}`, { withCredentials: true })
             .then(response => {
                 const exercise = response.data;
-
                 setFoto(exercise.imageUrl ? 'http://localhost:3000' + exercise.imageUrl : PhotoDefault);
                 setNome(exercise.name);
                 setDescricao(exercise.description);
@@ -27,81 +25,83 @@ export function EditaExer({ open, setOpenExer, id, setExercicios }) {
                 setRest(exercise.restInterval);
             })
             .catch(error => {
-                console.error("erro ao buscar os treinos", error);
+                console.error("Erro ao buscar os dados do exercício", error);
             });
     }, [id]);
 
-    let Initnome = nome;
-    let Initdescricao = descricao;
-    let Initexecutions = executions;
-    let Initreps = reps;
-    let Initrest = rest;
-
-    function Pegaimg(e) {
+    const Pegaimg = (e) => {
         let fotoup = e.target.files[0];
         if (fotoup) {
-            let imgurl = URL.createObjectURL(fotoup);
-            setFoto(imgurl);
+            setFoto(fotoup);  // Armazena o arquivo de foto, não apenas a URL
         }
-    }
-
-    const SubmeterForm = (e) => {
-        e.preventDefault();
     };
 
-    function PutInfo() {
-        // Converter explicitamente para número
-        const numReps = parseInt(reps, 10);
-        const numExecutions = parseInt(executions, 10);
-        const numRest = parseInt(rest, 10);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setNomebtn('Salvando...');
 
-        axios.put(`http://localhost:3000/exercises/${id}`, {
+        // Envia os dados do exercício para o backend
+        const exerciseData = {
             name: nome,
             description: descricao,
-            imageUrl: foto,
-            repetitions: numReps,
-            restInterval: numRest,
-            executions: numExecutions
-        }, { withCredentials: true })
-            .then((response) => {
-                setExercicios(prevExercicios =>
-                    prevExercicios.map(exercicio =>
-                        exercicio.id === id ? { ...exercicio, ...response.data } : exercicio
-                    )
+            repetitions: parseInt(reps, 10),
+            restInterval: parseInt(rest, 10),
+            executions: parseInt(executions, 10)
+        };
+
+        try {
+            const response = await axios.put(`http://localhost:3000/exercises/${id}`, exerciseData, { withCredentials: true });
+            const updatedExercise = response.data;
+
+            // Se houver uma nova foto, faz o upload
+            if (foto instanceof File) {
+                const formData = new FormData();
+                formData.append('file', foto);
+
+                const uploadResponse = await axios.put(
+                    `http://localhost:3000/exercises/${id}`,
+                    formData,
+                    {
+                        withCredentials: true,
+                        headers: { 'Content-Type': 'multipart/form-data' }
+                    }
                 );
 
-                setTimeout(() => {
-                    setOpenExer(0);
-                    setNomebtn('Salvar Alterações');
-                }, 1000);
+                // Atualiza a URL da imagem
+                updatedExercise.imageUrl = uploadResponse.data.imageUrl;
+            }
 
-                setNomebtn('Salvando...');
-            })
-            .catch((error) => {
-                console.error("Erro ao atualizar exercício", error);
-            });
+            // Atualiza os exercícios no estado local
+            setExercicios(prevExercicios =>
+                prevExercicios.map(exercicio =>
+                    exercicio.id === id ? { ...exercicio, ...updatedExercise } : exercicio
+                )
+            );
 
-            e.target.reset();
-    }
+            setTimeout(() => {
+                setOpenExer(0);
+                setNomebtn('Salvar Alterações');
+            }, 1000);
 
-    useEffect(() => {
-        console.log("Pegando a foto: ", foto);
-    }, [foto]);
+        } catch (error) {
+            console.error("Erro ao salvar exercício", error);
+            setNomebtn('Erro ao salvar');
+        }
+
+        e.target.reset();
+    };
 
     return (
         <form className="overflow-y-auto glassBgStrong px-12 rounded-2xl w-1/2 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 overflow-x-hidden flex flex-col items-center"
-            onSubmit={SubmeterForm}
-            onClick={(e) => {
-                e.stopPropagation();
-            }}
-        >
+            onSubmit={handleSubmit}
+            onClick={(e) => e.stopPropagation()}>
             <h1>Edição Perfil</h1>
             <div className='flex w-full m-4'>
                 <div>
                     <h1 className="text-xl text-center">Imagem do Treino </h1>
-                    <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}>
+                    <div className="relative w-48 aspect-square rounded-full mt-4" style={{ backgroundImage: `url(${foto instanceof File ? URL.createObjectURL(foto) : foto})`, backgroundSize: 'cover' }}>
                         <label className="absolute top-0 left-0 w-full h-full rounded-full cursor-pointer">
-                            <img src={foto ? foto : PhotoDefault} value={foto} className='rounded-full h-full w-full object-cover' />
+                            <img src={foto instanceof File ? URL.createObjectURL(foto) : foto || PhotoDefault} value={foto} className='rounded-full h-full w-full object-cover' />
                             <input type="file" id="fotos" name='fotos' className="hidden" onChange={Pegaimg} />
                         </label>
                     </div>
@@ -109,7 +109,7 @@ export function EditaExer({ open, setOpenExer, id, setExercicios }) {
                 <div className='text-white flex w-full flex-col pt-12 pl-8'>
                     <div className='w-full h-fit flex justify-center items-start flex-col'>
                         <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Nome">Nome
-                            <input placeholder={Initnome}
+                            <input placeholder={nome}
                                 onChange={(e) => setNome(e.target.value)}
                                 type="text"
                                 name='Nome'
@@ -119,34 +119,33 @@ export function EditaExer({ open, setOpenExer, id, setExercicios }) {
                         <div className='text-white flex w-full flex-row justify-between pt-2 '>
                             <div className='text-white flex w-[30%] flex-col '>
                                 <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' >Repetições
-                                    <input placeholder={Initreps} onChange={(e) => setReps(e.target.value)} type="number" name='reps' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                                    <input placeholder={reps} onChange={(e) => setReps(e.target.value)} type="number" name='reps' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                                 </label>
                             </div>
                             <div className='text-white flex w-[30%] flex-col '>
-                                <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' >Series
-                                    <input placeholder={Initexecutions} onChange={(e) => setExecutions(e.target.value)} type="number" name='executions' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                                <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' >Séries
+                                    <input placeholder={executions} onChange={(e) => setExecutions(e.target.value)} type="number" name='executions' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                                 </label>
                             </div>
                             <div className='text-white flex w-[30%] flex-col '>
                                 <label className='w-full text-base h-fit rounded-[8px] ml-1 mt-2' >Intervalo(segundos)
-                                    <input placeholder={Initrest} onChange={(e) => setRest(e.target.value)} type="number" name='rest' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
+                                    <input placeholder={rest} onChange={(e) => setRest(e.target.value)} type="number" name='rest' className='my-2 pl-2 w-full bg-input-100 h-10 rounded-[8px]' />
                                 </label>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-            <label className='w-full break-words text-start over text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Telefone">Descrição
+            <label className='w-full break-words text-start over text-base h-fit rounded-[8px] ml-1 mt-2' htmlFor="Descricao">Descrição
                 <textarea
-                    placeholder={Initdescricao}
+                    placeholder={descricao}
                     onChange={(e) => setDescricao(e.target.value)}
                     className='my-2 pl-2 w-full bg-input-100 h-32 rounded-[8px] resize-none'
                     style={{ textAlign: 'left', verticalAlign: 'top' }}
                 />
             </label>
 
-            <button onClick={PutInfo} type='submit' className={`w-full mb-12 mt-auto h-12 text-xl font-bold text-white font-Outfit rounded-[16px] ${open ? 'animate' : ''}`}>
+            <button type="submit" className={`w-full mb-12 mt-auto h-12 text-xl font-bold text-white font-Outfit rounded-[16px] ${open ? 'animate' : ''}`}>
                 {nomebtn}
             </button>
 

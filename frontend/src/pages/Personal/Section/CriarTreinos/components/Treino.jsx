@@ -1,19 +1,22 @@
 import { useState } from "react";
 import axios from "axios";
 
-export function TreinoCriacao({nome,descricao,foto,partesAfeto,open,setOpentreino,id,setTreinoid,setOpenEnv,setOpenEdit,}) {
+export function TreinoCriacao({nome, setTreinos, descricao,foto,partesAfeto,open,setOpentreino,id,setTreinoid,setOpenEnv,setOpenEdit,}) {
   const [exclude, setExclude] = useState(0);
 
   const excluirTreino = async () => {
     try {
-      await axios.delete(`http://localhost:3000/trainings/${id}`)
-      
-      setExclude(0)
-    } catch (error) {
-      console.log("Erro ao excluir treino:", error)
+      await axios.delete(`http://localhost:3000/trainings/${id}`);
+  
      
+      setTreinos(prevTreinos => prevTreinos.filter(treino => treino.id !== id));
+  
+      setExclude(0);
+    } catch (error) {
+      console.log("Erro ao excluir treino:", error);
     }
   };
+  
 
   return (
     <div className="w-76 aspect-[10/12] glassBg border-2 border-zinc-500/20 flex-col font-Sora-light justify-center flex items-center p-4 rounded-[16px]">

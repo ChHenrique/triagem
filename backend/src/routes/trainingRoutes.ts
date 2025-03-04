@@ -140,29 +140,46 @@ fastify.delete<{ Params: TrainingParams; Body: UserTrainingBody }>('/:id/dissoci
 });
 
 
-  // Listar treinos
+  // Listar treinos no geral
   fastify.get('/', async (req, reply) => {
     const trainings = await prisma.training.findMany({
-      include: { exercises: true },
+      include: {
+        exercises: true,
+        _count: { select: { clients: true } }, // Conta quantos usuários têm esse treino
+      },
     });
-    return reply.send(trainings);
+  
+    // Formatar resposta para incluir usersCount
+    const formattedTrainings = trainings.map(t => ({
+      ...t,
+      usersCount: t._count.clients,
+    }));
+  
+    return reply.send(formattedTrainings);
   });
-
-  // Detalhes de um treino específico
+  
+  //pegando os dados de um treino em especifico pelo id
   fastify.get<{ Params: TrainingParams }>('/:id', async (req, reply) => {
     const { id } = req.params;
-
+  
     const training = await prisma.training.findUnique({
       where: { id },
-      include: { exercises: true },
+      include: {
+        exercises: true,
+        _count: { select: { clients: true } }, // Conta quantos usuários estão associados
+      },
     });
-
+  
     if (!training) {
       return reply.status(404).send({ error: 'Treino não encontrado' });
     }
-
-    return reply.send(training);
+  
+    return reply.send({
+      ...training,
+      usersCount: training._count.clients, // Adiciona a contagem ao retorno
+    });
   });
+  
 
   fastify.put<{ Params: TrainingParams; Body: Partial<CreateTrainingBody> }>('/:id', async (req, reply) => {
     const { id } = req.params;

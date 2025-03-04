@@ -13,6 +13,7 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
   const [partesAfeto, setPartesAfeto] = useState("");
   const [descricao, setDescricao] = useState("");
   const [foto, setFoto] = useState("");
+  const [usersCount, setUsersCount] = useState(0)
 
   const [exercicios, setExercicios] = useState([]);
   const [exerId, setExerid] = useState([]);
@@ -29,9 +30,12 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
 
         setFoto("http://localhost:3000" + treino.photoUrl);
         setNome(treino.name);
+        setUsersCount(treino.usersCount)
         setDescricao(treino.description);
         setPartesAfeto(treino.bodyParts);
         setExercicios(treino.exercises);
+
+        
       })
       .catch((error) => {
         console.error("erro ao buscar os treinos", error);
@@ -88,10 +92,10 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
             <div className="w-1/3 h-full flex-col flex justify-between items-center">
 
              <div className="w-full h-[60%] glassBg border-3 flex justify-start flex-col items-center border-zinc-300/30 rounded-2xl">
-                <h1 className="text-white text-xl">Alunos com o treino associado</h1>
+                <h1 className="text-white text-xl">Alunos com esse treino associado</h1>
                 {/*isso e um exmplo tem que colocar o valor real */}
                 <h1  className="text-white text-3xl mt-4 font-Sora-black">
-                         5
+                         {usersCount}
                 </h1>
              
              </div>
@@ -177,7 +181,7 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
           )}
         </div>
       )}
-     <CriarExer open={openCriaExer} setOpenCria={setOpenCriaExer} id={id}></CriarExer>
+     <CriarExer open={openCriaExer} setOpenCria={setOpenCriaExer} setExercicios={setExercicios} id={id}></CriarExer>
     </div>
   );
 }

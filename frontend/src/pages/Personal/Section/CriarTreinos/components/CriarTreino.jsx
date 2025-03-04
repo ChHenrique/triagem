@@ -3,7 +3,7 @@ import Default from '../../../../../assets/defaultUser.png';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
 
-export function CriarTreino({ open, setOpenCria, id }) {
+export function CriarTreino({ open, setOpenCria, id, setTreinos }) {
     const [bodyParts, setbodyParts] = useState('');
     const [nomeTreino, setnomeTreino] = useState('');
     const [descriptionTreino, setdescriptionTreino] = useState('');
@@ -58,18 +58,40 @@ export function CriarTreino({ open, setOpenCria, id }) {
                 description: descriptionTreino,
                 
             };
-    
+
+            const formatedData = {
+                nome: trainingData.name,
+                partesAfeto: trainingData.bodyParts,
+                descricao: trainingData.description
+            }
+
+            
             const response = await axios.post('http://localhost:3000/trainings', trainingData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'application/json' }
             });
+
+            
     
             console.log('treino criado:', response.data);
             const trainigId = response.data.id;
+
+            // Primeiro, adicionamos o exercício sem a imagem
+            setTreinos((prevTreinos) => [...prevTreinos, { ...formatedData, id: trainigId, photoUrl: null }]);
+
     
             // Se houver foto, faz o upload imediatamente
             if (foto) {
-                await uploadPhoto(trainigId);
+                const photoUrl = await uploadPhoto(trainigId);
+
+                if(photoUrl){
+                    setTreinos((prevTreinos) =>
+                        prevTreinos.map(tr =>
+                            tr.id === trainigId ? { ...tr, photoUrl } : tr
+                        )
+                    );
+
+                }
             }
     
             setOpenCria(0);
@@ -83,12 +105,14 @@ export function CriarTreino({ open, setOpenCria, id }) {
             const formData = new FormData();
             formData.append('file', foto); 
     
-            await axios.put(`http://localhost:3000/trainings/${trainigId}`, formData, {
+            const response = await axios.put(`http://localhost:3000/trainings/${trainigId}`, formData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
     
             console.log('📤 Foto enviada com sucesso!');
+
+            return response.data.photoUrl
         } catch (error) {
             console.error("Erro ao enviar foto:", error);
         }
