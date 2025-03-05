@@ -8,15 +8,7 @@ import { Main } from './Section/calendario/calendaralho';
 export function AlunoPage() {
   const [userName, setUserName] = useState('');
   const [page,setPage] = useState(0);
-
-
-  function RenderContet() {
-    if (page === 0) { 
-        return <CriarTreinos/>;
-    }else{
-      return <Main/>;
-    }
-}
+  const [userid, setUserid ] = useState(null);
 
   useEffect(() => {
 
@@ -24,11 +16,25 @@ export function AlunoPage() {
       .get('http://localhost:3000/users/me', { withCredentials: true })
       .then((response) => {
         setUserName(response.data.name)
+        setUserid(response.data.id)
       })
       .catch((error) => {
         console.error('erro ao buscar dados do usuário', error)
       });
   }, []);
+  
+  
+
+  function RenderContet(userid) {
+    
+    if (page === 0) { 
+        return <CriarTreinos/>;
+    }else{
+      return <Main userid={userid}/>;
+    }
+}
+
+
 
   return (
     <div className="w-screen h-screen bg-bg-200 flex-row flex overflow-hidden">
@@ -43,7 +49,7 @@ export function AlunoPage() {
           <div className="w-1/4 h-4 blur-3xl bg-primary-100 absolute"></div>
         </div>
         <div className="w-full h-full">
-          {RenderContet()}
+          {RenderContet(userid)}
         </div>
       </div>
     </div>

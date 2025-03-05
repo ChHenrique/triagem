@@ -25,7 +25,7 @@ export function Treino({nome,descricao,partesAfeto,open,setOpenExer,id,alunoid,s
   const [exclude, setExclude] = useState(0)
 
   return (
-    <div className="w-80 aspect-[10/11] glassBg border-3 border-zinc-500/20 flex-col font-Sora-light justify-center flex items-center p-4 rounded-[16px]">
+    <div className="w-80 aspect-[10/112] glassBg border-3 border-zinc-500/20 flex-col font-Sora-light justify-center flex items-center p-4 rounded-[16px]">
       {/* Exibe a imagem do treino */}
       <div className="h-1/3 aspect-square rounded-2xl" style={{ backgroundImage: `url(${foto})`, backgroundSize: 'cover' }}></div>
 
