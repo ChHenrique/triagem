@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Bg from '../../assets/Imagem-Login.jpg';
 import './animation.css';
+import api from "../../../@lib/api"
 
 export function Login() {
   const navigate = useNavigate();
@@ -29,8 +30,8 @@ export function Login() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        'http://localhost:3000/auth/login',
+      const response = await api.post(
+        '/auth/login',
         {
           email: email,
           password: senha,
@@ -43,7 +44,7 @@ export function Login() {
       console.log('resposta do backend:', response.data);
 
       // Agora fazemos uma requisição para a rota "/users/me" para pegar os dados do usuário
-      const userResponse = await axios.get('http://localhost:3000/users/me', {
+      const userResponse = await api.get('/users/me', {
         withCredentials: true,
       });
 

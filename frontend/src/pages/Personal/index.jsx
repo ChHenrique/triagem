@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Dashboard } from './Section/dashboard';
 import { Alunos } from './Section/Alunos/alunos';
 import { CriarTreinos } from './Section/CriarTreinos/criarTreinos';
+import api from '../../../@lib/api';
 
 export function Personal() {
   const [userName, setUserName] = useState('');
@@ -19,8 +20,8 @@ export function Personal() {
 
   useEffect(() => {
 
-    axios
-      .get('http://localhost:3000/users/me', { withCredentials: true })
+    api
+      .get('/users/me', { withCredentials: true })
       .then((response) => {
         setUserName(response.data.name)
       })

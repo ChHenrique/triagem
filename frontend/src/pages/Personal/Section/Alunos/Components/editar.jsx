@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
 import '../../../Styles/animations.css'
+import api from "../../../../../../@lib/api"
 export function EditarPerf({ open, setOpenper, id, setAlunos }) {
     const [email, setEmail] = useState('');
     const [nome, setNome] = useState('');
@@ -10,11 +11,11 @@ export function EditarPerf({ open, setOpenper, id, setAlunos }) {
     const [frontFoto, setFrontFoto] = useState(null);
 
 
-    const startLINK = 'http://localhost:3000';
+
 
     useEffect(() => {
         // Carrega os dados do usuário a ser editado
-        axios.get(`http://localhost:3000/users/${id}`, { withCredentials: true })
+        api.get(`/users/${id}`, { withCredentials: true })
             .then(response => {
                 const aluno = response.data;
                 console.log("URL da Imagem:", aluno.photoUrl);
@@ -22,7 +23,7 @@ export function EditarPerf({ open, setOpenper, id, setAlunos }) {
                 setNome(aluno.name);
                 setTel(aluno.phone);
                 setFoto(aluno.photoUrl);
-                setFrontFoto(`${startLINK}${aluno.photoUrl}`);
+                setFrontFoto(api.defaults.baseURL + `${aluno.photoUrl}`);
             })
             .catch(error => {
                 console.error("Erro ao buscar os dados do aluno", error);
@@ -54,13 +55,13 @@ export function EditarPerf({ open, setOpenper, id, setAlunos }) {
                 const formData = new FormData();
                 formData.append('file', foto);
 
-                const uploadResponse = await axios.put(`http://localhost:3000/users/${id}`, formData, {
+                const uploadResponse = await api.put(`/users/${id}`, formData, {
                     withCredentials: true,
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
 
                 if (uploadResponse.data && uploadResponse.data.photoUrl) {
-                    photoUrlAtualizada = 'http://localhost:3000' + uploadResponse.data.photoUrl.trim();
+                    photoUrlAtualizada = api.defaults.baseURL + uploadResponse.data.photoUrl.trim();
                 } else {
                     console.error('URL da foto não encontrada na resposta do backend');
                     return;
@@ -70,7 +71,7 @@ export function EditarPerf({ open, setOpenper, id, setAlunos }) {
             }
 
             const updatedUser = { name: nome, email, phone: tel, photoUrl: photoUrlAtualizada };
-            await axios.put(`http://localhost:3000/users/${id}`, updatedUser, { withCredentials: true });
+            await api.put(`/users/${id}`, updatedUser, { withCredentials: true });
 
             setAlunos(prevAlunos =>
                 prevAlunos.map(aluno =>

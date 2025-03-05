@@ -3,6 +3,7 @@ import { Treino } from "./Treino";
 import { Exercicio } from "./Exercicio";
 import axios from "axios";
 import "../../../Styles/animations.css";
+import api from "../../../../../../@lib/api"
 export function Treinos({ open, setOpentreino, id }) {
   const [openExer, setOpenExer] = useState(0);
   const [treinoid, setTreinoid] = useState([]);
@@ -18,14 +19,14 @@ export function Treinos({ open, setOpentreino, id }) {
   const [mediatreinoSemana, setMediatreinosemana ] = useState(0)
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/users/${id}`, { withCredentials: true })
+    api
+      .get(`/users/${id}`, { withCredentials: true })
       .then((response) => {
         const aluno = response.data;
         setEmail(aluno.email);
         setNome(aluno.name);
         setTel(aluno.phone);
-        setFoto("http://localhost:3000" + aluno.photoUrl);
+        setFoto(api.defaults.baseURL + aluno.photoUrl);
         setTreinos(aluno.trainings);
         setTrainingcount(aluno.trainingCount);
       })
@@ -34,8 +35,8 @@ export function Treinos({ open, setOpentreino, id }) {
       });
   
     // Buscar média de treinos na semana
-    axios
-      .get(`http://localhost:3000/trainings/training-log/average/${id}`, { withCredentials: true })
+    api
+      .get(`/trainings/training-log/average/${id}`, { withCredentials: true })
       .then((response) => {
         setMediatreinosemana(response.data.average);
       })
@@ -69,7 +70,7 @@ export function Treinos({ open, setOpentreino, id }) {
                 style={{
                   backgroundImage: `url(${
                     openExer
-                      ? "http://localhost:3000" + treinoSelecionado?.photoUrl
+                      ? api.defaults.baseURL + treinoSelecionado?.photoUrl
                       : foto
                   })`,
                   backgroundSize: "cover",
@@ -126,7 +127,7 @@ export function Treinos({ open, setOpentreino, id }) {
                   series={exercicio.executions}
                   descricao={exercicio.description}
                   id={exercicio.id}
-                  exercicioFoto={"http://localhost:3000" + exercicio.imageUrl}
+                  exercicioFoto={api.defaults.baseURL + exercicio.imageUrl}
                 />
               ))
             : treinos.map((treino) => (
@@ -134,7 +135,7 @@ export function Treinos({ open, setOpentreino, id }) {
                   treinos={treinos}
                   setTreinos={setTreinos}
                   alunoid={id}
-                  foto={"http://localhost:3000" + treino.training.photoUrl}
+                  foto={api.defaults.baseURL + treino.training.photoUrl}
                   key={treino.trainingId}
                   partesAfeto={treino.training.bodyParts}
                   setTreinoid={setTreinoid}

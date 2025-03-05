@@ -4,6 +4,7 @@ import { Exercicio } from "./Exercicio";
 import axios from "axios";
 import { EditaExer } from "./editarExer";
 import { CriarExer } from "./CriarExer";
+import api from '../../../../../../@lib/api'
 
 export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
   const [openTreino, setOpenTreino] = useState(0);
@@ -21,12 +22,12 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
   const [openCriaExer, setOpenCriaExer] = useState(0);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/trainings/${id}`, { withCredentials: true })
+    api
+      .get(`/trainings/${id}`, { withCredentials: true })
       .then((response) => {
         const treino = response.data;
 
-        setFoto("http://localhost:3000" + treino.photoUrl);
+        setFoto(api.defaults.baseURL + treino.photoUrl);
         setNome(treino.name);
         setUsersCount(treino.usersCount);
         setDescricao(treino.description);
@@ -127,7 +128,7 @@ export function TreinosCr({ open, setOpentreino, id, setOpenCria }) {
                 reps={exercicio.repetitions}
                 exercicioFoto={
                   exercicio.imageUrl
-                    ? "http://localhost:3000" + exercicio.imageUrl
+                    ? api.defaults.baseURL + exercicio.imageUrl
                     : PhotoDefault
                 }
                 nome={exercicio.name}

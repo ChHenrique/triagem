@@ -11,6 +11,7 @@ import { LogsTreino } from "./components/LogsTreino";
 import "../Styles/index.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { set } from "date-fns";
+import api from "../../../../../@lib/api";
 
 export function Main({userid}) {
   registerLocale("pt-BR", ptBR);
@@ -26,8 +27,8 @@ export function Main({userid}) {
   console.log(userid)
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/users/${userid}`, { withCredentials: true })
+    api
+      .get(`/users/${userid}`, { withCredentials: true })
       .then((response) => {
         const aluno = response.data;
         setTreinos(aluno.trainings);
@@ -42,8 +43,8 @@ export function Main({userid}) {
 
   //treinos realizados
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/trainings/training-log/${userid}`, { withCredentials: true })
+    api
+      .get(`/trainings/training-log/${userid}`, { withCredentials: true })
       .then((response) => {
         if (response.data.message) {
           setTreinosRealizado([])
@@ -141,7 +142,7 @@ export function Main({userid}) {
                   key={treino.trainingId}
                   descricao={treino.training.description}
                   id={treino.trainingIdid}
-                  foto={"http://localhost:3000" + treino.training.photoUrl}
+                  foto={api.defaults.baseURL + treino.training.photoUrl}
                   setTreinoid={setTreinoid}
                 />
               );

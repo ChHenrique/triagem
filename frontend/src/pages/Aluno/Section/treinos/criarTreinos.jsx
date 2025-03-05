@@ -2,7 +2,7 @@ import { Treino } from "./components/TreinoCriação";
 import { TreinosCr } from "./components/treinoComple";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import api from '../../../../../@lib/api'
 //import { CriarTreino } from "../Components/CriarTreino";
 
 export function CriarTreinos() {
@@ -15,8 +15,8 @@ export function CriarTreinos() {
 
   //limite de carateres da descrição e 90
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/trainings`, { withCredentials: true })
+    api
+      .get(`/trainings`, { withCredentials: true })
       .then((response) => {
         const treinos = response.data.map((treino) => ({
           nome: treino.name,
@@ -50,7 +50,7 @@ export function CriarTreinos() {
               key={treino.id}
               descricao={treino.descricao}
               id={treino.id}
-              foto={"http://localhost:3000" + treino.photoUrl}
+              foto={api.defaults.baseURL + treino.photoUrl}
               setTreinoid={setTreinoid}
               setOpenEnv={setOpenEnv}
               setOpentreino={setOpentreino}

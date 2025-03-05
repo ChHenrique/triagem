@@ -3,6 +3,7 @@ import Default from '../../../../../assets/defaultUser.png';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
 import '../../../Styles/animations.css'
+import api from "../../../../../../@lib/api"
 
 export function CriarPerf({ open, setOpenCria, id, setAlunos }) {
     const [email, setEmail] = useState('');
@@ -63,7 +64,7 @@ export function CriarPerf({ open, setOpenCria, id, setAlunos }) {
                 password: senha
             }
     
-            const response = await axios.post('http://localhost:3000/users/register', userData, {
+            const response = await api.post('/users/register', userData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'application/json' }
             })
@@ -100,7 +101,7 @@ export function CriarPerf({ open, setOpenCria, id, setAlunos }) {
             const formData = new FormData()
             formData.append('file', foto)
     
-            await axios.put(`http://localhost:3000/users/${userId}`, formData, {
+            await api.put(`/users/${userId}`, formData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' }
             })

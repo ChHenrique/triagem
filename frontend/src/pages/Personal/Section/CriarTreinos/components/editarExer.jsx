@@ -3,6 +3,7 @@ import { Exercicio } from "./Exercicio";
 import PhotoDefault from "../../../../../assets/defaultUser.png";
 import axios from "axios";
 import "../../../Styles/removeArrows.css";
+import api from '../../../../../../@lib/api'
 
 export function EditaExer({ open, setOpenExer, id, setExercicios }) {
   const [nome, setNome] = useState("");
@@ -13,14 +14,16 @@ export function EditaExer({ open, setOpenExer, id, setExercicios }) {
   const [rest, setRest] = useState(0);
   const [nomebtn, setNomebtn] = useState("Salvar Alterações");
 
+
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/exercises/${id}`, { withCredentials: true })
+    api
+      .get(`/exercises/${id}`, { withCredentials: true })
       .then((response) => {
         const exercise = response.data;
         setFoto(
           exercise.imageUrl
-            ? "http://localhost:3000" + exercise.imageUrl
+            ? api.defaults.baseURL + exercise.imageUrl
             : PhotoDefault
         );
         setNome(exercise.name);
@@ -55,8 +58,8 @@ export function EditaExer({ open, setOpenExer, id, setExercicios }) {
     };
 
     try {
-      const response = await axios.put(
-        `http://localhost:3000/exercises/${id}`,
+      const response = await api.put(
+        `/exercises/${id}`,
         exerciseData,
         { withCredentials: true }
       );
@@ -67,8 +70,8 @@ export function EditaExer({ open, setOpenExer, id, setExercicios }) {
         const formData = new FormData();
         formData.append("file", foto);
 
-        const uploadResponse = await axios.put(
-          `http://localhost:3000/exercises/${id}`,
+        const uploadResponse = await api.put(
+          `/exercises/${id}`,
           formData,
           {
             withCredentials: true,

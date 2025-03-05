@@ -1,3 +1,7 @@
+import api from '../../../../../../@lib/api'
+
+
+
 export function LogsTreino({ nome, partesAfeto, foto, date }) {
     // Função para formatar a data para dd/mm/yyyy
     const formatDate = (isoString) => {
@@ -13,7 +17,7 @@ export function LogsTreino({ nome, partesAfeto, foto, date }) {
         <div
           className="h-16 aspect-square bg-offWhite-100 rounded-full"
           style={{
-            background: `url(${"http://localhost:3000" + foto})`,
+            background: `url(${api.defaults.baseURL + foto})`,
             backgroundSize: "cover",
           }}
         ></div>

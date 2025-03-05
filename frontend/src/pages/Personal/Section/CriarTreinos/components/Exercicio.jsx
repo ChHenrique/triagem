@@ -1,15 +1,16 @@
 import Default from '../../../../../assets/defaultUser.png';
 import { useState } from 'react'
 import axios from 'axios'
+import api from '../../../../../../@lib/api'
 
 
 export function Exercicio({ nome, descricao, reps, series, id, restTime, setOpenExer, setExerid, exercicioFoto, setExercicios }) {
 
     const excluirExercicio = async (id) => {
-        console.log("tEWDSTASD")
+        
         try {
 
-            const response = await axios.delete(`http://localhost:3000/exercises/${id}`, {
+            const response = await api.delete(`/exercises/${id}`, {
                 withCredentials: true,
             });
 

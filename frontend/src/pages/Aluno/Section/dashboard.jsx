@@ -2,6 +2,7 @@ import Default from '../../../assets/defaultUser.png'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import api from '../../../../@lib/api';
 
 export function Dashboard({setPage, page}) {
     //troquei as props por usestate
@@ -11,7 +12,7 @@ export function Dashboard({setPage, page}) {
 
   const handleLogout = async () => {
     try {
-      await axios.post('http://localhost:3000/auth/logout', {}, { withCredentials: true });
+      await api.post('/auth/logout', {}, { withCredentials: true });
       navigate('/login');
     } catch (error) {
       console.error('Erro ao tentar fazer logout', error);
@@ -20,8 +21,8 @@ export function Dashboard({setPage, page}) {
 
   //fazendo a requisição pra pegar o nome a foto do usuario
   useEffect(() => {
-    axios
-      .get('http://localhost:3000/users/me', { withCredentials: true })
+    api
+      .get('/users/me', { withCredentials: true })
       .then((response) => {
 
          const user = response.data
@@ -41,7 +42,7 @@ export function Dashboard({setPage, page}) {
           <div
             className="h-12 aspect-square mr-2 rounded-full bg-offWhite-100"
                                 // foto do usuário aqui
-            style={{ backgroundImage: `url(${'http://localhost:3000'+foto})`, backgroundSize: 'cover' }}
+            style={{ backgroundImage: `url(${api.defaults.baseURL+foto})`, backgroundSize: 'cover' }}
           ></div>
 
           <div className="h-12 flex flex-col">

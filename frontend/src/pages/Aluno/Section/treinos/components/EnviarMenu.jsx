@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
+import api from "../../../../../../@lib/api";
 
 export function Enviar({open, setOpenEnv, treinoid}) {
 
@@ -7,7 +8,7 @@ export function Enviar({open, setOpenEnv, treinoid}) {
     const [alunos, setAlunos] = useState([])
 
     useEffect(() => {      
-        axios.get("http://localhost:3000/users", { withCredentials: true })
+        api.get("/users", { withCredentials: true })
             .then(response => {
 
                 const alunos = response.data.map(user => ({

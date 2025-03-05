@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Dashboard } from './Section/dashboard';
 import { CriarTreinos } from './Section/treinos/criarTreinos';
 import { Main } from './Section/calendario/calendaralho';
+import api from '../../../@lib/api'
 
 
 export function AlunoPage() {
@@ -12,8 +13,8 @@ export function AlunoPage() {
 
   useEffect(() => {
 
-    axios
-      .get('http://localhost:3000/users/me', { withCredentials: true })
+    api
+      .get('/users/me', { withCredentials: true })
       .then((response) => {
         setUserName(response.data.name)
         setUserid(response.data.id)

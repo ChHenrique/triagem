@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Default from '../../../../../assets/defaultUser.png';
+import api from '../../../../../../@lib/api'
 
 export function EditaTreino({ open, setOpenEdit, id, setTreinos }) {
     const [nome, setNome] = useState('');
@@ -12,14 +13,14 @@ export function EditaTreino({ open, setOpenEdit, id, setTreinos }) {
 
     useEffect(() => {
         // Carregar os dados do treino
-        axios.get(`http://localhost:3000/trainings/${id}`, { withCredentials: true })
+        api.get(`/trainings/${id}`, { withCredentials: true })
             .then(response => {
                 const treino = response.data;
                 setFoto(treino.photoUrl);
                 setNome(treino.name);
                 setDescricao(treino.description);
                 setPartesAfeto(treino.bodyParts);
-                setFrontFoto('http://localhost:3000' + treino.photoUrl);
+                setFrontFoto(api.defaults.baseURL + treino.photoUrl);
             })
             .catch(error => {
                 console.error("Erro ao buscar os dados do treino:", error);
@@ -54,8 +55,8 @@ export function EditaTreino({ open, setOpenEdit, id, setTreinos }) {
                 
                 formData.append('file', fileWithNewName);
     
-                const uploadResponse = await axios.put(
-                    `http://localhost:3000/trainings/${id}`,
+                const uploadResponse = await api.put(
+                    `/trainings/${id}`,
                     formData,
                     {
                         withCredentials: true,
@@ -82,8 +83,8 @@ export function EditaTreino({ open, setOpenEdit, id, setTreinos }) {
             };
     
             // Requisição para atualizar o treino no backend
-            const response = await axios.put(
-                `http://localhost:3000/trainings/${id}`,
+            const response = await api.put(
+                `/trainings/${id}`,
                 updatedTraining,
                 { withCredentials: true }
             );

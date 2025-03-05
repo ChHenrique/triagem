@@ -4,6 +4,7 @@ import { EditarPerf } from "./Components/editar";
 import {CriarPerf} from "./Components/CriarAluno";
 import { Treinos } from "./Components/treinoComple";
 import axios from "axios";
+import api from '../../../../../@lib/api'
 
 
 export function Alunos() {
@@ -17,13 +18,13 @@ export function Alunos() {
 
     const fetchAlunos = useCallback(async () => {
         try {
-            const response = await axios.get("http://localhost:3000/users", { withCredentials: true });
+            const response = await api.get("/users", { withCredentials: true });
             const alunos = response.data.map(user => ({
                 id: user.id,
                 nome: user.name,
                 email: user.email,
                 tel: user.phone,
-                photoUrl: 'http://localhost:3000' + user.photoUrl
+                photoUrl: api.defaults.baseURL + user.photoUrl
             }));
             setAlunos(alunos);
         } catch (error) {

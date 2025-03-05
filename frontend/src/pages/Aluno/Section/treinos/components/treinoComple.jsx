@@ -3,6 +3,8 @@ import { Exercicio } from './Exercicio';
 import axios
  from 'axios';
 
+ import api from '../../../../../../@lib/api';
+
 
 export function TreinosCr({ open, setOpentreino, id }) {
 
@@ -18,7 +20,7 @@ export function TreinosCr({ open, setOpentreino, id }) {
     
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/trainings/${id}`, { withCredentials: true })
+        api.get(`/trainings/${id}`, { withCredentials: true })
             .then(response => {
 
                 const treino = response.data;
@@ -55,7 +57,7 @@ export function TreinosCr({ open, setOpentreino, id }) {
 
                     <div className='glassBg w-full flex p-4 border-3 border-zinc-300/30 rounded-2xl flex-row'>
                     <div className='flex flex-col justify-center items-center'>
-                        <div className="relative w-36 aspect-square rounded-full" style={{ backgroundImage: `url(${'http://localhost:3000'+foto})`, backgroundSize: 'cover' }}>
+                        <div className="relative w-36 aspect-square rounded-full" style={{ backgroundImage: `url(${api.defaults.baseURL+foto})`, backgroundSize: 'cover' }}>
                         </div>
                     </div>
                     <div className='text-white flex flex-col w-fit px-8'>
@@ -79,7 +81,7 @@ export function TreinosCr({ open, setOpentreino, id }) {
                   key={exercicio.id}
                   reps={exercicio.repetitions}
                   nome={exercicio.name}
-                  fotoExercicio={"http://localhost:3000" + exercicio.imageUrl}
+                  fotoExercicio={api.defaults.baseURL + exercicio.imageUrl}
                   series={exercicio.execution}
                   descricao={exercicio.description}
                   id={exercicio.id}

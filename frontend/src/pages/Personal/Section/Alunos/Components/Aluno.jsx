@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import '../../../Styles/animations.css'
+import api from "../../../../../../@lib/api"
 
 export function Aluno({nome,foto,email,tel , setOpenper, setOpentreino, setAlunoid, id, setAlunos, alunos}) {
 
@@ -14,7 +15,7 @@ export function Aluno({nome,foto,email,tel , setOpenper, setOpentreino, setAluno
         setAlunos(prevAlunos => prevAlunos.filter(aluno => aluno.id !== id))
     
         // Envia a requisição para remover no backend
-        axios.delete(`http://localhost:3000/users/${id}`, { withCredentials: true })
+        api.delete(`/users/${id}`, { withCredentials: true })
             .catch(error => {
                 console.error("erro ao excluir usuário:", error);
                 // Se der erro, adiciona o aluno de volta, mas só se ele existir

@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
+import api from '../../../../../../@lib/api'
 
 export function Enviar({open, setOpenEnv, treinoid}) {
 
@@ -7,7 +8,7 @@ export function Enviar({open, setOpenEnv, treinoid}) {
     const [alunos, setAlunos] = useState([])
 
     useEffect(() => {      
-        axios.get("http://localhost:3000/users", { withCredentials: true })
+        api.get("/users", { withCredentials: true })
             .then(response => {
 
                 const alunos = response.data.map(user => ({
@@ -15,7 +16,7 @@ export function Enviar({open, setOpenEnv, treinoid}) {
                     nome: user.name,
                     email: user.email,
                     tel: user.phone,
-                    photoUrl: "http://localhost:3000" + user.photoUrl
+                    photoUrl: api.defaults.baseURL + user.photoUrl
                 }));
                    setAlunos(alunos)
             })
@@ -28,8 +29,8 @@ export function Enviar({open, setOpenEnv, treinoid}) {
     
     const associarTreino = async (userId) => {
         try {
-          await axios.post(
-            `http://localhost:3000/trainings/${treinoid}/associate`,
+          await api.post(
+            `/trainings/${treinoid}/associate`,
             { userId },
             { withCredentials: true }
           );

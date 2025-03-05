@@ -2,6 +2,7 @@ import Default from '../../../../../assets/defaultUser.png';
 import { useState } from 'react';
 import '../../../Styles/animations.css';
 import axios from 'axios';
+import api from "../../../../../../@lib/api"
 
 export function Treino({nome,descricao,partesAfeto,open,setOpenExer,id,alunoid,setTreinoid,setTreinos,foto,treinos,}) {
 
@@ -9,7 +10,7 @@ export function Treino({nome,descricao,partesAfeto,open,setOpenExer,id,alunoid,s
   const handleDissociateTraining = async (alunoid, treinoid, setExclude, setTreinos, treinos) => {
     try {
 
-      const response = await axios.delete(`http://localhost:3000/trainings/${treinoid}/dissociate`, {
+      const response = await api.delete(`/trainings/${treinoid}/dissociate`, {
         data: { userId: alunoid },
       });
 

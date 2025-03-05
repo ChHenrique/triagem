@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Enviar } from "./components/EnviarMenu";
 import { EditaTreino } from "./components/editarTreino";
 import { CriarTreino } from "./components/CriarTreino";
+import api from '../../../../../@lib/api'
 
 export function CriarTreinos() {
     const [treinoid, setTreinoid] = useState(null);
@@ -20,9 +21,9 @@ export function CriarTreinos() {
 
     // Limite de caracteres da descrição e 90
     useEffect(() => {
-        axios.get(`http://localhost:3000/trainings`, { withCredentials: true })
+        api.get(`/trainings`, { withCredentials: true })
             .then(response => {
-                console.log(response.data);  // Verifique a estrutura dos dados aqui
+               
                 const treinos = response.data.map(treino => ({
                     nome: treino.name, 
                     descricao: treino.description, 
@@ -33,7 +34,7 @@ export function CriarTreinos() {
     
                 setTreinos(treinos);
                 setFilteredTreinos(treinos); // Inicializa os treinos filtrados
-                console.log(treinos)
+      
             })
             .catch(error => {
                 console.error("Erro ao buscar os treinos", error);
@@ -89,7 +90,7 @@ export function CriarTreinos() {
                             key={treino.id}
                             descricao={treino.descricao}
                             id={treino.id}
-                            foto={"http://localhost:3000" + treino.photoUrl}
+                            foto={api.defaults.baseURL + treino.photoUrl}
                             setTreinoid={setTreinoid}
                             setOpenEnv={setOpenEnv}
                             setOpentreino={setOpentreino}

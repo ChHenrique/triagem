@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import Default from '../../../../../assets/defaultUser.png';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
+import api from '../../../../../../@lib/api'
+
 
 export function CriarTreino({ open, setOpenCria, id, setTreinos }) {
     const [bodyParts, setbodyParts] = useState('');
@@ -66,7 +68,7 @@ export function CriarTreino({ open, setOpenCria, id, setTreinos }) {
             }
 
             
-            const response = await axios.post('http://localhost:3000/trainings', trainingData, {
+            const response = await api.post('/trainings', trainingData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -105,7 +107,7 @@ export function CriarTreino({ open, setOpenCria, id, setTreinos }) {
             const formData = new FormData();
             formData.append('file', foto); 
     
-            const response = await axios.put(`http://localhost:3000/trainings/${trainigId}`, formData, {
+            const response = await api.put(`/trainings/${trainigId}`, formData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' }
             });

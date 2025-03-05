@@ -1,12 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
+import api from "../../../../../../@lib/api";
 
 export function TreinoCriacao({nome, setTreinos, descricao,foto,partesAfeto,open,setOpentreino,id,setTreinoid,setOpenEnv,setOpenEdit,}) {
   const [exclude, setExclude] = useState(0);
 
   const excluirTreino = async () => {
     try {
-      await axios.delete(`http://localhost:3000/trainings/${id}`);
+      await axios.delete(`/trainings/${id}`);
   
      
       setTreinos(prevTreinos => prevTreinos.filter(treino => treino.id !== id));

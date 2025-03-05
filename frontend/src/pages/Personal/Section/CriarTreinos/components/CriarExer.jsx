@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import Default from '../../../../../assets/defaultUser.png';
-import axios from 'axios';
+import api from '../../../../../../@lib/api'
 
 export function CriarExer({ open, setOpenCria, id, setExercicios }) {
     const [nome, setNome] = useState('');
@@ -69,7 +69,7 @@ export function CriarExer({ open, setOpenCria, id, setExercicios }) {
                 restInterval: restNumber,
             };
     
-            const response = await axios.post('http://localhost:3000/exercises', exerData, {
+            const response = await api.post('/exercises', exerData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -105,7 +105,7 @@ export function CriarExer({ open, setOpenCria, id, setExercicios }) {
             const formData = new FormData();
             formData.append('file', foto);
     
-            const response = await axios.put(`http://localhost:3000/exercises/${exerId}`, formData, {
+            const response = await api.put(`/exercises/${exerId}`, formData, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
