@@ -42,7 +42,7 @@ export function TreinosCr({ open, setOpentreino, id }) {
  
     return (
        
-        <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 ${open ? '' : 'invisible'}`} onClick={() => setOpentreino(0)}>
+        <div className={`w-full fixed inset-0 h-full backdrop-blur-xs flex justify-center items-center py-12 duration-500 transition-all ${open ? 'popModal' : 'invisible dropModal'}`} onClick={() => setOpentreino(0)}>
 
             <div className="overflow-y-auto overflow-x-hidden glassBgStrong px-12 rounded-2xl w-2/3 min-w-[500px] h-full border-zinc-600/25 border-4 text-offWhite-100 flex flex-col items-center"
 

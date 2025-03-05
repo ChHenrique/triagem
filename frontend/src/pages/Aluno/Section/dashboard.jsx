@@ -75,7 +75,7 @@ export function Dashboard({setPage, page}) {
 
           <div>
             
-            <div onClick={()=>setPage(0)} className={`h-12 my-2 w-full flex items-center justify-start  rounded-[16px] p-6 ${page ?  '': 'bg-bg-300'} `}>
+            <div onClick={()=>setPage(0)} className={`h-12 my-2 w-full flex items-center justify-start  rounded-[16px] p-6 ${page ?  '': 'bg-bg-300 popAnim'} `}>
               <svg
                 width="28"
                 height="35"
@@ -170,7 +170,7 @@ export function Dashboard({setPage, page}) {
               <h2 className="ml-6 text-xl text-offWhite-100">Visualizar Treinos</h2>
             </div>
 
-            <div onClick={()=>setPage(1)} className={`h-12 my-2 w-full flex items-center justify-start  rounded-[16px] p-6 ${page ?  'bg-bg-300' : ''} `}>
+            <div onClick={()=>setPage(1)} className={`h-12 my-2 w-full flex items-center justify-start  rounded-[16px] p-6 ${page ?  'bg-bg-300 popAnim' : ''} `}>
             <svg width="28" height="35" viewBox="0 0 28 35" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="1" y="2.73096" width="22.973" height="28.1961" rx="1" stroke="white" stroke-width="2"/>
 <path d="M26.8944 33.0586C26.8156 33.2158 26.6965 33.3494 26.5507 33.4458C26.676 33.327 26.7911 33.1974 26.8944 33.0586Z" stroke="white" stroke-width="2"/>

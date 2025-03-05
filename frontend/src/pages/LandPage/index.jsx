@@ -1,6 +1,8 @@
 import { Hero } from "./sections/Hero";
 import { Why } from "./sections/Why";
 import { Avaliacoes } from "./sections/Avalicoes";
+import { FAQ } from "./sections/FAQ";
+import { OndeEstamos } from "./sections/Onde";
 
 import { useNavigate } from "react-router-dom";
 
@@ -136,6 +138,13 @@ export function Lanpage() {
         <Avaliacoes></Avaliacoes>
         
       </div>
+      <div className="w-full h-[70vh] flex mt-40 items-start pt-12 justify-center">
+        <FAQ></FAQ>
+        </div>
+
+        <div className="w-full h-[70vh] flex mt-80 items-start pt-12 justify-center">
+          <OndeEstamos/>
+        </div>
     </div>
   );
 }

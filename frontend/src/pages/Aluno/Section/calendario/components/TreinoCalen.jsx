@@ -21,6 +21,8 @@ export function TreinoCalen({nome, descricao, partesAfeto, open, foto,setOpentre
             <button className={`w-full h-10 bg-offWhite-100 text-bg-100 rounded-sm font-semibold text-lg cursor-pointer hover:bg-amber-100 ${open ? 'duration-300' : ''} ease-in-out`} 
                 onClick={() => {
                     setTreinoid(id)
+                    console.log(id)
+                    
                 }}
                 >Selecionar Treino</button>
 

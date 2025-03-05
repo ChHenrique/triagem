@@ -12,7 +12,7 @@ export function Card({icon,title,img,text}){
             <h1 className=" font-Outfit text-base text-center mt-3">{text}</h1>
             </div>
 
-            <div className="absolute  bottom-0 w-full h-[80%] z-10 rounded-2xl" style={{background: `url(${img})` , backgroundSize: 'cover' }}></div>
+            <div className="absolute  bottom-0 w-full h-[80%] z-10 rounded-2xl bg-center" style={{background: `url(${img})` , backgroundSize: 'cover' }}></div>
         </div>
 
     )

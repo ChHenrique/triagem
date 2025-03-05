@@ -219,12 +219,12 @@ useGSAP(() =>{
 
       <div
         ref={containerRef}
-        className="mt-14 grid-rows-1 items-center place-content-center place-items-center grid-cols-3 justify-center grid  gap-16 w-fit h-fit"
+        className="mt-20 grid-rows-1 items-center place-content-center place-items-center grid-cols-3 justify-center grid  gap-16 w-fit h-fit"
       >
         {cards.map((card) => (
           <div
             key={card.id}
-            className="cardGs w-96 h-96 flex justify-center items-center"
+            className="cardGs w-96 max-2xl:w-72 max-2xl:h-128  h-96 flex justify-center items-center"
           >
             <Card
               title={card.title}

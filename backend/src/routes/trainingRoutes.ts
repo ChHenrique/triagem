@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { prisma } from '../models/prismaClient';
 import { CreateTrainingBody } from '../models/training.model'; // Certifique-se de que isso contém o tipo correto.
 import { uploadPhoto } from '../utils/uploadUtils';
+import { startOfDay, endOfDay } from 'date-fns';
 
 interface TrainingParams {
   id: string;
@@ -361,6 +362,79 @@ fastify.delete<{ Params: TrainingParams; Body: UserTrainingBody }>('/:id/dissoci
       return reply.status(500).send({ error: 'Erro ao calcular a média' });
     }
   });
+
+  fastify.delete<{ Params: { logId: string } }>('/training-log/:logId', async (req, reply) => {
+    try {
+      const { logId } = req.params;
+  
+      // Verifica se o log existe antes de deletar
+      const existingLog = await prisma.trainingLog.findUnique({ where: { id: logId } });
+  
+      if (!existingLog) {
+        return reply.status(404).send({ error: 'Registro de treino não encontrado' });
+      }
+  
+      // Deleta o log
+      await prisma.trainingLog.delete({ where: { id: logId } });
+  
+      return reply.send({ message: 'Registro de treino deletado com sucesso' });
+    } catch (error) {
+      console.error('Erro ao deletar treino realizado:', error);
+      return reply.status(500).send({ error: 'Erro ao deletar treino realizado' });
+    }
+  });
+
+  fastify.get<{ Params: { userId: string; date: string } }>('/training-log/:userId/:date', async (req, reply) => {
+    try {
+      const { userId, date } = req.params;
+  
+      // Converte a data fornecida na URL para um objeto Date (que estará no fuso horário UTC)
+      const targetDate = new Date(date);
+      console.log('Data fornecida:', targetDate); // Aqui você pode verificar a data fornecida
+  
+      // Verifica se a data é válida
+      if (isNaN(targetDate.getTime())) {
+        return reply.status(400).send({ error: 'Data inválida' });
+      }
+  
+      // Ajusta a data para o início e o final do dia no fuso horário UTC
+      const startOfDayUTC = new Date(targetDate);
+      startOfDayUTC.setUTCHours(0, 0, 0, 0);  // Início do dia em UTC
+  
+      const endOfDayUTC = new Date(targetDate);
+      endOfDayUTC.setUTCHours(23, 59, 59, 999);  // Final do dia em UTC
+  
+      console.log('Início do dia UTC:', startOfDayUTC);
+      console.log('Fim do dia UTC:', endOfDayUTC);
+  
+      // Busca os treinos realizados no intervalo da data ajustada para UTC
+      const logs = await prisma.trainingLog.findMany({
+        where: {
+          userId,
+          date: {
+            gte: startOfDayUTC,  // Maior ou igual ao início do dia em UTC
+            lt: endOfDayUTC,     // Menor que o final do dia em UTC
+          },
+        },
+        include: {
+          training: true, // Inclui os detalhes do treino
+        },
+      });
+  
+      // Se não encontrar nenhum treino para a data fornecida
+      if (logs.length === 0) {
+        return reply.status(404).send({ error: 'Nenhum treino encontrado para este usuário nesse dia' });
+      }
+  
+      return reply.send(logs);
+    } catch (error) {
+      console.error('Erro ao buscar treino realizado:', error);
+      return reply.status(500).send({ error: 'Erro ao buscar treino realizado' });
+    }
+  });
+  
+  
+  
   
   
   

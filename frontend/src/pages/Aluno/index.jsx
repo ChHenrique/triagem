@@ -39,7 +39,7 @@ export function AlunoPage() {
 
   return (
     <div className="w-screen h-screen bg-bg-200 flex-row flex overflow-hidden">
-      <div className="h-screen w-[20%] min-w-64">
+      <div className="h-screen w-[20%] min-w-80">
         <Dashboard page={page} setPage={setPage} />
       </div>
       <div className="h-screen w-[80%]">
