@@ -390,12 +390,12 @@ export function Main({ userid }) {
               readOnly
               maxDate={minDate}
               locale="pt-BR"
-              dateFormat="d/MM/y"
+              dateFormat="dd/mm/yyyy"
               className="items-center ml-8 flex  w-full rounded-xl text-center text-offWhite-100 py-2 max-md:bg-white p-1 font-poppins text-xl border-primary-700 border-2 text-primary-700 outline-1 outline-offWhite-100"
               selected={startDate}
               onChange={(date) => {
                 setFilterChosen(false)
-                setSearchTerm(date.toLocaleDateString());
+                setSearchTerm(date.toLocaleDateString("pt-BR"));
                 ;
               }}
             />
