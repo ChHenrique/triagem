@@ -51,7 +51,7 @@ export function Exercicio({ nome, descricao, reps, series, id, restTime, setOpen
 
             </div>
             <div className={`justify-center flex  h-2/3 w-full flex-col ${exclude ? '' : 'hidden'}  `}>
-                <h2 className="text-xl font-bold text-offWhite-100 text-center">Realmente deseja excluir esse treino?</h2>
+                <h2 className="text-xl font-bold text-offWhite-100 text-center">Realmente deseja excluir esse exercício?</h2>
                 <div className='h-12 w-full flex items-center justify-center gap-12 mt-4'>
                     <button onClick={() => excluirExercicio(id)} className=' h-12 redbg aspect-video  rounded-sm font-semibold text-lg cursor-pointer  duration-300 ease-in-out flex justify-center items-center'>
                         <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
